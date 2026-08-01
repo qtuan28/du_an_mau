@@ -11,9 +11,9 @@
 </style>
 <body>
     <h2>HỒ SƠ CÁ NHÂN</h2>
-    <p>Tên đăng nhập: <strong><?= htmlspecialchars($_SESSION['user']['username'] ?? '') ?></strong></p>
-    <p>Email: <?= htmlspecialchars($_SESSION['user']['email'] ?? '') ?></p>
-    <p>Địa chỉ: <?= htmlspecialchars($_SESSION['user']['address'] ?? '') ?></p>
+    <p>Tên đăng nhập: <strong><?= htmlspecialchars($user['username'] ?? '') ?></strong></p>
+    <p>Email: <?= htmlspecialchars($user['email'] ?? '') ?></p>
+    <p>Địa chỉ: <?= htmlspecialchars($user['address'] ?? '') ?></p>
 
     <hr>
     <h2>LỊCH SỬ ĐƠN HÀNG (USE CASE: LỊCH SỬ ĐƠN HÀNG)</h2>

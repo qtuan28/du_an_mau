@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Chi Tiết Sản Phẩm</title>
+    <title>Chi tiết sản phẩm</title>
 </head>
 <body>
-    <h2>CHI TIẾT SẢN PHẨM</h2>
 
-    <!-- [TỰ CODE HIỂN THỊ CHI TIẾT SẢN PHẨM] -->
-    <div>
-        <p><strong>Mã sản phẩm:</strong> <?= $sp['product_id'] ?? 'ID' ?></p>
-        <p><strong>Tên sản phẩm:</strong> <?= htmlspecialchars($sp['ten'] ?? 'Tên sản phẩm') ?></p>
-        <p><strong>Giá:</strong> <?= $sp['gia'] ?? 0 ?> VNĐ</p>
-        <p><strong>Hình ảnh:</strong> <?= $sp['anh'] ?? '' ?></p>
+<h2>CHI TIẾT SẢN PHẨM</h2>
 
-        <!-- Use Case mở rộng: Thêm vào giỏ hàng từ trang chi tiết -->
-        <p><a href="index.php?act=add_giohang&id=<?= $sp['product_id'] ?? 0 ?>">THÊM VÀO GIỎ HÀNG</a></p>
-    </div>
+<?php if($sp){ ?>
 
-    <p><a href="index.php?act=index">Quay lại Trang chủ</a></p>
+<p><b>ID:</b> <?= $sp['product_id'] ?></p>
+
+<p><b>Tên:</b> <?= $sp['ten'] ?></p>
+
+<p><b>Giá:</b> <?= number_format($sp['gia']) ?> VNĐ</p>
+
+<p><b>Ảnh:</b></p>
+
+<img src="images/<?= $sp['anh'] ?>" width="200">
+
+<br><br>
+
+<a href="index.php?act=add_giohang&id=<?= $sp['product_id'] ?>">
+    Thêm vào giỏ hàng
+</a>
+
+<?php }else{ ?>
+
+<p>Không có sản phẩm.</p>
+
+<?php } ?>
+
+<br><br>
+<a href="index.php">Quay lại</a>
+
 </body>
 </html>

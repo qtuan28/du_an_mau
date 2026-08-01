@@ -20,6 +20,12 @@ class SanPham {
     // [TỰ CODE] Lấy chi tiết 1 sản phẩm theo ID
     public function getById($id) {
         // SQL code...
+         $sql = "SELECT * FROM PRODUCTS WHERE product_id = ?";
+
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // [TỰ CODE] Thêm sản phẩm mới

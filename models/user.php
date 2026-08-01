@@ -40,5 +40,9 @@ class User {
     // [TỰ CODE] Lấy hồ sơ cá nhân người dùng
     public function getUserProfile($userId) {
         // SQL code...
+        $sql = "SELECT * FROM USER WHERE user_id = ?";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

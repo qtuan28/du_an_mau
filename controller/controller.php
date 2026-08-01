@@ -65,6 +65,8 @@ class pickleballController {
     public function chiTietSanPham() {
         $id = $_GET['id'] ?? 0;
         // [TỰ CODE] Gọi Model lấy chi tiết sản phẩm
+         $sanPhamModel = new SanPham();
+         $sp = $sanPhamModel->getById($id);
         require_once 'views/chitiet.php';
     }
 
@@ -116,6 +118,13 @@ class pickleballController {
 
     public function hoSoCaNhan() {
         // [TỰ CODE] Lấy hồ sơ cá nhân và lịch sử đơn hàng
+        if(!isset($_SESSION['user'])){
+            header("Location:index.php?act=login");
+            exit();
+    }
+        $userModel = new User();
+        $user = $userModel->getUserProfile($_SESSION['user']['user_id']);
+
         require_once 'views/profile.php';
     }
 
