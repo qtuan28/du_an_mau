@@ -18,7 +18,7 @@
 
 <p><b>Ảnh:</b></p>
 
-<img src="images/<?= $sp['anh'] ?>" width="200">
+<img src="assets/images/<?= $sp['anh'] ?>" width="200">
 
 <br><br>
 

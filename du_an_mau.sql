@@ -103,6 +103,6 @@ INSERT IGNORE INTO CATEGORIES (category_id, name) VALUES
 (2, 'Bóng Pickleball');
 
 INSERT IGNORE INTO PRODUCTS (product_id, category_id, ten, gia, anh) VALUES 
-(1, 1, 'Vợt Pickleball Franklin Signature', 2500000.00, 'vot_franklin.jpg'),
-(2, 1, 'Vợt Selkirk Vanguard', 4200000.00, 'vot_selkirk.jpg'),
-(3, 2, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 'bong_outdoor.jpg');
+(1, 1, 'Vợt Pickleball Franklin Signature', 2500000.00, 'paddle_aero.png'),
+(2, 1, 'Vợt Selkirk Vanguard', 4200000.00, 'paddle_voltaic.png'),
+(3, 2, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 'balls_box.png');
