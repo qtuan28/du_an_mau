@@ -137,28 +137,81 @@ class pickleballController {
     }
 
     // 1. Quản lý danh mục
-    public function adminQuanLyDanhMuc() {
+    public function adminQuanLyDanhMuc()
+    {
         $this->checkAdmin();
+
+        $danhMucModel = new DanhMuc();
+
+        $dsDanhMuc = $danhMucModel->getAll();
+
         require_once 'views/admin/danhmuc.php';
     }
 
-    public function adminThemDanhMuc() {
+    public function adminThemDanhMuc()
+    {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý thêm danh mục
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $name = trim($_POST['name']);
+
+            $danhMucModel = new DanhMuc();
+
+            if ($name == "") {
+
+                $_SESSION['error'] = "Tên danh mục không được để trống!";
+
+            } elseif ($danhMucModel->checkExists($name)) {
+
+                $_SESSION['error'] = "Danh mục đã tồn tại!";
+
+            } else {
+
+                $danhMucModel->add($name);
+
+                $_SESSION['success'] = "Thêm danh mục thành công!";
+            }
+        }
+
         header("Location: index.php?act=admin_danhmuc");
         exit();
     }
 
-    public function adminSuaDanhMuc() {
+    public function adminSuaDanhMuc()
+    {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý sửa danh mục
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $id = $_POST['category_id'];
+
+            $name = trim($_POST['name']);
+
+            $danhMucModel = new DanhMuc();
+
+            $danhMucModel->update($id, $name);
+
+            $_SESSION['success'] = "Cập nhật thành công!";
+        }
+
         header("Location: index.php?act=admin_danhmuc");
         exit();
     }
 
-    public function adminXoaDanhMuc() {
+    public function adminXoaDanhMuc()
+    {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý xóa danh mục
+
+        if (isset($_GET['id'])) {
+
+            $danhMucModel = new DanhMuc();
+
+            $danhMucModel->delete($_GET['id']);
+
+            $_SESSION['success'] = "Đã xóa danh mục!";
+        }
+
         header("Location: index.php?act=admin_danhmuc");
         exit();
     }

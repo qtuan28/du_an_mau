@@ -1,40 +1,122 @@
 <?php
 require_once 'models/db.php';
 
-class DanhMuc {
+class DanhMuc
+{
+
     private $db;
 
-    public function __construct() {
-        $this->db = new Database();
+    public function __construct()
+    {
+        $database = new Database();
+        $this->db = $database->conn;
     }
 
-    // [TỰ CODE] Lấy danh sách danh mục
-    public function getAll() {
-        // SQL code...
+    // Lấy tất cả danh mục
+    public function getAll()
+    {
+
+        $sql = "SELECT * FROM CATEGORIES
+                ORDER BY category_id ASC";
+
+        $stmt = $this->db->query($sql);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // [TỰ CODE] Thêm danh mục mới
-    public function add($name) {
-        // SQL code...
+    // Thêm danh mục
+    public function add($name)
+    {
+
+        $sql = "INSERT INTO CATEGORIES(name)
+                VALUES(:name)";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            ':name' => $name
+        ]);
     }
 
-    // [TỰ CODE] Lấy chi tiết danh mục theo ID
-    public function getById($id) {
-        // SQL code...
+    // Lấy theo ID
+    public function getById($id)
+    {
+
+        $sql = "SELECT *
+                FROM CATEGORIES
+                WHERE category_id=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // [TỰ CODE] Cập nhật danh mục
-    public function update($id, $name) {
-        // SQL code...
+    // Cập nhật
+    public function update($id, $name)
+    {
+
+        $sql = "UPDATE CATEGORIES
+              SET name=:name
+              WHERE category_id=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            ':name' => $name,
+            ':id' => $id
+        ]);
     }
 
-    // [TỰ CODE] Xóa danh mục
-    public function delete($id) {
-        // SQL code...
+    // Xóa
+    public function delete($id)
+    {
+
+        $sql = "DELETE FROM CATEGORIES
+              WHERE category_id=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            ':id' => $id
+        ]);
     }
 
-    // [TỰ CODE] Tìm kiếm danh mục
-    public function search($keyword) {
-        // SQL code...
+    // Tìm kiếm
+    public function search($keyword)
+    {
+
+        $sql = "SELECT *
+              FROM CATEGORIES
+              WHERE name LIKE :keyword
+              ORDER BY category_id ASC";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':keyword' => '%' . $keyword . '%'
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Kiểm tra trùng
+    public function checkExists($name)
+    {
+
+        $sql = "SELECT *
+              FROM CATEGORIES
+              WHERE name=:name";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':name' => $name
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
