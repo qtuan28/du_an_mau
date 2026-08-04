@@ -174,36 +174,145 @@ class pickleballController {
     }
 
     // 1. Quản lý danh mục
-    public function adminQuanLyDanhMuc() {
+    public function adminQuanLyDanhMuc()
+    {
         $this->checkAdmin();
+        $danhMucModel = new DanhMuc();
+
+        $keyword = trim($_GET['keyword'] ?? '');
+        if ($keyword !== '') {
+            $dsDanhMuc = $danhMucModel->search($keyword);
+        } else {
+            $dsDanhMuc = $danhMucModel->getAll();
+        }
+
         require_once 'views/admin/danhmuc.php';
     }
 
-    public function adminThemDanhMuc() {
+    // Hiển thị Form Thêm Danh mục (Form riêng)
+    public function adminFormThemDanhMuc()
+    {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý thêm danh mục
+        $mode = 'add';
+        $danhMuc = [
+            'name' => '',
+            'trang_thai' => 1
+        ];
+        require_once 'views/admin/danhmuc_form.php';
+    }
+
+    // Xử lý Thêm Danh mục
+    public function adminThemDanhMuc()
+    {
+        $this->checkAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = trim($_POST['name'] ?? '');
+            $trang_thai = isset($_POST['trang_thai']) ? (int)$_POST['trang_thai'] : 1;
+
+            $danhMucModel = new DanhMuc();
+
+            if ($name == "") {
+                $_SESSION['error'] = "Tên danh mục không được để trống!";
+                header("Location: index.php?act=admin_danhmuc_add_form");
+                exit();
+            } elseif ($danhMucModel->checkExists($name)) {
+                $_SESSION['error'] = "Danh mục '".$name."' đã tồn tại!";
+                header("Location: index.php?act=admin_danhmuc_add_form");
+                exit();
+            } else {
+                $danhMucModel->add($name, $trang_thai);
+                $_SESSION['success'] = "Thêm danh mục '".$name."' thành công!";
+            }
+        }
+
         header("Location: index.php?act=admin_danhmuc");
         exit();
     }
 
-    public function adminSuaDanhMuc() {
+    // Hiển thị Form Sửa Danh mục (Form riêng)
+    public function adminFormSuaDanhMuc()
+    {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý sửa danh mục
+        $id = $_GET['id'] ?? 0;
+
+        $danhMucModel = new DanhMuc();
+        $danhMuc = $danhMucModel->getById($id);
+
+        if (!$danhMuc) {
+            $_SESSION['error'] = "Danh mục không tồn tại!";
+            header("Location: index.php?act=admin_danhmuc");
+            exit();
+        }
+
+        $mode = 'edit';
+        require_once 'views/admin/danhmuc_form.php';
+    }
+
+    // Xử lý Sửa Danh mục
+    public function adminSuaDanhMuc()
+    {
+        $this->checkAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['category_id'] ?? 0;
+            $name = trim($_POST['name'] ?? '');
+            $trang_thai = isset($_POST['trang_thai']) ? (int)$_POST['trang_thai'] : 1;
+
+            $danhMucModel = new DanhMuc();
+
+            if ($name == "") {
+                $_SESSION['error'] = "Tên danh mục không được để trống!";
+                header("Location: index.php?act=admin_danhmuc_edit_form&id=" . $id);
+                exit();
+            } elseif ($danhMucModel->checkExists($name, $id)) {
+                $_SESSION['error'] = "Tên danh mục '".$name."' đã trùng với danh mục khác!";
+                header("Location: index.php?act=admin_danhmuc_edit_form&id=" . $id);
+                exit();
+            } else {
+                $danhMucModel->update($id, $name, $trang_thai);
+                $_SESSION['success'] = "Cập nhật danh mục thành công!";
+            }
+        }
+
         header("Location: index.php?act=admin_danhmuc");
         exit();
     }
 
-    public function adminXoaDanhMuc() {
+    // Đổi trạng thái danh mục nhanh
+    public function adminToggleTrangThaiDanhMuc()
+    {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý xóa danh mục
+        $id = $_GET['id'] ?? 0;
+
+        if ($id > 0) {
+            $danhMucModel = new DanhMuc();
+            $danhMucModel->toggleStatus($id);
+            $_SESSION['success'] = "Đã cập nhật trạng thái danh mục!";
+        }
+
         header("Location: index.php?act=admin_danhmuc");
         exit();
     }
 
+    // Xóa danh mục
+    public function adminXoaDanhMuc()
+    {
+        $this->checkAdmin();
+
+        if (isset($_GET['id'])) {
+            $danhMucModel = new DanhMuc();
+            $danhMucModel->delete($_GET['id']);
+            $_SESSION['success'] = "Đã xóa danh mục thành công!";
+        }
+
+        header("Location: index.php?act=admin_danhmuc");
+        exit();
+    }
+
+    // Tìm kiếm danh mục
     public function adminTimKiemDanhMuc() {
-        $this->checkAdmin();
-        // [TỰ CODE] Xử lý tìm kiếm danh mục
-        require_once 'views/admin/danhmuc.php';
+        $this->adminQuanLyDanhMuc();
     }
 
     // 2. Quản lý sản phẩm

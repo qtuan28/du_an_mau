@@ -1,51 +1,122 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
-    <title>Quản Lý Danh Mục</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Danh mục</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
-<style>
-    table {
-        border-collapse: collapse;
-    }
-</style>
+
 <body>
-    <h1>QUẢN LÝ DANH MỤC (ADMIN)</h1>
-    <p><a href="index.php?act=admin">Về trang Admin tổng</a> | <a href="index.php?act=index">Về trang chủ</a></p>
 
-    <!-- [USE CASE: TÌM KIẾM DANH MỤC] -->
-    <form action="index.php?act=admin_danhmuc_search" method="GET">
-        <input type="hidden" name="act" value="admin_danhmuc_search">
-        <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm...">
-        <button type="submit">Tìm kiếm</button>
-    </form>
+<div class="container">
 
-    <br>
-    <!-- [USE CASE: THÊM DANH MỤC] -->
-    <h3>THÊM DANH MỤC MỚI</h3>
-    <form action="index.php?act=admin_danhmuc_add" method="POST">
-        <input type="text" name="name" placeholder="Tên danh mục..." required>
-        <button type="submit">Thêm danh mục</button>
-    </form>
+    <div class="header-action">
+        <a href="index.php?act=admin" class="btn-back">&larr; Về Bảng Quản Trị</a>
+        <h1>QUẢN LÝ DANH MỤC</h1>
+    </div>
 
-    <hr>
-    <!-- [USE CASE: XEM / SỬA / XÓA DANH MỤC] -->
-    <h3>DANH SÁCH DANH MỤC</h3>
-    <table border="1">
-        <tr>
-            <th>Mã danh mục</th>
-            <th>Tên danh mục</th>
-            <th>Chức năng</th>
-        </tr>
-        <!-- [TỰ CODE VÒNG LẶP FOREACH] -->
-        <tr>
-            <td>1</td>
-            <td>Vợt Pickleball</td>
-            <td>
-                <a href="index.php?act=admin_danhmuc_edit&id=1">Sửa</a> | 
-                <a href="index.php?act=admin_danhmuc_delete&id=1" onclick="return confirm('Xóa danh mục?')">Xóa</a>
-            </td>
-        </tr>
-    </table>
+    <?php
+    if(isset($_SESSION['success'])){
+        echo "<div class='success'>".$_SESSION['success']."</div>";
+        unset($_SESSION['success']);
+    }
+
+    if(isset($_SESSION['error'])){
+        echo "<div class='error'>".$_SESSION['error']."</div>";
+        unset($_SESSION['error']);
+    }
+    ?>
+
+    <div class="top-bar">
+        <a href="index.php?act=admin_danhmuc_add_form" class="btn-add">
+            ➕ Thêm danh mục mới
+        </a>
+
+        <form method="GET" action="index.php" class="search-form">
+            <input type="hidden" name="act" value="admin_danhmuc_search">
+            <input
+                type="text"
+                name="keyword"
+                value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>"
+                placeholder="Nhập tên danh mục để tìm..."
+            >
+            <button type="submit" class="btn-search">🔍 Tìm kiếm</button>
+            <?php if (!empty($_GET['keyword'])): ?>
+                <a href="index.php?act=admin_danhmuc" class="btn-reset">Đặt lại</a>
+            <?php endif; ?>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>Tên danh mục</th>
+                    <th style="width: 170px;">Ngày tạo</th>
+                    <th style="width: 180px;">Trạng thái hoạt động</th>
+                    <th style="width: 160px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php if (!empty($dsDanhMuc)): ?>
+                <?php foreach($dsDanhMuc as $dm): ?>
+                    <tr>
+                        <td class="text-center"><strong><?= $dm['category_id'] ?></strong></td>
+
+                        <td>
+                            <strong class="cat-name"><?= htmlspecialchars($dm['name']) ?></strong>
+                        </td>
+
+                        <td class="text-center text-muted">
+                            <?= !empty($dm['ngay_tao']) ? date('d/m/Y H:i', strtotime($dm['ngay_tao'])) : 'Chưa cập nhật' ?>
+                        </td>
+
+                        <td class="text-center">
+                            <?php if (isset($dm['trang_thai']) && $dm['trang_thai'] == 1): ?>
+                                <span class="badge badge-active">🟢 Hoạt động</span>
+                                <a href="index.php?act=admin_danhmuc_toggle&id=<?= $dm['category_id'] ?>"
+                                   class="btn-toggle" title="Click để tạm ngưng">
+                                    [Tắt]
+                                </a>
+                            <?php else: ?>
+                                <span class="badge badge-inactive">🔴 Tạm ngưng</span>
+                                <a href="index.php?act=admin_danhmuc_toggle&id=<?= $dm['category_id'] ?>"
+                                   class="btn-toggle" title="Click để bật hoạt động">
+                                    [Bật]
+                                </a>
+                            <?php endif; ?>
+                        </td>
+
+                        <td class="text-center actions-cell">
+                            <a href="index.php?act=admin_danhmuc_edit_form&id=<?= $dm['category_id'] ?>"
+                               class="btn-action btn-edit">
+                                ✏️ Sửa
+                            </a>
+
+                            <a href="index.php?act=admin_danhmuc_delete&id=<?= $dm['category_id'] ?>"
+                               class="btn-action btn-delete"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục \'<?= htmlspecialchars($dm['name']) ?>\'?')">
+                                🗑️ Xóa
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="5" class="empty-state">
+                        Chưa có danh mục nào<?= !empty($_GET['keyword']) ? ' phù hợp với từ khóa search' : '' ?>.
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
 </body>
+
 </html>

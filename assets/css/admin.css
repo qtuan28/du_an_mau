@@ -134,7 +134,7 @@ a {
 }
 
 /* Main Container */
-.admin-container {
+.admin-container, .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 32px 24px 60px;
@@ -143,7 +143,7 @@ a {
 }
 
 /* Page Header */
-.page-header {
+.page-header, .header-action {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -152,7 +152,7 @@ a {
   margin-bottom: 28px;
 }
 
-.page-title-group h1 {
+.page-title-group h1, h1 {
   font-family: var(--admin-font-heading);
   font-size: 1.75rem;
   font-weight: 700;
@@ -183,7 +183,7 @@ a {
 }
 
 /* Action Buttons */
-.btn-primary {
+.btn-primary, .btn-add {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -197,15 +197,17 @@ a {
   transition: var(--transition);
   border: none;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .btn-add:hover {
   background: linear-gradient(135deg, var(--primary-700), #1e40af);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+  color: white;
 }
 
-.btn-secondary {
+.btn-secondary, .btn-back, .btn-cancel {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -218,9 +220,10 @@ a {
   font-size: 0.9rem;
   transition: var(--transition);
   cursor: pointer;
+  text-decoration: none;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover, .btn-back:hover, .btn-cancel:hover {
   background: #f8fafc;
   border-color: var(--text-light);
   color: var(--primary-600);
@@ -290,7 +293,7 @@ a {
   margin-bottom: 30px;
 }
 
-.card-header-actions {
+.card-header-actions, .top-bar {
   padding: 20px 24px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -325,9 +328,9 @@ a {
   pointer-events: none;
 }
 
-.search-input {
+.search-input, input[type="text"], select, .form-select {
   width: 100%;
-  padding: 10px 14px 10px 40px;
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
   font-size: 0.875rem;
@@ -337,12 +340,16 @@ a {
   outline: none;
 }
 
-.search-input:focus {
+.search-input-wrapper .search-input {
+  padding-left: 40px;
+}
+
+.search-input:focus, input[type="text"]:focus, select:focus {
   border-color: var(--primary-500);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
-.btn-search {
+.btn-search, button, .btn-submit {
   padding: 10px 18px;
   background: var(--text-dark);
   color: white;
@@ -355,11 +362,11 @@ a {
   white-space: nowrap;
 }
 
-.btn-search:hover {
+.btn-search:hover, button:hover, .btn-submit:hover {
   background: #1e293b;
 }
 
-.btn-clear-search {
+.btn-clear-search, .btn-reset {
   font-size: 0.85rem;
   color: var(--danger-600);
   font-weight: 600;
@@ -369,9 +376,10 @@ a {
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   transition: var(--transition);
+  text-decoration: none;
 }
 
-.btn-clear-search:hover {
+.btn-clear-search:hover, .btn-reset:hover {
   background: var(--danger-50);
 }
 
@@ -381,14 +389,14 @@ a {
   overflow-x: auto;
 }
 
-.admin-table {
+.admin-table, table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
   font-size: 0.9rem;
 }
 
-.admin-table th {
+.admin-table th, th {
   background: #f8fafc;
   padding: 14px 20px;
   font-weight: 700;
@@ -399,18 +407,18 @@ a {
   border-bottom: 1px solid var(--border-color);
 }
 
-.admin-table td {
+.admin-table td, td {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
   color: #334155;
 }
 
-.admin-table tbody tr {
+.admin-table tbody tr, tr {
   transition: var(--transition);
 }
 
-.admin-table tbody tr:hover {
+.admin-table tbody tr:hover, tr:hover {
   background-color: #f1f5f9;
 }
 
@@ -479,13 +487,13 @@ a {
   border: 1px solid var(--primary-100);
 }
 
-.badge-status-active {
+.badge-status-active, .badge-active {
   background: var(--success-50);
   color: var(--success-700);
   border: 1px solid var(--success-100);
 }
 
-.badge-status-locked {
+.badge-status-locked, .badge-inactive {
   background: var(--danger-50);
   color: var(--danger-700);
   border: 1px solid var(--danger-100);
@@ -499,14 +507,14 @@ a {
 }
 
 /* Action Links / Buttons in Table */
-.action-buttons {
+.action-buttons, .actions-cell {
   display: flex;
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.action-btn {
+.action-btn, .btn-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -518,14 +526,15 @@ a {
   border: 1px solid var(--border-color);
   font-size: 0.85rem;
   transition: var(--transition);
+  text-decoration: none;
 }
 
-.action-btn:hover {
+.action-btn:hover, .btn-action:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
 
-.action-btn.edit:hover {
+.action-btn.edit:hover, .btn-edit:hover {
   background: var(--primary-50);
   color: var(--primary-600);
   border-color: var(--primary-100);
@@ -549,7 +558,7 @@ a {
   border-color: #e9d5ff;
 }
 
-.action-btn.delete:hover {
+.action-btn.delete:hover, .btn-delete:hover {
   background: var(--danger-50);
   color: var(--danger-600);
   border-color: var(--danger-100);
@@ -576,6 +585,27 @@ a {
 .empty-state p {
   color: var(--text-muted);
   font-size: 0.875rem;
+}
+
+/* Alerts */
+.success {
+  background: var(--success-50);
+  color: var(--success-700);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  font-weight: 500;
+  border-left: 4px solid var(--success-600);
+}
+
+.error {
+  background: var(--danger-50);
+  color: var(--danger-700);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  font-weight: 500;
+  border-left: 4px solid var(--danger-600);
 }
 
 /* ==========================================
@@ -620,7 +650,7 @@ a {
   margin-bottom: 22px;
 }
 
-.form-label {
+.form-label, .form-group label {
   display: block;
   font-weight: 600;
   font-size: 0.875rem;
@@ -628,7 +658,7 @@ a {
   margin-bottom: 8px;
 }
 
-.form-label span.required {
+.form-label span.required, .form-group .required {
   color: var(--danger-600);
 }
 
@@ -668,7 +698,7 @@ a {
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
 }
 
-.form-control:disabled {
+.form-control:disabled, .readonly-input {
   background-color: #f1f5f9;
   color: #94a3b8;
   cursor: not-allowed;
