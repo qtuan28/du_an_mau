@@ -69,11 +69,20 @@ switch ($act) {
     case 'admin_danhmuc':
         $sp_controller->adminQuanLyDanhMuc();
         break;
+    case 'admin_danhmuc_add_form':
+        $sp_controller->adminFormThemDanhMuc();
+        break;
     case 'admin_danhmuc_add':
         $sp_controller->adminThemDanhMuc();
         break;
+    case 'admin_danhmuc_edit_form':
+        $sp_controller->adminFormSuaDanhMuc();
+        break;
     case 'admin_danhmuc_edit':
         $sp_controller->adminSuaDanhMuc();
+        break;
+    case 'admin_danhmuc_toggle':
+        $sp_controller->adminToggleTrangThaiDanhMuc();
         break;
     case 'admin_danhmuc_delete':
         $sp_controller->adminXoaDanhMuc();
