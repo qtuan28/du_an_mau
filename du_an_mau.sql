@@ -38,7 +38,10 @@ CREATE TABLE IF NOT EXISTS PRODUCTS (
     category_id INT NOT NULL,
     ten VARCHAR(255) NOT NULL,
     gia DECIMAL(12, 2) NOT NULL,
+    giam_gia INT DEFAULT 0,
+    trang_thai TINYINT(1) DEFAULT 1,
     anh VARCHAR(255),
+    ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id)
 );
 

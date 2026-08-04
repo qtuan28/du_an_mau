@@ -95,11 +95,20 @@ switch ($act) {
     case 'admin_sanpham':
         $sp_controller->adminQuanLySanPham();
         break;
+    case 'admin_sanpham_add_form':
+        $sp_controller->adminFormThemSanPham();
+        break;
     case 'admin_sanpham_add':
         $sp_controller->adminThemSanPham();
         break;
+    case 'admin_sanpham_edit_form':
+        $sp_controller->adminFormSuaSanPham();
+        break;
     case 'admin_sanpham_edit':
         $sp_controller->adminSuaSanPham();
+        break;
+    case 'admin_sanpham_toggle':
+        $sp_controller->adminToggleTrangThaiSanPham();
         break;
     case 'admin_sanpham_delete':
         $sp_controller->adminXoaSanPham();
