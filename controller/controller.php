@@ -618,6 +618,14 @@ class pickleballController {
     // 4. Thống kê số liệu
     public function adminThongKe() {
         $this->checkAdmin();
+        require_once 'models/thongke.php';
+        $thongKeModel = new ThongKe();
+
+        $doanhThuStats = $thongKeModel->thongKeDoanhThu();
+        $sanPhamStats = $thongKeModel->thongKeSanPham();
+        $donHangStats = $thongKeModel->thongKeDonHang();
+        $khachHangStats = $thongKeModel->thongKeKhachHang();
+
         require_once 'views/admin/thongke.php';
     }
 }

@@ -79,29 +79,32 @@ CREATE TABLE IF NOT EXISTS GIOHANG (
     FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE
 );
 
--- 4. TẠO BẢNG BẬC 3 (PHỤ THUỘC NHIỀU NGUỒN)
-
--- Bảng CHITIETGIOHANG (Phụ thuộc GIOHANG và PRODUCT_DETAILS)
-CREATE TABLE IF NOT EXISTS CHITIETGIOHANG (
-    item_id INT AUTO_INCREMENT PRIMARY KEY,
-    gio_hang_id INT NOT NULL,
-    chi_tiet_id INT NOT NULL, 
-    so_luong INT NOT NULL DEFAULT 1,
-    FOREIGN KEY (gio_hang_id) REFERENCES GIOHANG(gio_hang_id) ON DELETE CASCADE,
-    FOREIGN KEY (chi_tiet_id) REFERENCES PRODUCT_DETAILS(product_detail_id) ON DELETE CASCADE
+-- Bảng DONHANG (Phụ thuộc USER)
+CREATE TABLE IF NOT EXISTS DONHANG (
+    don_hang_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    ho_ten VARCHAR(100) NOT NULL,
+    sdt VARCHAR(20),
+    email VARCHAR(100),
+    dia_chi VARCHAR(255) NOT NULL,
+    tong_tien DECIMAL(12, 2) NOT NULL,
+    trang_thai VARCHAR(50) DEFAULT 'Đang xử lý',
+    ngay_dat DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE
 );
 
--- 5. THÊM DỮ LIỆU MẪU VỀ VAI TRÒ VÀ TÀI KHOẢN KÍCH HOẠT PHÂN QUYỀN
-INSERT IGNORE INTO VAITRO (vai_tro_id, ten_vai_tro) VALUES 
-(1, 'Admin'),
-(2, 'User');
-
--- Tài khoản mẫu: 
--- admin / 123456 (vai_tro_id = 1)
--- user / 123456 (vai_tro_id = 2)
-INSERT IGNORE INTO USER (user_id, vai_tro_id, username, password, email, address) VALUES 
-(1, 1, 'admin', '123456', 'admin@example.com', 'Hà Nội'),
-(2, 2, 'user', '123456', 'user@example.com', 'Hồ Chí Minh');
+-- Bảng CHITIETDONHANG (Phụ thuộc DONHANG và PRODUCTS)
+CREATE TABLE IF NOT EXISTS CHITIETDONHANG (
+    chi_tiet_don_id INT AUTO_INCREMENT PRIMARY KEY,
+    don_hang_id INT NOT NULL,
+    product_id INT NOT NULL,
+    ten_san_pham VARCHAR(255) NOT NULL,
+    don_gia DECIMAL(12, 2) NOT NULL,
+    so_luong INT NOT NULL DEFAULT 1,
+    thanh_tien DECIMAL(12, 2) NOT NULL,
+    FOREIGN KEY (don_hang_id) REFERENCES DONHANG(don_hang_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE CASCADE
+);
 
 -- Dữ liệu mẫu Danh mục & Sản phẩm
 INSERT IGNORE INTO CATEGORIES (category_id, name) VALUES 
@@ -112,3 +115,20 @@ INSERT IGNORE INTO PRODUCTS (product_id, category_id, ten, gia, anh) VALUES
 (1, 1, 'Vợt Pickleball Franklin Signature', 2500000.00, 'paddle_aero.png'),
 (2, 1, 'Vợt Selkirk Vanguard', 4200000.00, 'paddle_voltaic.png'),
 (3, 2, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 'balls_box.png');
+
+-- Dữ liệu mẫu Đơn hàng
+INSERT IGNORE INTO DONHANG (don_hang_id, user_id, ho_ten, sdt, email, dia_chi, tong_tien, trang_thai, ngay_dat) VALUES
+(1, 2, 'Nguyễn Văn User', '0901234567', 'user@example.com', 'Hồ Chí Minh', 6700000.00, 'Đã giao', NOW() - INTERVAL 10 DAY),
+(2, 4, 'Nguyễn Văn A', '0912345678', 'nguyenvana@gmail.com', 'Hà Nội', 2500000.00, 'Đã giao', NOW() - INTERVAL 2 DAY),
+(3, 5, 'Trần Thị B', '0923456789', 'tranthib@gmail.com', 'Đà Nẵng', 350000.00, 'Đang xử lý', NOW() - INTERVAL 1 DAY),
+(4, 6, 'Lê Văn C', '0934567890', 'levanc@gmail.com', 'Hồ Chí Minh', 4200000.00, 'Đang xử lý', NOW()),
+(5, 7, 'Phạm Thị D', '0945678901', 'phamthid@gmail.com', 'Cần Thơ', 350000.00, 'Đã hủy', NOW() - INTERVAL 5 DAY);
+
+-- Dữ liệu mẫu Chi tiết đơn hàng
+INSERT IGNORE INTO CHITIETDONHANG (chi_tiet_don_id, don_hang_id, product_id, ten_san_pham, don_gia, so_luong, thanh_tien) VALUES
+(1, 1, 1, 'Vợt Pickleball Franklin Signature', 2500000.00, 1, 2500000.00),
+(2, 1, 2, 'Vợt Selkirk Vanguard', 4200000.00, 1, 4200000.00),
+(3, 2, 1, 'Vợt Pickleball Franklin Signature', 2500000.00, 1, 2500000.00),
+(4, 3, 3, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 1, 350000.00),
+(5, 4, 2, 'Vợt Selkirk Vanguard', 4200000.00, 1, 4200000.00),
+(6, 5, 3, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 1, 350000.00);
