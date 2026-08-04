@@ -17,15 +17,19 @@ class SanPham {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // [TỰ CODE] Lấy chi tiết 1 sản phẩm theo ID
+    // Lấy chi tiết 1 sản phẩm theo ID kèm thông số kỹ thuật & tên danh mục
     public function getById($id) {
-        // SQL code...
-         $sql = "SELECT * FROM PRODUCTS WHERE product_id = ?";
+        $sql = "SELECT p.*, c.name as ten_danh_muc, 
+                       s.kich_thuoc, s.chat_lieu, s.chung_nhan, s.loai_tay_cam, s.chieu_dai, s.chieu_rong 
+                FROM PRODUCTS p 
+                LEFT JOIN CATEGORIES c ON p.category_id = c.category_id
+                LEFT JOIN SPECIFICATION s ON p.product_id = s.product_id
+                WHERE p.product_id = ?";
 
         $stmt = $this->db->conn->prepare($sql);
         $stmt->execute([$id]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // [TỰ CODE] Thêm sản phẩm mới

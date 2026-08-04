@@ -127,6 +127,26 @@ class pickleballController {
 
         require_once 'views/profile.php';
     }
+    public function capNhatHoSo(){
+    if (!isset($_SESSION['user'])) {
+        header("Location:index.php?act=login");
+        exit();
+    }
+
+    $userModel = new User();
+
+    $id = $_POST['user_id'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+
+    $userModel->updateProfile($id, $email, $address);
+
+    // cập nhật lại session
+    $_SESSION['user']['email'] = $email;
+    $_SESSION['user']['address'] = $address;
+
+    header("Location:index.php?act=profile");
+}
 
 
     // --- USE CASES: ADMIN (BẢO MẬT BỞI checkAdmin) ---

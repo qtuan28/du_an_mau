@@ -45,4 +45,13 @@ class User {
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function updateProfile($id, $email, $address){
+    $sql = "UPDATE USER
+            SET email = ?, address = ?
+            WHERE user_id = ?";
+
+    $stmt = $this->db->conn->prepare($sql);
+
+    return $stmt->execute([$email, $address, $id]);
+}
 }

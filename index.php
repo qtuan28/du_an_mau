@@ -55,6 +55,9 @@ switch ($act) {
     case 'post_thanhtoan':
         $sp_controller->postThanhToan();
         break;
+    case 'updateProfile':
+        $sp_controller->capNhatHoSo();
+        break;
     case 'profile':
     case 'lichsu_donhang':
         $sp_controller->hoSoCaNhan();
