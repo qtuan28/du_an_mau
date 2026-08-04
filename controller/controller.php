@@ -84,24 +84,61 @@ class pickleballController {
 
     public function themGioHang() {
         $id = $_GET['id'] ?? 0;
-        // [TỰ CODE] Thêm sản phẩm vào giỏ hàng
+        if ($id > 0) {
+            $sanPhamModel = new SanPham();
+            $sp = $sanPhamModel->getById($id);
+            if ($sp) {
+                // Khởi tạo giỏ hàng trong Session nếu chưa tồn tại
+                if (!isset($_SESSION['cart'])) {
+                    $_SESSION['cart'] = [];
+                }
+                
+                // Nếu sản phẩm đã có trong giỏ, tăng số lượng lên 1
+                if (isset($_SESSION['cart'][$id])) {
+                    $_SESSION['cart'][$id]['so_luong'] += 1;
+                } else {
+                    // Nếu chưa có, thêm sản phẩm mới vào giỏ
+                    $_SESSION['cart'][$id] = [
+                        'product_id' => $sp['product_id'],
+                        'ten'        => $sp['ten'],
+                        'gia'        => $sp['gia'],
+                        'anh'        => $sp['anh'],
+                        'so_luong'   => 1
+                    ];
+                }
+            }
+        }
         header("Location: index.php?act=giohang");
         exit();
     }
 
     public function xemGioHang() {
-        // [TỰ CODE] Gọi Model lấy sản phẩm trong giỏ hàng
+        $gioHang = $_SESSION['cart'] ?? [];
         require_once 'views/giohang.php';
     }
 
     public function capNhatGioHang() {
-        // [TỰ CODE] Cập nhật số lượng giỏ hàng
+        if (isset($_POST['so_luong']) && is_array($_POST['so_luong'])) {
+            foreach ($_POST['so_luong'] as $id => $qty) {
+                $qty = (int)$qty;
+                if ($qty <= 0) {
+                    unset($_SESSION['cart'][$id]);
+                } else if (isset($_SESSION['cart'][$id])) {
+                    $_SESSION['cart'][$id]['so_luong'] = $qty;
+                }
+            }
+        }
         header("Location: index.php?act=giohang");
         exit();
     }
 
     public function xoaGioHang() {
-        // [TỰ CODE] Xóa mặt hàng khỏi giỏ
+        $id = $_GET['id'] ?? '';
+        if ($id === 'all') {
+            unset($_SESSION['cart']);
+        } else if ($id > 0 && isset($_SESSION['cart'][$id])) {
+            unset($_SESSION['cart'][$id]);
+        }
         header("Location: index.php?act=giohang");
         exit();
     }
@@ -205,14 +242,107 @@ class pickleballController {
     // 3. Quản lý người dùng
     public function adminQuanLyNguoiDung() {
         $this->checkAdmin();
+        $keyword = $_GET['keyword'] ?? '';
+        $userModel = new User();
+        $dsNguoiDung = $userModel->getAllUsers($keyword);
         require_once 'views/admin/nguoidung.php';
+    }
+
+    public function adminThemNguoiDung() {
+        $this->checkAdmin();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $vai_tro_id = $_POST['vai_tro_id'] ?? 2;
+
+            if (!empty($username) && !empty($password)) {
+                $userModel = new User();
+                $userModel->addUser($username, $password, $email, $address, $vai_tro_id);
+            }
+            header("Location: index.php?act=admin_nguoidung");
+            exit();
+        }
+        $mode = 'add';
+        require_once 'views/admin/nguoidung_form.php';
+    }
+
+    public function adminSuaNguoiDung() {
+        $this->checkAdmin();
+        $userModel = new User();
+        $id = $_GET['id'] ?? 0;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['user_id'] ?? 0;
+            $email = $_POST['email'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $vai_tro_id = $_POST['vai_tro_id'] ?? 2;
+
+            $userModel->updateUser($id, $email, $address, $vai_tro_id);
+            header("Location: index.php?act=admin_nguoidung");
+            exit();
+        }
+
+        $user = $userModel->getUserById($id);
+        if (!$user) {
+            header("Location: index.php?act=admin_nguoidung");
+            exit();
+        }
+        $mode = 'edit';
+        require_once 'views/admin/nguoidung_form.php';
     }
 
     public function adminXoaNguoiDung() {
         $this->checkAdmin();
-        // [TỰ CODE] Xử lý xóa người dùng
+        $id = $_GET['id'] ?? 0;
+        if ($id > 0) {
+            // Không cho phép Admin tự xóa tài khoản của chính mình
+            if ($id != $_SESSION['user']['user_id']) {
+                $userModel = new User();
+                $userModel->deleteUser($id);
+            }
+        }
         header("Location: index.php?act=admin_nguoidung");
         exit();
+    }
+
+    public function adminKhoaNguoiDung() {
+        $this->checkAdmin();
+        $id = $_GET['id'] ?? 0;
+        if ($id > 0) {
+            // Không cho phép Admin tự khóa tài khoản của chính mình
+            if ($id != $_SESSION['user']['user_id']) {
+                $userModel = new User();
+                $userModel->toggleStatus($id);
+            }
+        }
+        header("Location: index.php?act=admin_nguoidung");
+        exit();
+    }
+
+    public function adminDatLaiMatKhau() {
+        $this->checkAdmin();
+        $userModel = new User();
+        $id = $_GET['id'] ?? 0;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['user_id'] ?? 0;
+            $new_password = $_POST['new_password'] ?? '';
+            if (!empty($new_password) && $id > 0) {
+                $userModel->resetPassword($id, $new_password);
+            }
+            header("Location: index.php?act=admin_nguoidung");
+            exit();
+        }
+
+        $user = $userModel->getUserById($id);
+        if (!$user) {
+            header("Location: index.php?act=admin_nguoidung");
+            exit();
+        }
+        $mode = 'reset_pass';
+        require_once 'views/admin/nguoidung_form.php';
     }
 
     // 4. Thống kê số liệu
