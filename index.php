@@ -121,8 +121,20 @@ switch ($act) {
     case 'admin_nguoidung':
         $sp_controller->adminQuanLyNguoiDung();
         break;
+    case 'admin_nguoidung_add':
+        $sp_controller->adminThemNguoiDung();
+        break;
+    case 'admin_nguoidung_edit':
+        $sp_controller->adminSuaNguoiDung();
+        break;
     case 'admin_nguoidung_delete':
         $sp_controller->adminXoaNguoiDung();
+        break;
+    case 'admin_nguoidung_toggle':
+        $sp_controller->adminKhoaNguoiDung();
+        break;
+    case 'admin_nguoidung_reset_pass':
+        $sp_controller->adminDatLaiMatKhau();
         break;
 
     // --- ADMIN: THỐNG KÊ SỐ LIỆU ---

@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS USER (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL,
     address VARCHAR(255),
+    trang_thai INT DEFAULT 1,
     FOREIGN KEY (vai_tro_id) REFERENCES VAITRO(vai_tro_id)
 );
 
