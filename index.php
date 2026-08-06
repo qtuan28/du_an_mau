@@ -53,6 +53,9 @@ switch ($act) {
     case 'post_thanhtoan':
         $sp_controller->postThanhToan();
         break;
+    case 'updateProfile':
+        $sp_controller->capNhatHoSo();
+        break;
     case 'profile':
     case 'lichsu_donhang':
         $sp_controller->hoSoCaNhan();
@@ -65,11 +68,20 @@ switch ($act) {
     case 'admin_danhmuc':
         $sp_controller->adminQuanLyDanhMuc();
         break;
+    case 'admin_danhmuc_add_form':
+        $sp_controller->adminFormThemDanhMuc();
+        break;
     case 'admin_danhmuc_add':
         $sp_controller->adminThemDanhMuc();
         break;
+    case 'admin_danhmuc_edit_form':
+        $sp_controller->adminFormSuaDanhMuc();
+        break;
     case 'admin_danhmuc_edit':
         $sp_controller->adminSuaDanhMuc();
+        break;
+    case 'admin_danhmuc_toggle':
+        $sp_controller->adminToggleTrangThaiDanhMuc();
         break;
     case 'admin_danhmuc_delete':
         $sp_controller->adminXoaDanhMuc();
@@ -81,11 +93,20 @@ switch ($act) {
     case 'admin_sanpham':
         $sp_controller->adminQuanLySanPham();
         break;
+    case 'admin_sanpham_add_form':
+        $sp_controller->adminFormThemSanPham();
+        break;
     case 'admin_sanpham_add':
         $sp_controller->adminThemSanPham();
         break;
+    case 'admin_sanpham_edit_form':
+        $sp_controller->adminFormSuaSanPham();
+        break;
     case 'admin_sanpham_edit':
         $sp_controller->adminSuaSanPham();
+        break;
+    case 'admin_sanpham_toggle':
+        $sp_controller->adminToggleTrangThaiSanPham();
         break;
     case 'admin_sanpham_delete':
         $sp_controller->adminXoaSanPham();
@@ -97,8 +118,20 @@ switch ($act) {
     case 'admin_nguoidung':
         $sp_controller->adminQuanLyNguoiDung();
         break;
+    case 'admin_nguoidung_add':
+        $sp_controller->adminThemNguoiDung();
+        break;
+    case 'admin_nguoidung_edit':
+        $sp_controller->adminSuaNguoiDung();
+        break;
     case 'admin_nguoidung_delete':
         $sp_controller->adminXoaNguoiDung();
+        break;
+    case 'admin_nguoidung_toggle':
+        $sp_controller->adminKhoaNguoiDung();
+        break;
+    case 'admin_nguoidung_reset_pass':
+        $sp_controller->adminDatLaiMatKhau();
         break;
 
     case 'admin_thongke':
