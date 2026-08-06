@@ -68,17 +68,13 @@ class User {
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-<<<<<<< HEAD
     public function updateProfile($id, $email, $address){
-    $sql = "UPDATE USER
-            SET email = ?, address = ?
-            WHERE user_id = ?";
-
-    $stmt = $this->db->conn->prepare($sql);
-
-    return $stmt->execute([$email, $address, $id]);
-}
-=======
+        $sql = "UPDATE USER
+                SET email = ?, address = ?
+                WHERE user_id = ?";
+        $stmt = $this->db->conn->prepare($sql);
+        return $stmt->execute([$email, $address, $id]);
+    }
 
     // 3. Thêm tài khoản người dùng mới (Admin)
     public function addUser($username, $password, $email, $address, $vai_tro_id = 2) {
@@ -119,5 +115,4 @@ class User {
     public function getUserProfile($userId) {
         return $this->getUserById($userId);
     }
->>>>>>> 19e36a9307d9e3725a2744e624bcb8eb34639d5b
 }

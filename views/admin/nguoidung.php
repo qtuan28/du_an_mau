@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -389,5 +388,3 @@
     </div>
 </body>
 </html>
-=======
->>>>>>> bdfd4d39a6713ed9d504e3106382d0191df6bd33
