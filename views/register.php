@@ -7,7 +7,6 @@
 <body>
     <h2>ĐĂNG KÝ TÀI KHOẢN NGƯỜI DÙNG</h2>
 
-    <!-- [TỰ CODE FORM ĐĂNG KÝ] -->
     <form action="index.php?act=post_register" method="POST">
         <div>
             <label>Tên đăng nhập:</label><br>

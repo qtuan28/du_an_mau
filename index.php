@@ -6,7 +6,6 @@ $sp_controller = new pickleballController();
 $act = $_GET['act'] ?? 'index';
 
 switch ($act) {
-    // --- KHÁCH / NGƯỜI DÙNG ---
     case 'index':
         $sp_controller->trangChu();
         break;
@@ -36,7 +35,6 @@ switch ($act) {
         $sp_controller->xemDanhMuc();
         break;
 
-    // --- GIỎ HÀNG & ĐƠN HÀNG ---
     case 'add_giohang':
         $sp_controller->themGioHang();
         break;
@@ -60,12 +58,10 @@ switch ($act) {
         $sp_controller->hoSoCaNhan();
         break;
 
-    // --- ADMIN: TRANG CHỦ ---
     case 'admin':
         $sp_controller->trangAdmin();
         break;
 
-    // --- ADMIN: QUẢN LÝ DANH MỤC ---
     case 'admin_danhmuc':
         $sp_controller->adminQuanLyDanhMuc();
         break;
@@ -82,7 +78,6 @@ switch ($act) {
         $sp_controller->adminTimKiemDanhMuc();
         break;
 
-    // --- ADMIN: QUẢN LÝ SẢN PHẨM ---
     case 'admin_sanpham':
         $sp_controller->adminQuanLySanPham();
         break;
@@ -99,7 +94,6 @@ switch ($act) {
         $sp_controller->adminTimKiemSanPham();
         break;
 
-    // --- ADMIN: QUẢN LÝ NGƯỜI DÙNG ---
     case 'admin_nguoidung':
         $sp_controller->adminQuanLyNguoiDung();
         break;
@@ -107,7 +101,6 @@ switch ($act) {
         $sp_controller->adminXoaNguoiDung();
         break;
 
-    // --- ADMIN: THỐNG KÊ SỐ LIỆU ---
     case 'admin_thongke':
         $sp_controller->adminThongKe();
         break;
