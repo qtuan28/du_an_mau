@@ -1,88 +1,89 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Trang Chủ - Pickleball</title>
-</head>
-<style>
-    table {
-        border-collapse: collapse;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pickleball Store – Cửa Hàng Vợt, Giày & Phụ Kiện Pickleball Chính Hãng</title>
+  <meta name="description" content="Khám phá bộ sưu tập Pickleball mới nhất mùa giải 26/27. Cung cấp vợt pickleball, giày thi đấu, bóng chuẩn quốc tế và trang phục thể thao chính hãng.">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .home-catalog-link-bar {
+      margin: 40px auto;
+      text-align: center;
     }
-</style>
+    .btn-view-catalog {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #0f1115;
+      color: #ffffff;
+      font-family: var(--font-primary, sans-serif);
+      font-weight: 800;
+      font-size: 14px;
+      padding: 14px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.25s ease;
+    }
+    .btn-view-catalog:hover {
+      background-color: #1f6b52;
+    }
+  </style>
+</head>
 <body>
-    <h1>TRANG CHỦ WEBSITE BÁN PICKLEBALL</h1>
 
-    <div>
-        <?php if (isset($_SESSION['user'])): ?>
-            <p>Xin chào: <strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong> (Vai trò: <?= htmlspecialchars($_SESSION['user']['ten_vai_tro']) ?>)</p>
-            
-            <p>
-                <a href="index.php?act=profile">Hồ sơ cá nhân & Lịch sử đơn hàng</a> | 
-                <a href="index.php?act=giohang">Giỏ hàng</a> | 
-                <a href="index.php?act=logout">Đăng xuất</a>
-            </p>
+  <!-- Header Section -->
+  <?php include 'views/header.php'; ?>
 
-            <?php if ($_SESSION['user']['vai_tro_id'] == 1): ?>
-                <p>👉 <a href="index.php?act=admin">VÀO TRANG QUẢN TRỊ ADMIN</a></p>
-            <?php endif; ?>
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <?php include 'views/hero.php'; ?>
 
-        <?php else: ?>
-            <p>
-                <a href="index.php?act=login">Đăng nhập</a> | 
-                <a href="index.php?act=register">Đăng ký</a> | 
-                <a href="index.php?act=giohang">Giỏ hàng</a>
-            </p>
-        <?php endif; ?>
+    <!-- Section 1: Sản Phẩm Mới -->
+    <?php include 'views/products_new.php'; ?>
+
+    <!-- Xem Tất Cả Sản Phẩm Callout Button -->
+    <div class="container home-catalog-link-bar">
+      <a href="index.php?act=sanpham" class="btn-view-catalog">
+        XEM TẤT CẢ SẢN PHẨM PHÂN TRANG (16 SẢN PHẨM / TRANG)
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </a>
     </div>
 
-    <hr>
-    <!-- [USE CASE: TÌM KIẾM SẢN PHẨM] -->
-    <form action="index.php?act=timkiem" method="GET">
-        <input type="hidden" name="act" value="timkiem">
-        <input type="text" name="keyword" placeholder="Nhập tên sản phẩm cần tìm...">
-        <button type="submit">Tìm kiếm</button>
-    </form>
+    <!-- Banner Break: Kiến Tạo Lối Chơi -->
+    <?php include 'views/banner_playstyle.php'; ?>
 
-    <br>
-    <!-- [USE CASE: XEM DANH MỤC] -->
-    <div>
-        <strong>Lọc theo danh mục:</strong>
-        <a href="index.php?act=index">Tất cả</a> | 
-        <a href="index.php?act=danhmuc&id=1">Vợt Pickleball</a> | 
-        <a href="index.php?act=danhmuc&id=2">Bóng Pickleball</a>
-    </div>
+    <!-- Section 2: Bộ Sưu Tập PPA Tour 26/27 -->
+    <?php include 'views/products_ppa.php'; ?>
 
-    <hr>
-    <h2>DANH SÁCH SẢN PHẨM (USE CASE: XEM SẢN PHẨM)</h2>
-    <table border="1">
-        <tr>
-            <th>Mã sản phẩm</th>
-            <th>Tên sản phẩm</th>
-            <th>Danh mục</th>
-            <th>Giá</th>
-            <th>Hình ảnh</th>
-            <th>Xem chi tiết</th>
-            <th>Chức năng</th>
-        </tr>
-        <?php if (!empty($dsSanPham)): ?>
-            <?php foreach ($dsSanPham as $sp): ?>
-            <tr>
-                <td><?= $sp['product_id'] ?></td>
-                <td><?= htmlspecialchars($sp['ten']) ?></td>
-                <td><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Chưa phân loại') ?></td>
-                <td><?= number_format($sp['gia'], 0, ',', '.') ?> VNĐ</td>
-                <td><?= htmlspecialchars($sp['anh']) ?></td>
-                <!-- USE CASE: XEM CHI TIẾT SẢN PHẨM -->
-                <td><a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>">Xem chi tiết</a></td>
-                <!-- USE CASE: THÊM GIỎ HÀNG -->
-                <td><a href="index.php?act=add_giohang&id=<?= $sp['product_id'] ?>">Thêm vào giỏ hàng</a></td>
-            </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="7">Chưa có sản phẩm nào.</td>
-            </tr>
-        <?php endif; ?>
-    </table>
+    <!-- Section 3: Shop The Look -->
+    <?php include 'views/shop_look.php'; ?>
+
+    <!-- Section 4: What's Hot -->
+    <?php include 'views/whats_hot.php'; ?>
+
+    <!-- Section 5: Brand Story (SEO Paragraphs) -->
+    <?php include 'views/brand_story.php'; ?>
+
+    <!-- Section 6: Newsletter Bar -->
+    <?php include 'views/newsletter.php'; ?>
+  </main>
+
+  <!-- Footer Section -->
+  <?php include 'views/footer.php'; ?>
+
+  <!-- Slide Cart Drawer -->
+  <?php include 'views/cart_drawer.php'; ?>
+
+  <!-- Quick View Modal -->
+  <?php include 'views/quickview_modal.php'; ?>
+
+  <!-- JavaScript App Logic -->
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

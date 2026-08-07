@@ -70,62 +70,73 @@ class pickleballController {
         require_once 'views/chitiet.php';
     }
 
+    public function danhSachSanPham() {
+        $keyword = trim($_GET['keyword'] ?? '');
+        $categoryId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        $limit = 16; // Mỗi trang 16 sản phẩm (4 dòng x 4 sản phẩm)
+
+        $sanPhamModel = new SanPham();
+        $danhMucModel = new DanhMuc();
+
+        $dsDanhMuc = $danhMucModel->getAll();
+        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, $categoryId, 1, $page, $limit);
+        $totalCount = $sanPhamModel->getTotalCount($keyword, $categoryId, 1);
+        $totalPages = max(1, (int)ceil($totalCount / $limit));
+
+        $currentCategory = null;
+        if ($categoryId > 0) {
+            $currentCategory = $danhMucModel->getById($categoryId);
+        }
+
+        require_once 'views/sanpham.php';
+    }
+
     public function timKiemSanPham() {
-        $keyword = $_GET['keyword'] ?? '';
-        // [TỰ CODE] Gọi Model tìm kiếm sản phẩm
-        require_once 'views/trangchu.php';
+        $this->danhSachSanPham();
     }
 
     public function xemDanhMuc() {
-        $id = $_GET['id'] ?? 0;
-        // [TỰ CODE] Gọi Model lọc sản phẩm theo danh mục
-        require_once 'views/trangchu.php';
+        $this->danhSachSanPham();
     }
 
     public function themGioHang() {
         $id = $_GET['id'] ?? 0;
+        $soLuong = isset($_GET['soluong']) ? (int)$_GET['soluong'] : 1;
+        if ($soLuong <= 0) $soLuong = 1;
+
         if ($id > 0) {
             $sanPhamModel = new SanPham();
             $sp = $sanPhamModel->getById($id);
             if ($sp) {
-                // Khởi tạo giỏ hàng trong Session nếu chưa tồn tại
-                if (!isset($_SESSION['cart'])) {
-                    $_SESSION['cart'] = [];
-                }
-                
-                // Nếu sản phẩm đã có trong giỏ, tăng số lượng lên 1
-                if (isset($_SESSION['cart'][$id])) {
-                    $_SESSION['cart'][$id]['so_luong'] += 1;
-                } else {
-                    // Nếu chưa có, thêm sản phẩm mới vào giỏ
-                    $_SESSION['cart'][$id] = [
-                        'product_id' => $sp['product_id'],
-                        'ten'        => $sp['ten'],
-                        'gia'        => $sp['gia'],
-                        'anh'        => $sp['anh'],
-                        'so_luong'   => 1
-                    ];
-                }
+                $gioHangModel = new GioHang();
+                $gioHangModel->add($sp, $soLuong);
             }
         }
-        header("Location: index.php?act=giohang");
+
+        // Nếu có tham số redirect=thanhtoan thì chuyển sang trang thanh toán
+        $redirect = $_GET['redirect'] ?? 'giohang';
+        if ($redirect === 'thanhtoan') {
+            header("Location: index.php?act=thanhtoan");
+        } else {
+            header("Location: index.php?act=giohang");
+        }
         exit();
     }
 
     public function xemGioHang() {
-        $gioHang = $_SESSION['cart'] ?? [];
+        $gioHangModel = new GioHang();
+        $gioHang = $gioHangModel->getGioHang();
+        $tongTien = $gioHangModel->getTongTien();
         require_once 'views/giohang.php';
     }
 
     public function capNhatGioHang() {
         if (isset($_POST['so_luong']) && is_array($_POST['so_luong'])) {
+            $gioHangModel = new GioHang();
             foreach ($_POST['so_luong'] as $id => $qty) {
-                $qty = (int)$qty;
-                if ($qty <= 0) {
-                    unset($_SESSION['cart'][$id]);
-                } else if (isset($_SESSION['cart'][$id])) {
-                    $_SESSION['cart'][$id]['so_luong'] = $qty;
-                }
+                $gioHangModel->updateQuantity((int)$id, (int)$qty);
             }
         }
         header("Location: index.php?act=giohang");
@@ -134,10 +145,11 @@ class pickleballController {
 
     public function xoaGioHang() {
         $id = $_GET['id'] ?? '';
+        $gioHangModel = new GioHang();
         if ($id === 'all') {
-            unset($_SESSION['cart']);
-        } else if ($id > 0 && isset($_SESSION['cart'][$id])) {
-            unset($_SESSION['cart'][$id]);
+            $gioHangModel->clear();
+        } else if ($id > 0) {
+            $gioHangModel->deleteItem((int)$id);
         }
         header("Location: index.php?act=giohang");
         exit();

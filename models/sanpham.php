@@ -42,9 +42,9 @@ class SanPham {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy danh sách sản phẩm phân trang & tìm kiếm & lọc trạng thái
-    public function getAllWithPagination($keyword = '', $stockStatus = '', $page = 1, $limit = 5) {
-        $offset = ($page - 1) * $limit;
+    // Lấy danh sách sản phẩm phân trang & tìm kiếm & lọc danh mục & lọc trạng thái
+    public function getAllWithPagination($keyword = '', $categoryId = 0, $stockStatus = '', $page = 1, $limit = 16) {
+        $offset = max(0, ($page - 1) * $limit);
         $sql = "SELECT p.*, c.name as ten_danh_muc 
                 FROM PRODUCTS p 
                 LEFT JOIN CATEGORIES c ON p.category_id = c.category_id
@@ -55,6 +55,11 @@ class SanPham {
         if ($keyword !== '') {
             $sql .= " AND p.ten LIKE :keyword";
             $params[':keyword'] = '%' . $keyword . '%';
+        }
+
+        if ($categoryId > 0) {
+            $sql .= " AND p.category_id = :categoryId";
+            $params[':categoryId'] = (int)$categoryId;
         }
 
         if ($stockStatus !== '') {
@@ -77,13 +82,18 @@ class SanPham {
     }
 
     // Đếm tổng số sản phẩm theo bộ lọc (để tính số trang)
-    public function getTotalCount($keyword = '', $stockStatus = '') {
+    public function getTotalCount($keyword = '', $categoryId = 0, $stockStatus = '') {
         $sql = "SELECT COUNT(*) FROM PRODUCTS p WHERE 1=1";
         $params = [];
 
         if ($keyword !== '') {
             $sql .= " AND p.ten LIKE :keyword";
             $params[':keyword'] = '%' . $keyword . '%';
+        }
+
+        if ($categoryId > 0) {
+            $sql .= " AND p.category_id = :categoryId";
+            $params[':categoryId'] = (int)$categoryId;
         }
 
         if ($stockStatus !== '') {

@@ -28,6 +28,9 @@ switch ($act) {
     case 'chitiet':
         $sp_controller->chiTietSanPham();
         break;
+    case 'sanpham':
+        $sp_controller->danhSachSanPham();
+        break;
     case 'timkiem':
         $sp_controller->timKiemSanPham();
         break;
