@@ -88,6 +88,7 @@
                                     <th>EMAIL</th>
                                     <th>MẬT KHẨU</th>
                                     <th style="text-align: center;">VAI TRÒ</th>
+                                    <th style="text-align: center;">TRẠNG THÁI</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
                             </thead>
@@ -135,6 +136,18 @@
                                         </td>
 
                                         <td style="text-align: center;">
+                                            <?php if ($isActive): ?>
+                                                <span style="background: #e6f4ea; color: #137333; padding: 4px 10px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
+                                                    <i class="fa-solid fa-circle" style="font-size: 8px; color: #1e8e3e;"></i> Active
+                                                </span>
+                                            <?php else: ?>
+                                                <span style="background: #fce8e6; color: #c5221f; padding: 4px 10px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
+                                                    <i class="fa-solid fa-lock" style="font-size: 10px; color: #d93025;"></i> Locked
+                                                </span>
+                                            <?php endif; ?>
+                                        </td>
+
+                                        <td style="text-align: center;">
                                             <a href="index.php?act=admin_nguoidung_edit&id=<?= $u['user_id'] ?>" class="adi-action-btn edit" title="Sửa">Sửa <i class="fa-solid fa-pen"></i></a>
                                             <?php if (!$isSelf): ?>
                                                 <?php if ($isActive): ?>
@@ -149,7 +162,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="7" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
+                                    <td colspan="8" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>
@@ -173,6 +186,14 @@
             passSpan.textContent = '••••••••';
             passSpan.setAttribute('data-hidden', 'true');
             eyeIcon.className = 'fa-solid fa-eye-slash';
+        }
+    }
+
+    function updateUserStatus(userId, newStatus) {
+        if (confirm(newStatus === 0 ? 'Bạn có chắc muốn KHÓA tài khoản này?' : 'Bạn có chắc muốn MỞ KHÓA tài khoản này?')) {
+            window.location.href = 'index.php?act=admin_nguoidung_toggle&id=' + userId + '&status=' + newStatus;
+        } else {
+            window.location.reload();
         }
     }
     </script>
