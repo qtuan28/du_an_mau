@@ -84,56 +84,40 @@
                                     <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
                                     <th style="width: 60px; text-align: center;">STT</th>
                                     <th>DANH MỤC</th>
-                                    <th style="text-align: center;">HÌNH ẢNH</th>
-                                    <th style="text-align: center;">MODULE</th>
-                                    <th style="text-align: center;">TRANG CHỦ</th>
-                                    <th style="text-align: center;">MENU</th>
-                                    <th style="text-align: center;">HIỂN THỊ</th>
-                                    <th>TRẠNG THÁI</th>
+                                    <th style="text-align: center;">TRẠNG THÁI HIỂN THỊ</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
                             </thead>
                             <tbody>
                             <?php if (!empty($dsDanhMuc)): ?>
                                 <?php $stt = 1; foreach($dsDanhMuc as $dm): ?>
+                                    <?php $isShowing = isset($dm['trang_thai']) ? ($dm['trang_thai'] == 1) : true; ?>
                                     <tr>
                                         <td style="text-align: center;"><input type="checkbox"></td>
                                         <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
                                         <td><strong><?= htmlspecialchars($dm['name']) ?></strong></td>
+                                        
                                         <td style="text-align: center;">
-                                            <div style="width: 40px; height: 30px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; font-size: 10px; color: #999;">Ảnh</div>
-                                        </td>
-                                        <td style="text-align: center; color: #555;">Sản phẩm</td>
-                                        
-                                        <!-- Mock Checkboxes -->
-                                        <td style="text-align: center;"><input type="checkbox"></td>
-                                        <td style="text-align: center;"><input type="checkbox" checked></td>
-                                        <td style="text-align: center;"><input type="checkbox" checked></td>
-                                        
-                                        <!-- Status Radio Mockup & Real Status -->
-                                        <td>
-                                            <div class="adi-status-radio">
-                                                <label><input type="radio" name="status_dofollow_<?= $dm['category_id'] ?>" checked> Dofollow</label>
-                                                <label><input type="radio" name="status_dofollow_<?= $dm['category_id'] ?>"> Index</label>
-                                            </div>
-                                            <div style="margin-top: 5px;">
-                                                <?php if (isset($dm['trang_thai']) && $dm['trang_thai'] == 1): ?>
-                                                    <span style="color: #28a745; font-size: 11px; font-weight: bold;">[Hoạt động]</span>
-                                                <?php else: ?>
-                                                    <span style="color: #dc3545; font-size: 11px; font-weight: bold;">[Tạm ngưng]</span>
-                                                <?php endif; ?>
-                                            </div>
+                                            <?php if ($isShowing): ?>
+                                                <span style="background: #e6f4ea; color: #137333; padding: 4px 12px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
+                                                    <i class="fa-solid fa-circle" style="font-size: 8px; color: #1e8e3e;"></i> HIỂN THỊ
+                                                </span>
+                                            <?php else: ?>
+                                                <span style="background: #fce8e6; color: #c5221f; padding: 4px 12px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
+                                                    <i class="fa-solid fa-eye-slash" style="font-size: 10px; color: #d93025;"></i> ẨN (KHÔNG HIỂN THỊ)
+                                                </span>
+                                            <?php endif; ?>
                                         </td>
 
                                         <td style="text-align: center;">
                                             <a href="index.php?act=admin_danhmuc_edit_form&id=<?= $dm['category_id'] ?>" class="adi-action-btn edit" title="Sửa">Sửa <i class="fa-solid fa-pen"></i></a>
-                                            <a href="index.php?act=admin_danhmuc_delete&id=<?= $dm['category_id'] ?>" onclick="return confirm('Xóa?')" class="adi-action-btn delete" title="Xóa">Xóa <i class="fa-solid fa-xmark"></i></a>
+                                            <a href="index.php?act=admin_danhmuc_delete&id=<?= $dm['category_id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa danh mục này?')" class="adi-action-btn delete" title="Xóa">Xóa <i class="fa-solid fa-xmark"></i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="10" style="text-align: center; padding: 20px;">Chưa có danh mục nào.</td>
+                                    <td colspan="5" style="text-align: center; padding: 20px;">Chưa có danh mục nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>
