@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= ($mode === 'edit') ? 'Sửa Sản Phẩm' : 'Thêm Sản Phẩm Mới' ?> | Admin Panel</title>
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .adi-form-card {
@@ -269,9 +269,9 @@
                                         <input type="file" id="anh" name="anh" accept="image/*" class="adi-field-input" style="padding: 10px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh'])): ?>
                                             <div class="adi-image-upload-preview">
-                                                <img src="<?= (strpos($sanPham['anh'], 'assets/') === 0) ? $sanPham['anh'] : 'assets/images/' . $sanPham['anh'] ?>"
+                                                <img src="<?= (strpos($sanPham['anh'], 'assets/') === 0 || strpos($sanPham['anh'], 'uploads/') === 0) ? BASE_URL . '/' . $sanPham['anh'] : BASE_URL . '/assets/images/' . $sanPham['anh'] ?>"
                                                      alt="Thumbnail"
-                                                     onerror="this.src='assets/images/hero_paddle.png'">
+                                                     onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                                 <div>
                                                     <span style="font-family: 'Roboto', sans-serif; font-size: 12px; color: #666; display: block;">Ảnh hiện tại:</span>
                                                     <strong style="font-family: 'Roboto', sans-serif; font-size: 13px; color: #000;"><?= htmlspecialchars($sanPham['anh']) ?></strong>
@@ -295,7 +295,7 @@
                                         <input type="file" id="anh_1" name="anh_1" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_1'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
-                                                <img src="<?= (strpos($sanPham['anh_1'], 'assets/') === 0) ? $sanPham['anh_1'] : (strpos($sanPham['anh_1'], 'uploads/') === 0 ? $sanPham['anh_1'] : 'uploads/' . $sanPham['anh_1']) ?>" alt="Detail 1" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <img src="<?= (strpos($sanPham['anh_1'], 'assets/') === 0 || strpos($sanPham['anh_1'], 'uploads/') === 0) ? BASE_URL . '/' . $sanPham['anh_1'] : BASE_URL . '/uploads/' . $sanPham['anh_1'] ?>" alt="Detail 1" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                                 <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_1']) ?></span>
                                             </div>
                                         <?php endif; ?>
@@ -307,7 +307,7 @@
                                         <input type="file" id="anh_2" name="anh_2" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_2'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
-                                                <img src="<?= (strpos($sanPham['anh_2'], 'assets/') === 0) ? $sanPham['anh_2'] : (strpos($sanPham['anh_2'], 'uploads/') === 0 ? $sanPham['anh_2'] : 'uploads/' . $sanPham['anh_2']) ?>" alt="Detail 2" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <img src="<?= (strpos($sanPham['anh_2'], 'assets/') === 0 || strpos($sanPham['anh_2'], 'uploads/') === 0) ? BASE_URL . '/' . $sanPham['anh_2'] : BASE_URL . '/uploads/' . $sanPham['anh_2'] ?>" alt="Detail 2" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                                 <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_2']) ?></span>
                                             </div>
                                         <?php endif; ?>
@@ -319,7 +319,7 @@
                                         <input type="file" id="anh_3" name="anh_3" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_3'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
-                                                <img src="<?= (strpos($sanPham['anh_3'], 'assets/') === 0) ? $sanPham['anh_3'] : (strpos($sanPham['anh_3'], 'uploads/') === 0 ? $sanPham['anh_3'] : 'uploads/' . $sanPham['anh_3']) ?>" alt="Detail 3" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <img src="<?= (strpos($sanPham['anh_3'], 'assets/') === 0 || strpos($sanPham['anh_3'], 'uploads/') === 0) ? BASE_URL . '/' . $sanPham['anh_3'] : BASE_URL . '/uploads/' . $sanPham['anh_3'] ?>" alt="Detail 3" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                                 <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_3']) ?></span>
                                             </div>
                                         <?php endif; ?>
@@ -331,7 +331,7 @@
                                         <input type="file" id="anh_4" name="anh_4" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_4'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
-                                                <img src="<?= (strpos($sanPham['anh_4'], 'assets/') === 0) ? $sanPham['anh_4'] : (strpos($sanPham['anh_4'], 'uploads/') === 0 ? $sanPham['anh_4'] : 'uploads/' . $sanPham['anh_4']) ?>" alt="Detail 4" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <img src="<?= (strpos($sanPham['anh_4'], 'assets/') === 0 || strpos($sanPham['anh_4'], 'uploads/') === 0) ? BASE_URL . '/' . $sanPham['anh_4'] : BASE_URL . '/uploads/' . $sanPham['anh_4'] ?>" alt="Detail 4" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                                 <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_4']) ?></span>
                                             </div>
                                         <?php endif; ?>

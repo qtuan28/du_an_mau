@@ -1,4 +1,4 @@
-<div class="adi-section-wrapper" style="padding-top: 0;">
+﻿<div class="adi-section-wrapper" style="padding-top: 0;">
     <div class="adi-section-header">
         <h2 class="adi-section-title">BỘ SƯU TẬP PPA TOUR 2026</h2>
         <a href="index.php?act=sanpham" class="adi-section-link">KHÁM PHÁ THÊM →</a>
@@ -30,7 +30,7 @@
                 <div class="adi-card">
                     <div class="adi-card-media">
                         <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
-                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
+                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                         </a>
                     </div>
 

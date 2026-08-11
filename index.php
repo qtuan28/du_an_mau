@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+// Tự động tính base URL — hoạt động trên mọi máy, mọi tên thư mục
+$scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+define('BASE_URL', rtrim($scriptDir, '/\\'));
+
 require_once 'controller/controller.php';
 
 $sp_controller = new pickleballController();

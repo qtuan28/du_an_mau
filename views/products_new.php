@@ -1,4 +1,4 @@
-<style>
+﻿<style>
 .adi-section-wrapper {
     padding: 60px 40px;
 }
@@ -173,7 +173,7 @@
                 <div class="adi-card">
                     <div class="adi-card-media">
                         <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
-                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
+                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                         </a>
                     </div>
 

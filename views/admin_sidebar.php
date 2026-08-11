@@ -1,4 +1,4 @@
-<!-- Left Sidebar -->
+﻿<!-- Left Sidebar -->
 <aside class="adi-main-sidebar">
     <!-- Logo Area -->
     <a href="index.php?act=admin" class="adi-logo-area">
@@ -12,7 +12,7 @@
 
     <!-- User Panel -->
     <div class="adi-user-panel">
-        <img src="assets/images/hero_paddle.png" alt="User Image">
+        <img src="<?= BASE_URL ?>/assets/images/hero_paddle.png" alt="User Image">
         <div class="adi-user-info">
             <p><?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?></p>
             <span>Online</span>

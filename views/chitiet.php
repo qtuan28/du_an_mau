@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= !empty($sp) ? htmlspecialchars($sp['ten']) : 'Chi tiết sản phẩm' ?> | adidas Việt Nam</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .adi-pdp-wrapper {
@@ -293,16 +293,16 @@
                     $img4 = !empty($sp['anh_4']) ? $resolveImg($sp['anh_4']) : $mainImg;
                 ?>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img1) ?>" alt="Detail Image 1" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img1) ?>" alt="Detail Image 1" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                 </div>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img2) ?>" alt="Detail Image 2" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img2) ?>" alt="Detail Image 2" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                 </div>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img3) ?>" alt="Detail Image 3" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img3) ?>" alt="Detail Image 3" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                 </div>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img4) ?>" alt="Detail Image 4" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img4) ?>" alt="Detail Image 4" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                 </div>
             </div>
 

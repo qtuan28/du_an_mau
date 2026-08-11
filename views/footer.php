@@ -1,4 +1,4 @@
-<style>
+﻿<style>
 .adi-footer-main {
     background-color: #000;
     color: #fff;

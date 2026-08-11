@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
   <meta name="description" content="Khám phá bộ sưu tập Pickleball mới nhất mùa giải 26/27. Cung cấp vợt pickleball, giày thi đấu, bóng chuẩn quốc tế và trang phục thể thao chính hãng.">
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -52,6 +52,6 @@
   <?php include 'views/quickview_modal.php'; ?>
 
   <!-- JavaScript App Logic -->
-  <script src="assets/js/main.js"></script>
+  <script src="<?= BASE_URL ?>/assets/js/main.js"></script>
 </body>
 </html>

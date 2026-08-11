@@ -1,4 +1,4 @@
-<style>
+﻿<style>
 .adi-full-banner-wrapper {
     width: 100%;
 }
@@ -55,7 +55,7 @@
 
 <div class="adi-full-banner-wrapper">
     <div class="adi-full-banner">
-        <img src="assets/images/hero_paddle.png" alt="Kiến Tạo Lối Chơi" onerror="this.src='assets/images/hero_paddle.png'">
+        <img src="<?= BASE_URL ?>/assets/images/hero_paddle.png" alt="Kiến Tạo Lối Chơi" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
         <div class="adi-full-banner-content">
             <h2 class="adi-full-banner-title">KIẾN TẠO LỐI CHƠI BẮT MẮT & CHUYÊN NGHIỆP</h2>
             <p class="adi-full-banner-desc">Lựa chọn dòng vợt phù hợp với phong cách tấn công hay kiểm soát bóng linh hoạt. Thiết kế công nghệ tối ưu cho từng cú đánh chuẩn xác.</p>

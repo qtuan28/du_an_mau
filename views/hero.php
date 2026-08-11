@@ -1,4 +1,4 @@
-<style>
+﻿<style>
 .adi-hero-banner-wrapper {
     width: 100%;
 }

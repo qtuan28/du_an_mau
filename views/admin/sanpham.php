@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý Sản phẩm | Bảng Điều Khiển Admin</title>
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -111,20 +111,20 @@
                                         </td>
                                         <td style="text-align: center;">
                                             <?php 
-                                                $imgSrc = 'assets/images/hero_paddle.png';
+                                                $imgSrc = BASE_URL . '/assets/images/hero_paddle.png';
                                                 if (!empty($sp['anh'])) {
                                                     if (strpos($sp['anh'], 'assets/') === 0 || strpos($sp['anh'], 'uploads/') === 0) {
-                                                        $imgSrc = $sp['anh'];
+                                                        $imgSrc = BASE_URL . '/' . $sp['anh'];
                                                     } elseif (file_exists('assets/images/' . $sp['anh'])) {
-                                                        $imgSrc = 'assets/images/' . $sp['anh'];
+                                                        $imgSrc = BASE_URL . '/assets/images/' . $sp['anh'];
                                                     } elseif (file_exists('uploads/' . $sp['anh'])) {
-                                                        $imgSrc = 'uploads/' . $sp['anh'];
+                                                        $imgSrc = BASE_URL . '/uploads/' . $sp['anh'];
                                                     } else {
-                                                        $imgSrc = 'assets/images/' . $sp['anh'];
+                                                        $imgSrc = BASE_URL . '/assets/images/' . $sp['anh'];
                                                     }
                                                 }
                                             ?>
-                                            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" style="width: 50px; height: 50px; object-fit: cover; border: 1px solid #eee;" onerror="this.src='assets/images/hero_paddle.png'">
+                                            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" style="width: 50px; height: 50px; object-fit: cover; border: 1px solid #eee;" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                         </td>
                                         <td><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Chưa phân loại') ?></td>
                                         <td>

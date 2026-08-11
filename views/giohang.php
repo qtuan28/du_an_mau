@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giỏ Hàng | Pickleball Store</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .adi-cart-wrapper {
@@ -356,7 +356,7 @@
                                 <tr>
                                     <td>
                                         <div class="adi-cart-item-flex">
-                                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($item['ten']) ?>" class="adi-cart-thumb" onerror="this.src='assets/images/hero_paddle.png'">
+                                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($item['ten']) ?>" class="adi-cart-thumb" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                             <div>
                                                 <a href="index.php?act=sanpham_chitiet&id=<?= $item['product_id'] ?>" class="adi-cart-item-name">
                                                     <?= htmlspecialchars($item['ten']) ?>
