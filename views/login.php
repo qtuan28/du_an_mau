@@ -156,59 +156,6 @@
             font-weight: 700;
             text-decoration: underline;
         }
-
-        .adi-demo-box {
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px dashed #ddd;
-        }
-
-        .adi-demo-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #767677;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .adi-demo-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .adi-demo-chip {
-            flex: 1;
-            padding: 10px 8px;
-            background-color: #f1f3f5;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .adi-demo-chip:hover {
-            background-color: #e9ecef;
-            border-color: #000;
-        }
-
-        .adi-demo-chip-role {
-            font-family: 'Oswald', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            color: #000;
-            text-transform: uppercase;
-            display: block;
-        }
-
-        .adi-demo-chip-sub {
-            font-family: 'Roboto', sans-serif;
-            font-size: 11px;
-            color: #666;
-        }
     </style>
 </head>
 <body>
@@ -263,31 +210,10 @@
                 <div>Chưa có tài khoản? <a href="index.php?act=register">Đăng ký ngay</a></div>
                 <div><a href="index.php?act=index" style="color: #767677; font-weight: 400;">← Quay lại Trang chủ</a></div>
             </div>
-
-            <div class="adi-demo-box">
-                <div class="adi-demo-title">Gợi ý tài khoản thử nghiệm (Bấm để chọn):</div>
-                <div class="adi-demo-buttons">
-                    <div class="adi-demo-chip" onclick="fillAccount('admin', '123456')">
-                        <span class="adi-demo-chip-role"><i class="fa-solid fa-user-shield"></i> Admin</span>
-                        <span class="adi-demo-chip-sub">admin / 123456</span>
-                    </div>
-                    <div class="adi-demo-chip" onclick="fillAccount('user', '123456')">
-                        <span class="adi-demo-chip-role"><i class="fa-regular fa-user"></i> Khách hàng</span>
-                        <span class="adi-demo-chip-sub">user / 123456</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <?php include 'views/footer.php'; ?>
-
-    <script>
-        function fillAccount(username, password) {
-            document.getElementById('inputUsername').value = username;
-            document.getElementById('inputPassword').value = password;
-        }
-    </script>
 </body>
 </html>
