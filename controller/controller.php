@@ -9,9 +9,24 @@ class pickleballController {
 
     // Helper kiểm tra quyền Admin
     private function checkAdmin() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['vai_tro_id'] != 1) {
-            echo "<h3 style='color: red;'>TỪ CHỐI TRUY CẬP: Bạn không có quyền Admin!</h3>";
-            echo "<p><a href='index.php?act=index'>Về Trang Chủ</a></p>";
+        if (!isset($_SESSION['user']) || ($_SESSION['user']['vai_tro_id'] ?? 0) != 1) {
+            header("HTTP/1.0 403 Forbidden");
+            echo "<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>403 - Từ chối truy cập | Admin Panel</title><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'><link rel='stylesheet' href='assets/css/style.css'></head><body style='font-family: sans-serif; background: #f8f9fa; margin: 0;'>";
+            require_once 'views/header.php';
+            echo "<div style='display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; padding: 60px 20px;'>";
+            echo "  <div style='width: 80px; height: 80px; background: #fef2f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; border: 2px solid #fee2e2;'>";
+            echo "      <i class='fa-solid fa-user-lock' style='font-size: 36px; color: #e50010;'></i>";
+            echo "  </div>";
+            echo "  <span style='font-family: \"Oswald\", sans-serif; font-size: 14px; font-weight: 700; color: #e50010; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;'>LỖI 403 • FORBIDDEN</span>";
+            echo "  <h1 style='font-family: \"Oswald\", sans-serif; font-size: 38px; font-weight: 700; color: #000; text-transform: uppercase; margin: 0 0 16px 0; letter-spacing: -0.5px;'>TỪ CHỐI TRUY CẬP ADMIN</h1>";
+            echo "  <p style='font-family: \"Roboto\", sans-serif; font-size: 15px; color: #666; max-width: 520px; line-height: 1.6; margin: 0 0 32px 0;'>Tài khoản hiện tại của bạn không có đặc quyền Quản trị viên (Admin) để truy cập vào Bảng điều khiển này.</p>";
+            echo "  <div style='display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;'>";
+            echo "      <a href='index.php' style='background: #000; color: #fff; font-family: \"Oswald\", sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; text-decoration: none; border: 1px solid #000; display: inline-flex; align-items: center; gap: 10px;'><i class='fa-solid fa-house'></i> VỀ TRANG CHỦ</a>";
+            echo "      <a href='index.php?act=login' style='background: #fff; color: #000; font-family: \"Oswald\", sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; text-decoration: none; border: 1px solid #000; display: inline-flex; align-items: center; gap: 10px;'><i class='fa-solid fa-right-to-bracket'></i> ĐĂNG NHẬP ADMIN</a>";
+            echo "  </div>";
+            echo "</div>";
+            require_once 'views/footer.php';
+            echo "</body></html>";
             exit();
         }
     }
