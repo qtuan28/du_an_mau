@@ -281,6 +281,26 @@
 </head>
 <body>
 
+<?php
+if (!function_exists('buildPlpUrl')) {
+    function buildPlpUrl($overrides = []) {
+        $params = $_GET;
+        $params['act'] = 'sanpham';
+        foreach ($overrides as $k => $v) {
+            if ($v === null || $v === '') {
+                unset($params[$k]);
+            } else {
+                $params[$k] = $v;
+            }
+        }
+        if (isset($overrides['id']) || isset($overrides['keyword']) || isset($overrides['price_range'])) {
+            $params['page'] = 1;
+        }
+        return 'index.php?' . http_build_query($params);
+    }
+}
+?>
+
     <!-- Header bar -->
     <?php include 'views/header.php'; ?>
 
@@ -299,9 +319,9 @@
 
             <div class="adi-plp-toolbar">
                 <select class="adi-sort-select" onchange="location = this.value;">
-                    <option value="">SẮP XẾP THEO: MỚI NHẤT</option>
-                    <option value="">GIÁ: TỪ THẤP ĐẾN CAO</option>
-                    <option value="">GIÁ: TỪ CAO ĐẾN THẤP</option>
+                    <option value="<?= buildPlpUrl(['sort' => 'newest']) ?>" <?= $sort === 'newest' ? 'selected' : '' ?>>SẮP XẾP THEO: MỚI NHẤT</option>
+                    <option value="<?= buildPlpUrl(['sort' => 'price_asc']) ?>" <?= $sort === 'price_asc' ? 'selected' : '' ?>>GIÁ: TỪ THẤP ĐẾN CAO</option>
+                    <option value="<?= buildPlpUrl(['sort' => 'price_desc']) ?>" <?= $sort === 'price_desc' ? 'selected' : '' ?>>GIÁ: TỪ CAO ĐẾN THẤP</option>
                 </select>
             </div>
         </div>
@@ -318,6 +338,12 @@
                         <?php if ($categoryId > 0): ?>
                             <input type="hidden" name="id" value="<?= $categoryId ?>">
                         <?php endif; ?>
+                        <?php if (!empty($priceRange)): ?>
+                            <input type="hidden" name="price_range" value="<?= htmlspecialchars($priceRange) ?>">
+                        <?php endif; ?>
+                        <?php if (!empty($sort)): ?>
+                            <input type="hidden" name="sort" value="<?= htmlspecialchars($sort) ?>">
+                        <?php endif; ?>
                         <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Nhập tên sản phẩm..." style="width: 100%; padding: 10px; border: 1px solid #ebedee; font-family: 'Roboto', sans-serif; font-size: 13px; outline: none;">
                         <button type="submit" style="padding: 10px 14px; background: #000; color: #fff; border: none; cursor: pointer;"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
@@ -328,12 +354,12 @@
                     <div class="adi-filter-title">DANH MỤC <i class="fa-solid fa-minus" style="font-size: 12px;"></i></div>
                     <ul class="adi-filter-list">
                         <li class="adi-filter-item <?= $categoryId == 0 ? 'active' : '' ?>">
-                            <a href="index.php?act=sanpham<?= $keyword !== '' ? '&keyword=' . urlencode($keyword) : '' ?>">Tất cả sản phẩm</a>
+                            <a href="<?= buildPlpUrl(['id' => null]) ?>">Tất cả sản phẩm</a>
                         </li>
                         <?php if (!empty($dsDanhMuc)): ?>
                             <?php foreach ($dsDanhMuc as $dm): ?>
                                 <li class="adi-filter-item <?= $categoryId == $dm['category_id'] ? 'active' : '' ?>">
-                                    <a href="index.php?act=sanpham&id=<?= $dm['category_id'] ?><?= $keyword !== '' ? '&keyword=' . urlencode($keyword) : '' ?>">
+                                    <a href="<?= buildPlpUrl(['id' => $dm['category_id']]) ?>">
                                         <?= htmlspecialchars($dm['name']) ?>
                                     </a>
                                 </li>
@@ -344,11 +370,20 @@
 
                 <!-- Price Filter -->
                 <div class="adi-filter-group">
-                    <div class="adi-filter-title">MỨC GIÁ <i class="fa-solid fa-plus" style="font-size: 12px;"></i></div>
+                    <div class="adi-filter-title">MỨC GIÁ <i class="fa-solid fa-minus" style="font-size: 12px;"></i></div>
                     <ul class="adi-filter-list">
-                        <li class="adi-filter-item"><a href="#">Dưới 1.000.000₫</a></li>
-                        <li class="adi-filter-item"><a href="#">1.000.000₫ - 3.000.000₫</a></li>
-                        <li class="adi-filter-item"><a href="#">Trên 3.000.000₫</a></li>
+                        <li class="adi-filter-item <?= empty($priceRange) ? 'active' : '' ?>">
+                            <a href="<?= buildPlpUrl(['price_range' => null]) ?>">Tất cả mức giá</a>
+                        </li>
+                        <li class="adi-filter-item <?= $priceRange === 'under_1m' ? 'active' : '' ?>">
+                            <a href="<?= buildPlpUrl(['price_range' => 'under_1m']) ?>">Dưới 1.000.000₫</a>
+                        </li>
+                        <li class="adi-filter-item <?= $priceRange === '1m_3m' ? 'active' : '' ?>">
+                            <a href="<?= buildPlpUrl(['price_range' => '1m_3m']) ?>">1.000.000₫ - 3.000.000₫</a>
+                        </li>
+                        <li class="adi-filter-item <?= $priceRange === 'above_3m' ? 'active' : '' ?>">
+                            <a href="<?= buildPlpUrl(['price_range' => 'above_3m']) ?>">Trên 3.000.000₫</a>
+                        </li>
                     </ul>
                 </div>
             </aside>
@@ -383,15 +418,9 @@
 
                     <!-- Pagination -->
                     <?php if ($totalPages > 1): ?>
-                        <?php 
-                            $queryParams = ['act' => 'sanpham'];
-                            if ($categoryId > 0) $queryParams['id'] = $categoryId;
-                            if ($keyword !== '') $queryParams['keyword'] = $keyword;
-                        ?>
                         <div class="adi-pagination-wrap">
                             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                <?php $queryParams['page'] = $i; ?>
-                                <a href="index.php?<?= http_build_query($queryParams) ?>" class="adi-page-btn <?= $page == $i ? 'active' : '' ?>">
+                                <a href="<?= buildPlpUrl(['page' => $i]) ?>" class="adi-page-btn <?= $page == $i ? 'active' : '' ?>">
                                     <?= $i ?>
                                 </a>
                             <?php endfor; ?>

@@ -89,6 +89,8 @@ class pickleballController {
     public function danhSachSanPham() {
         $keyword = trim($_GET['keyword'] ?? '');
         $categoryId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        $priceRange = trim($_GET['price_range'] ?? '');
+        $sort = trim($_GET['sort'] ?? 'newest');
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         if ($page < 1) $page = 1;
         $limit = 16; // Mỗi trang 16 sản phẩm (4 dòng x 4 sản phẩm)
@@ -97,8 +99,8 @@ class pickleballController {
         $danhMucModel = new DanhMuc();
 
         $dsDanhMuc = $danhMucModel->getAll();
-        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, $categoryId, 1, $page, $limit);
-        $totalCount = $sanPhamModel->getTotalCount($keyword, $categoryId, 1);
+        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, $categoryId, 1, $page, $limit, $priceRange, $sort);
+        $totalCount = $sanPhamModel->getTotalCount($keyword, $categoryId, 1, $priceRange);
         $totalPages = max(1, (int)ceil($totalCount / $limit));
 
         $currentCategory = null;

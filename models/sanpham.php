@@ -46,13 +46,38 @@ class SanPham {
             )";
             $this->db->exec($sqlSpecTable);
 
-            // Chèn dữ liệu mẫu thông số kỹ thuật cho 3 sản phẩm ban đầu nếu bảng đang trống
+            // Đảm bảo bổ sung các cột nếu bảng SPECIFICATION đã tồn tại từ trước nhưng chưa có cột mới
+            $specCols = [
+                'chieu_dai_tay_cam' => 'FLOAT',
+                'chu_vi_tay_cam' => 'FLOAT',
+                'trong_luong' => 'FLOAT',
+                'do_day_loi' => 'FLOAT'
+            ];
+            foreach ($specCols as $colName => $colType) {
+                $chk = $this->db->query("SHOW COLUMNS FROM SPECIFICATION LIKE '{$colName}'");
+                if ($chk->rowCount() == 0) {
+                    $this->db->exec("ALTER TABLE SPECIFICATION ADD COLUMN {$colName} {$colType}");
+                }
+            }
+
+            // Chèn/cập nhật dữ liệu mẫu thông số kỹ thuật cho 3 sản phẩm ban đầu
             $stmtCheckSpec = $this->db->query("SELECT COUNT(*) FROM SPECIFICATION");
             if ((int)$stmtCheckSpec->fetchColumn() == 0) {
-                $this->db->exec("INSERT IGNORE INTO SPECIFICATION (product_id, chat_lieu, do_day_loi, loai_tay_cam, chieu_dai, chieu_rong, chieu_dai_tay_cam, chu_vi_tay_cam, trong_luong, chung_nhan, kich_thuoc) VALUES 
+                $this->db->exec("INSERT INTO SPECIFICATION (product_id, chat_lieu, do_day_loi, loai_tay_cam, chieu_dai, chieu_rong, chieu_dai_tay_cam, chu_vi_tay_cam, trong_luong, chung_nhan, kich_thuoc) VALUES 
                 (1, 'Carbon Fiber T700 & Fiberglass Surface', 16.0, 'Cán bọc da cao cấp (Standard Cushion)', 41.9, 19.0, 12.7, 10.8, 225.0, 'USAPA Approved (Thi đấu chuyên nghiệp)', 'Standard 16.5\" x 7.5\"'),
                 (2, 'QuadCarbon Face & Polymer Honeycomb Core', 13.0, 'Selkirk Geo Grip Pro', 40.6, 20.3, 13.3, 10.5, 230.0, 'USAPA Approved & PPA Tour Official', 'Wide Body 16.0\" x 8.0\"'),
-                (3, 'Nhựa Polyethylene cao cấp (40 lỗ đục chính xác)', 0, 'Không áp dụng', 7.4, 7.4, 0, 23.2, 26.0, 'USAPA Tournament Approved', 'Đường kính 74mm (Bộ 4 quả)')");
+                (3, 'Nhựa Polyethylene cao cấp (40 lỗ đục chính xác)', 0, 'Không áp dụng', 7.4, 7.4, 0, 23.2, 26.0, 'USAPA Tournament Approved', 'Đường kính 74mm (Bộ 4 quả)')
+                ON DUPLICATE KEY UPDATE 
+                    chat_lieu = VALUES(chat_lieu),
+                    do_day_loi = VALUES(do_day_loi),
+                    loai_tay_cam = VALUES(loai_tay_cam),
+                    chieu_dai = VALUES(chieu_dai),
+                    chieu_rong = VALUES(chieu_rong),
+                    chieu_dai_tay_cam = VALUES(chieu_dai_tay_cam),
+                    chu_vi_tay_cam = VALUES(chu_vi_tay_cam),
+                    trong_luong = VALUES(trong_luong),
+                    chung_nhan = VALUES(chung_nhan),
+                    kich_thuoc = VALUES(kich_thuoc)");
             }
         } catch (Exception $e) {
             // Bỏ qua lỗi nếu trùng lặp
@@ -69,8 +94,8 @@ class SanPham {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy danh sách sản phẩm phân trang & tìm kiếm & lọc danh mục & lọc trạng thái
-    public function getAllWithPagination($keyword = '', $categoryId = 0, $stockStatus = '', $page = 1, $limit = 16) {
+    // Lấy danh sách sản phẩm phân trang & tìm kiếm & lọc danh mục & lọc trạng thái & lọc giá & sắp xếp
+    public function getAllWithPagination($keyword = '', $categoryId = 0, $stockStatus = '', $page = 1, $limit = 16, $priceRange = '', $sort = 'newest') {
         $offset = max(0, ($page - 1) * $limit);
         $sql = "SELECT p.*, c.name as ten_danh_muc 
                 FROM PRODUCTS p 
@@ -94,7 +119,23 @@ class SanPham {
             $params[':stockStatus'] = (int)$stockStatus;
         }
 
-        $sql .= " ORDER BY p.product_id DESC LIMIT :limit OFFSET :offset";
+        if ($priceRange === 'under_1m') {
+            $sql .= " AND p.gia < 1000000";
+        } elseif ($priceRange === '1m_3m') {
+            $sql .= " AND p.gia >= 1000000 AND p.gia <= 3000000";
+        } elseif ($priceRange === 'above_3m') {
+            $sql .= " AND p.gia > 3000000";
+        }
+
+        if ($sort === 'price_asc') {
+            $sql .= " ORDER BY p.gia ASC";
+        } elseif ($sort === 'price_desc') {
+            $sql .= " ORDER BY p.gia DESC";
+        } else {
+            $sql .= " ORDER BY p.product_id DESC";
+        }
+
+        $sql .= " LIMIT :limit OFFSET :offset";
 
         $stmt = $this->db->prepare($sql);
 
@@ -109,7 +150,7 @@ class SanPham {
     }
 
     // Đếm tổng số sản phẩm theo bộ lọc (để tính số trang)
-    public function getTotalCount($keyword = '', $categoryId = 0, $stockStatus = '') {
+    public function getTotalCount($keyword = '', $categoryId = 0, $stockStatus = '', $priceRange = '') {
         $sql = "SELECT COUNT(*) FROM PRODUCTS p WHERE 1=1";
         $params = [];
 
@@ -126,6 +167,14 @@ class SanPham {
         if ($stockStatus !== '') {
             $sql .= " AND p.trang_thai = :stockStatus";
             $params[':stockStatus'] = (int)$stockStatus;
+        }
+
+        if ($priceRange === 'under_1m') {
+            $sql .= " AND p.gia < 1000000";
+        } elseif ($priceRange === '1m_3m') {
+            $sql .= " AND p.gia >= 1000000 AND p.gia <= 3000000";
+        } elseif ($priceRange === 'above_3m') {
+            $sql .= " AND p.gia > 3000000";
         }
 
         $stmt = $this->db->prepare($sql);
