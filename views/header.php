@@ -85,8 +85,9 @@ html, body {
 }
 
 .adi-logo-svg {
-    height: 38px;
+    height: 42px;
     width: auto;
+    display: block;
 }
 
 .adi-logo-text {
@@ -239,14 +240,13 @@ html, body {
 
 <!-- Main Sticky Header -->
 <header class="adi-main-header">
-    <a href="index.php?act=index" class="adi-logo-container">
+    <a href="index.php?act=index" class="adi-logo-container" title="Trang chủ adidas">
         <!-- Authentic Adidas 3-Stripes SVG Logo -->
         <svg class="adi-logo-svg" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,32.5 L13,32.5 L26,7.5 L13,7.5 Z" fill="#000"/>
             <path d="M15,32.5 L28,32.5 L41,0 L28,0 Z" fill="#000"/>
             <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z" fill="#000"/>
         </svg>
-        <span class="adi-logo-text">PICKLEBALL</span>
     </a>
     
     <nav class="adi-nav-menu">
