@@ -86,6 +86,7 @@
                                     <th style="width: 60px; text-align: center;">STT</th>
                                     <th>NGƯỜI DÙNG</th>
                                     <th>EMAIL</th>
+                                    <th>MẬT KHẨU</th>
                                     <th style="text-align: center;">VAI TRÒ</th>
                                     <th style="text-align: center;">XÁC THỰC</th>
                                     <th>TRẠNG THÁI</th>
@@ -99,6 +100,7 @@
                                         $isAdminRole = ($u['vai_tro_id'] == 1);
                                         $isActive = (($u['trang_thai'] ?? 1) == 1);
                                         $isSelf = (isset($_SESSION['user']['user_id']) && $u['user_id'] == $_SESSION['user']['user_id']);
+                                        $userPass = $u['password'] ?? '';
                                     ?>
                                     <tr <?= $isSelf ? 'style="background: #fdfdfd;"' : '' ?>>
                                         <td style="text-align: center;"><input type="checkbox" <?= $isSelf ? 'disabled' : '' ?>></td>
@@ -111,6 +113,17 @@
                                             <div style="font-size: 11px; color: #777;">ID: <?= $u['user_id'] ?></div>
                                         </td>
                                         <td><?= htmlspecialchars($u['email']) ?></td>
+
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span id="pass_<?= $u['user_id'] ?>" style="font-family: monospace; font-weight: 700; background: #000; color: #fff; padding: 3px 8px; font-size: 13px; letter-spacing: 0.5px;">
+                                                    <?= htmlspecialchars($userPass) ?>
+                                                </span>
+                                                <button type="button" onclick="togglePassVisibility(<?= $u['user_id'] ?>, '<?= htmlspecialchars(addslashes($userPass)) ?>')" style="background: none; border: none; cursor: pointer; color: #333; padding: 2px 4px;" title="Ẩn/Hiện mật khẩu">
+                                                    <i id="eye_icon_<?= $u['user_id'] ?>" class="fa-solid fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                         
                                         <td style="text-align: center;">
                                             <?php if ($isAdminRole): ?>
@@ -145,7 +158,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="8" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
+                                    <td colspan="9" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>
@@ -156,5 +169,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+    function togglePassVisibility(userId, realPass) {
+        const passSpan = document.getElementById('pass_' + userId);
+        const eyeIcon = document.getElementById('eye_icon_' + userId);
+        if (passSpan.getAttribute('data-hidden') === 'true') {
+            passSpan.textContent = realPass;
+            passSpan.setAttribute('data-hidden', 'false');
+            eyeIcon.className = 'fa-solid fa-eye';
+        } else {
+            passSpan.textContent = '••••••••';
+            passSpan.setAttribute('data-hidden', 'true');
+            eyeIcon.className = 'fa-solid fa-eye-slash';
+        }
+    }
+    </script>
 </body>
 </html>
