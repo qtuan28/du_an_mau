@@ -40,7 +40,8 @@
         .adi-pdp-gallery-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 2px;
+            background-color: #e5e7eb;
         }
 
         .adi-pdp-gallery-item {
@@ -51,7 +52,7 @@
             justify-content: center;
             overflow: hidden;
             padding: 0;
-            border: 1px solid #ebedee;
+            border: none;
         }
 
         .adi-pdp-gallery-item img {
@@ -274,19 +275,31 @@
             <!-- Left: 2x2 Product Image Showcase Grid -->
             <div class="adi-pdp-gallery-grid">
                 <?php 
-                    $img = !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'assets/images/' . $sp['anh']) : 'assets/images/hero_paddle.png';
+                    $mainImg = !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 || strpos($sp['anh'], 'uploads/') === 0 ? $sp['anh'] : 'uploads/' . $sp['anh']) : 'assets/images/hero_paddle.png';
+
+                    $getImgPath = function($field) use ($sp, $mainImg) {
+                        if (empty($sp[$field])) return $mainImg;
+                        $val = $sp[$field];
+                        if (strpos($val, 'assets/') === 0 || strpos($val, 'uploads/') === 0) return $val;
+                        return 'uploads/' . $val;
+                    };
+
+                    $img1 = $getImgPath('anh_1');
+                    $img2 = $getImgPath('anh_2');
+                    $img3 = $getImgPath('anh_3');
+                    $img4 = $getImgPath('anh_4');
                 ?>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img) ?>" alt="Image 1" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img1) ?>" alt="Detail Image 1" onerror="this.src='assets/images/hero_paddle.png'">
                 </div>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img) ?>" alt="Image 2" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img2) ?>" alt="Detail Image 2" onerror="this.src='assets/images/hero_paddle.png'">
                 </div>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img) ?>" alt="Image 3" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img3) ?>" alt="Detail Image 3" onerror="this.src='assets/images/hero_paddle.png'">
                 </div>
                 <div class="adi-pdp-gallery-item">
-                    <img src="<?= htmlspecialchars($img) ?>" alt="Image 4" onerror="this.src='assets/images/hero_paddle.png'">
+                    <img src="<?= htmlspecialchars($img4) ?>" alt="Detail Image 4" onerror="this.src='assets/images/hero_paddle.png'">
                 </div>
             </div>
 

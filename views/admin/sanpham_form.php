@@ -196,6 +196,10 @@
                             <?php if ($mode === 'edit'): ?>
                                 <input type="hidden" name="product_id" value="<?= $sanPham['product_id'] ?>">
                                 <input type="hidden" name="old_anh" value="<?= htmlspecialchars($sanPham['anh'] ?? '') ?>">
+                                <input type="hidden" name="old_anh_1" value="<?= htmlspecialchars($sanPham['anh_1'] ?? '') ?>">
+                                <input type="hidden" name="old_anh_2" value="<?= htmlspecialchars($sanPham['anh_2'] ?? '') ?>">
+                                <input type="hidden" name="old_anh_3" value="<?= htmlspecialchars($sanPham['anh_3'] ?? '') ?>">
+                                <input type="hidden" name="old_anh_4" value="<?= htmlspecialchars($sanPham['anh_4'] ?? '') ?>">
                             <?php endif; ?>
 
                             <div class="adi-form-grid">
@@ -277,7 +281,7 @@
                                     </div>
 
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="anh">Hình ảnh sản phẩm</label>
+                                        <label class="adi-field-label" for="anh">Hình ảnh sản phẩm chính (Ảnh bìa)</label>
                                         <input type="file" id="anh" name="anh" accept="image/*" class="adi-field-input" style="padding: 10px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh'])): ?>
                                             <div class="adi-image-upload-preview">
@@ -288,6 +292,63 @@
                                                     <span style="font-family: 'Roboto', sans-serif; font-size: 12px; color: #666; display: block;">Ảnh hiện tại:</span>
                                                     <strong style="font-family: 'Roboto', sans-serif; font-size: 13px; color: #000;"><?= htmlspecialchars($sanPham['anh']) ?></strong>
                                                 </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4 Detail Images Gallery Section -->
+                            <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed #ccc;">
+                                <h4 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 20px 0; color: #000;">
+                                    <i class="fa-regular fa-images"></i> 4 Hình ảnh chi tiết sản phẩm (Album Lưới 2x2)
+                                </h4>
+
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                    <!-- Image 1 -->
+                                    <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
+                                        <label class="adi-field-label" for="anh_1">Ảnh chi tiết 1 (Góc trên bên trái)</label>
+                                        <input type="file" id="anh_1" name="anh_1" accept="image/*" class="adi-field-input" style="padding: 8px;">
+                                        <?php if ($mode === 'edit' && !empty($sanPham['anh_1'])): ?>
+                                            <div class="adi-image-upload-preview" style="margin-top: 8px;">
+                                                <img src="<?= (strpos($sanPham['anh_1'], 'assets/') === 0) ? $sanPham['anh_1'] : (strpos($sanPham['anh_1'], 'uploads/') === 0 ? $sanPham['anh_1'] : 'uploads/' . $sanPham['anh_1']) ?>" alt="Detail 1" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_1']) ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <!-- Image 2 -->
+                                    <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
+                                        <label class="adi-field-label" for="anh_2">Ảnh chi tiết 2 (Góc trên bên phải)</label>
+                                        <input type="file" id="anh_2" name="anh_2" accept="image/*" class="adi-field-input" style="padding: 8px;">
+                                        <?php if ($mode === 'edit' && !empty($sanPham['anh_2'])): ?>
+                                            <div class="adi-image-upload-preview" style="margin-top: 8px;">
+                                                <img src="<?= (strpos($sanPham['anh_2'], 'assets/') === 0) ? $sanPham['anh_2'] : (strpos($sanPham['anh_2'], 'uploads/') === 0 ? $sanPham['anh_2'] : 'uploads/' . $sanPham['anh_2']) ?>" alt="Detail 2" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_2']) ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <!-- Image 3 -->
+                                    <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
+                                        <label class="adi-field-label" for="anh_3">Ảnh chi tiết 3 (Góc dưới bên trái)</label>
+                                        <input type="file" id="anh_3" name="anh_3" accept="image/*" class="adi-field-input" style="padding: 8px;">
+                                        <?php if ($mode === 'edit' && !empty($sanPham['anh_3'])): ?>
+                                            <div class="adi-image-upload-preview" style="margin-top: 8px;">
+                                                <img src="<?= (strpos($sanPham['anh_3'], 'assets/') === 0) ? $sanPham['anh_3'] : (strpos($sanPham['anh_3'], 'uploads/') === 0 ? $sanPham['anh_3'] : 'uploads/' . $sanPham['anh_3']) ?>" alt="Detail 3" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_3']) ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <!-- Image 4 -->
+                                    <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
+                                        <label class="adi-field-label" for="anh_4">Ảnh chi tiết 4 (Góc dưới bên phải)</label>
+                                        <input type="file" id="anh_4" name="anh_4" accept="image/*" class="adi-field-input" style="padding: 8px;">
+                                        <?php if ($mode === 'edit' && !empty($sanPham['anh_4'])): ?>
+                                            <div class="adi-image-upload-preview" style="margin-top: 8px;">
+                                                <img src="<?= (strpos($sanPham['anh_4'], 'assets/') === 0) ? $sanPham['anh_4'] : (strpos($sanPham['anh_4'], 'uploads/') === 0 ? $sanPham['anh_4'] : 'uploads/' . $sanPham['anh_4']) ?>" alt="Detail 4" onerror="this.src='assets/images/hero_paddle.png'">
+                                                <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($sanPham['anh_4']) ?></span>
                                             </div>
                                         <?php endif; ?>
                                     </div>

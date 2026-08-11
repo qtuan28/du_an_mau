@@ -484,17 +484,49 @@ class pickleballController {
                 exit();
             }
 
-            // Xử lý Upload Ảnh
+            // Xử lý Upload Ảnh chính & 4 ảnh chi tiết
+            $target_dir = "uploads/";
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
             $anh = '';
             if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
-                $target_dir = "uploads/";
-                if (!is_dir($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
                 $filename = time() . '_' . basename($_FILES['anh']['name']);
-                $target_file = $target_dir . $filename;
-                if (move_uploaded_file($_FILES['anh']['tmp_name'], $target_file)) {
+                if (move_uploaded_file($_FILES['anh']['tmp_name'], $target_dir . $filename)) {
                     $anh = $filename;
+                }
+            }
+
+            $anh_1 = '';
+            if (isset($_FILES['anh_1']) && $_FILES['anh_1']['error'] == 0) {
+                $filename = time() . '_1_' . basename($_FILES['anh_1']['name']);
+                if (move_uploaded_file($_FILES['anh_1']['tmp_name'], $target_dir . $filename)) {
+                    $anh_1 = $filename;
+                }
+            }
+
+            $anh_2 = '';
+            if (isset($_FILES['anh_2']) && $_FILES['anh_2']['error'] == 0) {
+                $filename = time() . '_2_' . basename($_FILES['anh_2']['name']);
+                if (move_uploaded_file($_FILES['anh_2']['tmp_name'], $target_dir . $filename)) {
+                    $anh_2 = $filename;
+                }
+            }
+
+            $anh_3 = '';
+            if (isset($_FILES['anh_3']) && $_FILES['anh_3']['error'] == 0) {
+                $filename = time() . '_3_' . basename($_FILES['anh_3']['name']);
+                if (move_uploaded_file($_FILES['anh_3']['tmp_name'], $target_dir . $filename)) {
+                    $anh_3 = $filename;
+                }
+            }
+
+            $anh_4 = '';
+            if (isset($_FILES['anh_4']) && $_FILES['anh_4']['error'] == 0) {
+                $filename = time() . '_4_' . basename($_FILES['anh_4']['name']);
+                if (move_uploaded_file($_FILES['anh_4']['tmp_name'], $target_dir . $filename)) {
+                    $anh_4 = $filename;
                 }
             }
 
@@ -519,6 +551,10 @@ class pickleballController {
                 'giam_gia' => $giam_gia,
                 'trang_thai' => $trang_thai,
                 'anh' => $anh,
+                'anh_1' => $anh_1,
+                'anh_2' => $anh_2,
+                'anh_3' => $anh_3,
+                'anh_4' => $anh_4,
                 'spec' => $specData
             ]);
 
@@ -562,6 +598,10 @@ class pickleballController {
             $giam_gia = (int)($_POST['giam_gia'] ?? 0);
             $trang_thai = (int)($_POST['trang_thai'] ?? 1);
             $old_anh = $_POST['old_anh'] ?? '';
+            $old_anh_1 = $_POST['old_anh_1'] ?? '';
+            $old_anh_2 = $_POST['old_anh_2'] ?? '';
+            $old_anh_3 = $_POST['old_anh_3'] ?? '';
+            $old_anh_4 = $_POST['old_anh_4'] ?? '';
 
             if ($ten == "" || $category_id == 0 || $gia <= 0) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ thông tin Tên sản phẩm, Danh mục và Giá!";
@@ -569,17 +609,49 @@ class pickleballController {
                 exit();
             }
 
+            $target_dir = "uploads/";
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
             // Xử lý upload ảnh mới nếu chọn
             $anh = $old_anh;
             if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
-                $target_dir = "uploads/";
-                if (!is_dir($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
                 $filename = time() . '_' . basename($_FILES['anh']['name']);
-                $target_file = $target_dir . $filename;
-                if (move_uploaded_file($_FILES['anh']['tmp_name'], $target_file)) {
+                if (move_uploaded_file($_FILES['anh']['tmp_name'], $target_dir . $filename)) {
                     $anh = $filename;
+                }
+            }
+
+            $anh_1 = $old_anh_1;
+            if (isset($_FILES['anh_1']) && $_FILES['anh_1']['error'] == 0) {
+                $filename = time() . '_1_' . basename($_FILES['anh_1']['name']);
+                if (move_uploaded_file($_FILES['anh_1']['tmp_name'], $target_dir . $filename)) {
+                    $anh_1 = $filename;
+                }
+            }
+
+            $anh_2 = $old_anh_2;
+            if (isset($_FILES['anh_2']) && $_FILES['anh_2']['error'] == 0) {
+                $filename = time() . '_2_' . basename($_FILES['anh_2']['name']);
+                if (move_uploaded_file($_FILES['anh_2']['tmp_name'], $target_dir . $filename)) {
+                    $anh_2 = $filename;
+                }
+            }
+
+            $anh_3 = $old_anh_3;
+            if (isset($_FILES['anh_3']) && $_FILES['anh_3']['error'] == 0) {
+                $filename = time() . '_3_' . basename($_FILES['anh_3']['name']);
+                if (move_uploaded_file($_FILES['anh_3']['tmp_name'], $target_dir . $filename)) {
+                    $anh_3 = $filename;
+                }
+            }
+
+            $anh_4 = $old_anh_4;
+            if (isset($_FILES['anh_4']) && $_FILES['anh_4']['error'] == 0) {
+                $filename = time() . '_4_' . basename($_FILES['anh_4']['name']);
+                if (move_uploaded_file($_FILES['anh_4']['tmp_name'], $target_dir . $filename)) {
+                    $anh_4 = $filename;
                 }
             }
 
@@ -604,6 +676,10 @@ class pickleballController {
                 'giam_gia' => $giam_gia,
                 'trang_thai' => $trang_thai,
                 'anh' => $anh,
+                'anh_1' => $anh_1,
+                'anh_2' => $anh_2,
+                'anh_3' => $anh_3,
+                'anh_4' => $anh_4,
                 'spec' => $specData
             ]);
 

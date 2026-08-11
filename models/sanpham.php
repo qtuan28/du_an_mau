@@ -28,6 +28,15 @@ class SanPham {
                 $this->db->exec("ALTER TABLE PRODUCTS ADD COLUMN ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP");
             }
 
+            // Tự động thêm 4 cột ảnh chi tiết nếu chưa có
+            $galleryCols = ['anh_1', 'anh_2', 'anh_3', 'anh_4'];
+            foreach ($galleryCols as $colName) {
+                $chk = $this->db->query("SHOW COLUMNS FROM PRODUCTS LIKE '{$colName}'");
+                if ($chk->rowCount() == 0) {
+                    $this->db->exec("ALTER TABLE PRODUCTS ADD COLUMN {$colName} VARCHAR(255)");
+                }
+            }
+
             // Tự động tạo bảng SPECIFICATION nếu chưa có
             $sqlSpecTable = "CREATE TABLE IF NOT EXISTS SPECIFICATION (
                 spec_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -232,8 +241,8 @@ class SanPham {
 
     // Thêm sản phẩm mới
     public function add($data) {
-        $sql = "INSERT INTO PRODUCTS (category_id, ten, gia, giam_gia, trang_thai, anh, ngay_tao) 
-                VALUES (:category_id, :ten, :gia, :giam_gia, :trang_thai, :anh, NOW())";
+        $sql = "INSERT INTO PRODUCTS (category_id, ten, gia, giam_gia, trang_thai, anh, anh_1, anh_2, anh_3, anh_4, ngay_tao) 
+                VALUES (:category_id, :ten, :gia, :giam_gia, :trang_thai, :anh, :anh_1, :anh_2, :anh_3, :anh_4, NOW())";
 
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
@@ -242,7 +251,11 @@ class SanPham {
             ':gia' => (float)$data['gia'],
             ':giam_gia' => (int)($data['giam_gia'] ?? 0),
             ':trang_thai' => (int)($data['trang_thai'] ?? 1),
-            ':anh' => $data['anh'] ?? ''
+            ':anh' => $data['anh'] ?? '',
+            ':anh_1' => $data['anh_1'] ?? '',
+            ':anh_2' => $data['anh_2'] ?? '',
+            ':anh_3' => $data['anh_3'] ?? '',
+            ':anh_4' => $data['anh_4'] ?? ''
         ]);
 
         if ($result) {
@@ -263,7 +276,11 @@ class SanPham {
                     gia = :gia, 
                     giam_gia = :giam_gia, 
                     trang_thai = :trang_thai, 
-                    anh = :anh 
+                    anh = :anh,
+                    anh_1 = :anh_1,
+                    anh_2 = :anh_2,
+                    anh_3 = :anh_3,
+                    anh_4 = :anh_4
                 WHERE product_id = :id";
 
         $stmt = $this->db->prepare($sql);
@@ -274,6 +291,10 @@ class SanPham {
             ':giam_gia' => (int)($data['giam_gia'] ?? 0),
             ':trang_thai' => (int)($data['trang_thai'] ?? 1),
             ':anh' => $data['anh'],
+            ':anh_1' => $data['anh_1'] ?? '',
+            ':anh_2' => $data['anh_2'] ?? '',
+            ':anh_3' => $data['anh_3'] ?? '',
+            ':anh_4' => $data['anh_4'] ?? '',
             ':id' => (int)$id
         ]);
 

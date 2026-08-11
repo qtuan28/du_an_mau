@@ -42,6 +42,10 @@ CREATE TABLE IF NOT EXISTS PRODUCTS (
     giam_gia INT DEFAULT 0,
     trang_thai TINYINT(1) DEFAULT 1,
     anh VARCHAR(255),
+    anh_1 VARCHAR(255),
+    anh_2 VARCHAR(255),
+    anh_3 VARCHAR(255),
+    anh_4 VARCHAR(255),
     ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id)
 );
@@ -58,6 +62,10 @@ CREATE TABLE IF NOT EXISTS SPECIFICATION (
     loai_tay_cam VARCHAR(50),
     chieu_dai FLOAT,
     chieu_rong FLOAT,
+    chieu_dai_tay_cam FLOAT,
+    chu_vi_tay_cam FLOAT,
+    trong_luong FLOAT,
+    do_day_loi FLOAT,
     FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE CASCADE
 );
 
