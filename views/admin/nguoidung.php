@@ -88,8 +88,6 @@
                                     <th>EMAIL</th>
                                     <th>MẬT KHẨU</th>
                                     <th style="text-align: center;">VAI TRÒ</th>
-                                    <th style="text-align: center;">XÁC THỰC</th>
-                                    <th>TRẠNG THÁI</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
                             </thead>
@@ -102,7 +100,7 @@
                                         $isSelf = (isset($_SESSION['user']['user_id']) && $u['user_id'] == $_SESSION['user']['user_id']);
                                         $userPass = $u['password'] ?? '';
                                     ?>
-                                    <tr <?= $isSelf ? 'style="background: #fdfdfd;"' : '' ?>>
+                                    <tr <?= $isSelf ? 'style="background: #fdfdfd;"' : (!$isActive ? 'style="background: #fef2f2;"' : '') ?>>
                                         <td style="text-align: center;"><input type="checkbox" <?= $isSelf ? 'disabled' : '' ?>></td>
                                         <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
                                         <td>
@@ -110,17 +108,20 @@
                                             <?php if ($isSelf): ?>
                                                 <span style="font-size: 11px; color: #10b981; margin-left: 5px;">(Bạn)</span>
                                             <?php endif; ?>
+                                            <?php if (!$isActive): ?>
+                                                <span style="font-size: 10px; background: #e50010; color: #fff; padding: 2px 6px; margin-left: 6px; font-weight: 700;">ĐÃ KHÓA</span>
+                                            <?php endif; ?>
                                             <div style="font-size: 11px; color: #777;">ID: <?= $u['user_id'] ?></div>
                                         </td>
                                         <td><?= htmlspecialchars($u['email']) ?></td>
 
                                         <td>
                                             <div style="display: flex; align-items: center; gap: 8px;">
-                                                <span id="pass_<?= $u['user_id'] ?>" style="font-family: monospace; font-weight: 700; background: #000; color: #fff; padding: 3px 8px; font-size: 13px; letter-spacing: 0.5px;">
-                                                    <?= htmlspecialchars($userPass) ?>
+                                                <span id="pass_<?= $u['user_id'] ?>" data-hidden="true" style="font-family: monospace; font-weight: 700; background: #000; color: #fff; padding: 3px 8px; font-size: 13px; letter-spacing: 0.5px;">
+                                                    ••••••••
                                                 </span>
                                                 <button type="button" onclick="togglePassVisibility(<?= $u['user_id'] ?>, '<?= htmlspecialchars(addslashes($userPass)) ?>')" style="background: none; border: none; cursor: pointer; color: #333; padding: 2px 4px;" title="Ẩn/Hiện mật khẩu">
-                                                    <i id="eye_icon_<?= $u['user_id'] ?>" class="fa-solid fa-eye"></i>
+                                                    <i id="eye_icon_<?= $u['user_id'] ?>" class="fa-solid fa-eye-slash"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -132,33 +133,23 @@
                                                 <span style="background: #6c757d; color: #fff; padding: 2px 6px; font-size: 11px; font-weight: bold;">USER</span>
                                             <?php endif; ?>
                                         </td>
-                                        
-                                        <!-- Mock Checkboxes -->
-                                        <td style="text-align: center;"><i class="fa-solid fa-check" style="color: #28a745;"></i></td>
-                                        
-                                        <td>
-                                            <div class="adi-status-radio">
-                                                <label><input type="radio" name="status_<?= $u['user_id'] ?>" <?= $isActive ? 'checked' : '' ?> <?= $isSelf ? 'disabled' : '' ?>> Active</label>
-                                                <label><input type="radio" name="status_<?= $u['user_id'] ?>" <?= !$isActive ? 'checked' : '' ?> <?= $isSelf ? 'disabled' : '' ?>> Locked</label>
-                                            </div>
-                                        </td>
 
                                         <td style="text-align: center;">
                                             <a href="index.php?act=admin_nguoidung_edit&id=<?= $u['user_id'] ?>" class="adi-action-btn edit" title="Sửa">Sửa <i class="fa-solid fa-pen"></i></a>
                                             <?php if (!$isSelf): ?>
                                                 <?php if ($isActive): ?>
-                                                    <a href="index.php?act=admin_nguoidung_toggle&id=<?= $u['user_id'] ?>" onclick="return confirm('Khóa?')" class="adi-action-btn warning" style="background: #ffc107; color: #000;" title="Khóa">Khóa <i class="fa-solid fa-lock"></i></a>
+                                                    <a href="index.php?act=admin_nguoidung_toggle&id=<?= $u['user_id'] ?>" onclick="return confirm('Bạn có chắc muốn khóa tài khoản này?')" class="adi-action-btn warning" style="background: #ffc107; color: #000;" title="Khóa tài khoản">Khóa <i class="fa-solid fa-lock"></i></a>
                                                 <?php else: ?>
-                                                    <a href="index.php?act=admin_nguoidung_toggle&id=<?= $u['user_id'] ?>" onclick="return confirm('Mở khóa?')" class="adi-action-btn success" style="background: #28a745; color: #fff;" title="Mở khóa">Mở <i class="fa-solid fa-lock-open"></i></a>
+                                                    <a href="index.php?act=admin_nguoidung_toggle&id=<?= $u['user_id'] ?>" onclick="return confirm('Bạn có chắc muốn mở khóa tài khoản này?')" class="adi-action-btn success" style="background: #28a745; color: #fff;" title="Mở khóa tài khoản">Mở <i class="fa-solid fa-lock-open"></i></a>
                                                 <?php endif; ?>
-                                                <a href="index.php?act=admin_nguoidung_delete&id=<?= $u['user_id'] ?>" onclick="return confirm('Xóa?')" class="adi-action-btn delete" title="Xóa">Xóa <i class="fa-solid fa-xmark"></i></a>
+                                                <a href="index.php?act=admin_nguoidung_delete&id=<?= $u['user_id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa tài khoản này?')" class="adi-action-btn delete" title="Xóa">Xóa <i class="fa-solid fa-xmark"></i></a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
+                                    <td colspan="7" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>

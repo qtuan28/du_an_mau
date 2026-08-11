@@ -32,12 +32,27 @@ class User {
     }
 
 
+    // Lấy thông tin tài khoản theo username và password (không lọc trang_thai)
+    public function getUserByUsernameAndPassword($username, $password) {
+        $sql = "SELECT u.*, v.ten_vai_tro 
+                FROM USER u 
+                JOIN VAITRO v ON u.vai_tro_id = v.vai_tro_id 
+                WHERE (u.username = :username OR u.email = :username) 
+                  AND u.password = :password";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([
+            'username' => $username,
+            'password' => $password
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     // Kiểm tra đăng nhập (Chỉ cho phép tài khoản đang hoạt động trang_thai = 1 hoặc IS NULL)
     public function checkLogin($username, $password) {
         $sql = "SELECT u.*, v.ten_vai_tro 
                 FROM USER u 
                 JOIN VAITRO v ON u.vai_tro_id = v.vai_tro_id 
-                WHERE u.username = :username 
+                WHERE (u.username = :username OR u.email = :username) 
                   AND u.password = :password 
                   AND (u.trang_thai = 1 OR u.trang_thai IS NULL)";
         $stmt = $this->db->conn->prepare($sql);
@@ -116,10 +131,16 @@ class User {
     }
 
     // 6. Khóa / Mở khóa tài khoản người dùng
-    public function toggleStatus($userId) {
-        $sql = "UPDATE USER SET trang_thai = CASE WHEN trang_thai = 1 THEN 0 ELSE 1 END WHERE user_id = ?";
-        $stmt = $this->db->conn->prepare($sql);
-        return $stmt->execute([$userId]);
+    public function toggleStatus($userId, $targetStatus = null) {
+        if ($targetStatus !== null) {
+            $sql = "UPDATE USER SET trang_thai = ? WHERE user_id = ?";
+            $stmt = $this->db->conn->prepare($sql);
+            return $stmt->execute([(int)$targetStatus, (int)$userId]);
+        } else {
+            $sql = "UPDATE USER SET trang_thai = CASE WHEN trang_thai = 1 THEN 0 ELSE 1 END WHERE user_id = ?";
+            $stmt = $this->db->conn->prepare($sql);
+            return $stmt->execute([(int)$userId]);
+        }
     }
 
     // 7. Đặt lại / Đổi mật khẩu người dùng

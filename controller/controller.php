@@ -29,13 +29,18 @@ class pickleballController {
     }
 
     public function postLogin() {
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
+        $username = trim($_POST['username'] ?? '');
+        $password = trim($_POST['password'] ?? '');
 
         $userModel = new User();
-        $user = $userModel->checkLogin($username, $password);
+        $user = $userModel->getUserByUsernameAndPassword($username, $password);
 
         if ($user) {
+            if (isset($user['trang_thai']) && (int)$user['trang_thai'] === 0) {
+                $error = "Tài khoản '".$user['username']."' của bạn đã bị KHÓA bởi Quản trị viên! Vui lòng liên hệ bộ phận hỗ trợ.";
+                require_once 'views/login.php';
+                return;
+            }
             $_SESSION['user'] = $user;
             header("Location: index.php");
             exit();
