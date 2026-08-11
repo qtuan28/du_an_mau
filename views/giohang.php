@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -351,7 +351,19 @@
                             <tbody>
                                 <?php foreach ($gioHang as $item): 
                                     $thanhTien = $item['gia'] * $item['so_luong'];
-                                    $imgPath = !empty($item['anh']) ? (strpos($item['anh'], 'assets/') === 0 ? $item['anh'] : 'assets/images/' . $item['anh']) : 'assets/images/hero_paddle.png';
+                                    
+                                    $imgPath = 'assets/images/hero_paddle.png';
+                                    if (!empty($item['anh'])) {
+                                        if (strpos($item['anh'], 'assets/') === 0 || strpos($item['anh'], 'uploads/') === 0) {
+                                            $imgPath = $item['anh'];
+                                        } elseif (file_exists('uploads/' . $item['anh'])) {
+                                            $imgPath = 'uploads/' . $item['anh'];
+                                        } elseif (file_exists('assets/images/' . $item['anh'])) {
+                                            $imgPath = 'assets/images/' . $item['anh'];
+                                        } else {
+                                            $imgPath = 'uploads/' . $item['anh'];
+                                        }
+                                    }
                                 ?>
                                 <tr>
                                     <td>
