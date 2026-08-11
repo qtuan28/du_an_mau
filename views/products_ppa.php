@@ -29,7 +29,6 @@
                 ?>
                 <div class="adi-card">
                     <div class="adi-card-media">
-                        <span class="adi-card-badge" style="background-color: #e50010;">HOT</span>
                         <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
                             <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
                         </a>
