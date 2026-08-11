@@ -1,4 +1,10 @@
-﻿<style>
+<style>
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
 /* Adidas Authentic Header System */
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
