@@ -182,6 +182,25 @@
                             </div>
 
                             <div class="adi-field-group">
+                                <label class="adi-field-label" for="thong_so_loai">Loại thông số phân loại (Biến thể sản phẩm) <span class="req">*</span></label>
+                                <?php $tsLoai = $danhMuc['thong_so_loai'] ?? 'do_day_vot'; ?>
+                                <select id="thong_so_loai" name="thong_so_loai" class="adi-field-input">
+                                    <option value="do_day_vot" <?= $tsLoai === 'do_day_vot' ? 'selected' : '' ?>>
+                                        🏓 Vợt Pickleball: Chọn Độ dày lõi (14mm, 16mm, 20mm)
+                                    </option>
+                                    <option value="size_giay" <?= $tsLoai === 'size_giay' ? 'selected' : '' ?>>
+                                        👟 Giày thể thao: Chọn Size Giày (38, 39, 40, 41, 42, 43, 44)
+                                    </option>
+                                    <option value="so_lo_bong" <?= $tsLoai === 'so_lo_bong' ? 'selected' : '' ?>>
+                                        🥎 Bóng Pickleball: Chọn Số lỗ đục (40 lỗ Outdoor / 26 lỗ Indoor)
+                                    </option>
+                                    <option value="loai_phu_kien" <?= $tsLoai === 'loai_phu_kien' ? 'selected' : '' ?>>
+                                        🎒 Phụ kiện: Chọn Kích thước / Phân loại (Tiêu chuẩn, Quấn cán, Túi)
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="adi-field-group">
                                 <label class="adi-field-label" for="trang_thai">Trạng thái hoạt động</label>
                                 <select id="trang_thai" name="trang_thai" class="adi-field-input">
                                     <option value="1" <?= (isset($danhMuc['trang_thai']) && $danhMuc['trang_thai'] == 1) ? 'selected' : '' ?>>

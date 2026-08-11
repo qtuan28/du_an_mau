@@ -325,19 +325,66 @@
 
                 <div class="adi-pdp-price"><?= number_format($sp['gia'], 0, ',', '.') ?>₫</div>
 
-                <!-- Size Selector Box Grid -->
+                <?php 
+                    $catSpecType = $sp['category_thong_so_loai'] ?? 'do_day_vot';
+                    $catName = mb_strtolower($sp['ten_danh_muc'] ?? '');
+                    if (strpos($catName, 'giày') !== false) {
+                        $catSpecType = 'size_giay';
+                    } elseif (strpos($catName, 'bóng') !== false) {
+                        $catSpecType = 'so_lo_bong';
+                    } elseif (strpos($catName, 'vợt') !== false) {
+                        $catSpecType = 'do_day_vot';
+                    } elseif (strpos($catName, 'phụ kiện') !== false) {
+                        $catSpecType = 'loai_phu_kien';
+                    }
+                ?>
+
+                <!-- Dynamic Category Specification Variant Selector -->
                 <div class="adi-pdp-size-section">
-                    <div class="adi-pdp-size-header">
-                        <span>CHỌN KÍCH CỠ / PHÂN LOẠI</span>
-                        <a href="#" style="color: #000; text-underline-offset: 3px;">Bảng quy đổi cỡ</a>
-                    </div>
-                    <div class="adi-pdp-size-grid">
-                        <div class="adi-size-box selected">39</div>
-                        <div class="adi-size-box">40</div>
-                        <div class="adi-size-box">41</div>
-                        <div class="adi-size-box">42</div>
-                        <div class="adi-size-box">43</div>
-                    </div>
+                    <?php if ($catSpecType === 'size_giay'): ?>
+                        <div class="adi-pdp-size-header">
+                            <span>CHỌN KÍCH CỠ GIÀY (EU)</span>
+                            <a href="#" style="color: #000; text-underline-offset: 3px;">Bảng quy đổi cỡ giày</a>
+                        </div>
+                        <div class="adi-pdp-size-grid">
+                            <div class="adi-size-box">38</div>
+                            <div class="adi-size-box selected">39</div>
+                            <div class="adi-size-box">40</div>
+                            <div class="adi-size-box">41</div>
+                            <div class="adi-size-box">42</div>
+                            <div class="adi-size-box">43</div>
+                            <div class="adi-size-box">44</div>
+                        </div>
+                    <?php elseif ($catSpecType === 'do_day_vot'): ?>
+                        <div class="adi-pdp-size-header">
+                            <span>CHỌN ĐỘ DÀY LÕI VỢT</span>
+                            <a href="#" style="color: #000; text-underline-offset: 3px;">Tư vấn độ dày lõi</a>
+                        </div>
+                        <div class="adi-pdp-size-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="adi-size-box">14mm (Tốc độ)</div>
+                            <div class="adi-size-box selected">16mm (Êm tay)</div>
+                            <div class="adi-size-box">20mm (Siêu êm)</div>
+                        </div>
+                    <?php elseif ($catSpecType === 'so_lo_bong'): ?>
+                        <div class="adi-pdp-size-header">
+                            <span>CHỌN LOẠI BÓNG / QUY CÁCH</span>
+                            <a href="#" style="color: #000; text-underline-offset: 3px;">Tư vấn chọn bóng</a>
+                        </div>
+                        <div class="adi-pdp-size-grid" style="grid-template-columns: repeat(2, 1fr);">
+                            <div class="adi-size-box selected">40 Lỗ (Outdoor)</div>
+                            <div class="adi-size-box">26 Lỗ (Indoor)</div>
+                            <div class="adi-size-box">Hộp 4 Quả</div>
+                            <div class="adi-size-box">Hộp 12 Quả</div>
+                        </div>
+                    <?php else: ?>
+                        <div class="adi-pdp-size-header">
+                            <span>CHỌN PHÂN LOẠI / KÍCH THƯỚC</span>
+                        </div>
+                        <div class="adi-pdp-size-grid" style="grid-template-columns: repeat(2, 1fr);">
+                            <div class="adi-size-box selected">Tiêu chuẩn</div>
+                            <div class="adi-size-box">Mở rộng</div>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Quantity Stepper -->

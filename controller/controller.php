@@ -369,6 +369,7 @@ class pickleballController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = trim($_POST['name'] ?? '');
             $trang_thai = isset($_POST['trang_thai']) ? (int)$_POST['trang_thai'] : 1;
+            $thong_so_loai = trim($_POST['thong_so_loai'] ?? 'do_day_vot');
 
             $danhMucModel = new DanhMuc();
 
@@ -381,7 +382,7 @@ class pickleballController {
                 header("Location: index.php?act=admin_danhmuc_add_form");
                 exit();
             } else {
-                $danhMucModel->add($name, $trang_thai);
+                $danhMucModel->add($name, $trang_thai, $thong_so_loai);
                 $_SESSION['success'] = "Thêm danh mục '".$name."' thành công!";
             }
         }
@@ -418,6 +419,7 @@ class pickleballController {
             $id = $_POST['category_id'] ?? 0;
             $name = trim($_POST['name'] ?? '');
             $trang_thai = isset($_POST['trang_thai']) ? (int)$_POST['trang_thai'] : 1;
+            $thong_so_loai = trim($_POST['thong_so_loai'] ?? 'do_day_vot');
 
             $danhMucModel = new DanhMuc();
 
@@ -430,7 +432,7 @@ class pickleballController {
                 header("Location: index.php?act=admin_danhmuc_edit_form&id=" . $id);
                 exit();
             } else {
-                $danhMucModel->update($id, $name, $trang_thai);
+                $danhMucModel->update($id, $name, $trang_thai, $thong_so_loai);
                 $_SESSION['success'] = "Cập nhật danh mục thành công!";
             }
         }

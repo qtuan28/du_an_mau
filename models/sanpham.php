@@ -209,7 +209,7 @@ class SanPham {
 
     // Lấy chi tiết 1 sản phẩm theo ID kèm thông số kỹ thuật (Có hỗ trợ kiểm tra danh mục đang hoạt động)
     public function getById($id, $checkActiveCategory = false) {
-        $sql = "SELECT p.*, c.name as ten_danh_muc, c.trang_thai as category_trang_thai,
+        $sql = "SELECT p.*, c.name as ten_danh_muc, c.trang_thai as category_trang_thai, c.thong_so_loai as category_thong_so_loai,
                        s.spec_id, s.kich_thuoc, s.chat_lieu, s.chung_nhan, s.loai_tay_cam,
                        s.chieu_dai, s.chieu_rong, s.chieu_dai_tay_cam, s.chu_vi_tay_cam,
                        s.trong_luong, s.do_day_loi

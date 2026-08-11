@@ -12,7 +12,7 @@ class DanhMuc
         $this->checkAndMigrateColumns();
     }
 
-    // Tự động kiểm tra và nâng cấp bảng CATEGORIES nếu chưa có cột ngay_tao, trang_thai
+    // Tự động kiểm tra và nâng cấp bảng CATEGORIES nếu chưa có cột ngay_tao, trang_thai, thong_so_loai
     private function checkAndMigrateColumns()
     {
         try {
@@ -24,6 +24,17 @@ class DanhMuc
             $stmt = $this->db->query("SHOW COLUMNS FROM CATEGORIES LIKE 'trang_thai'");
             if ($stmt->rowCount() == 0) {
                 $this->db->exec("ALTER TABLE CATEGORIES ADD COLUMN trang_thai TINYINT(1) DEFAULT 1");
+            }
+
+            $stmt = $this->db->query("SHOW COLUMNS FROM CATEGORIES LIKE 'thong_so_loai'");
+            if ($stmt->rowCount() == 0) {
+                $this->db->exec("ALTER TABLE CATEGORIES ADD COLUMN thong_so_loai VARCHAR(50) DEFAULT 'do_day_vot'");
+                
+                // Cập nhật giá trị thông số mặc định cho danh mục ban đầu
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'do_day_vot' WHERE LOWER(name) LIKE '%vợt%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%giày%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%bóng%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'loai_phu_kien' WHERE LOWER(name) LIKE '%phụ kiện%'");
             }
         } catch (Exception $e) {
             // Bỏ qua lỗi nếu bảng chưa sẵn sàng hoặc đã được nâng cấp
@@ -39,16 +50,17 @@ class DanhMuc
     }
 
     // Thêm danh mục
-    public function add($name, $trang_thai = 1)
+    public function add($name, $trang_thai = 1, $thong_so_loai = 'do_day_vot')
     {
-        $sql = "INSERT INTO CATEGORIES(name, trang_thai, ngay_tao)
-                VALUES(:name, :trang_thai, NOW())";
+        $sql = "INSERT INTO CATEGORIES(name, trang_thai, thong_so_loai, ngay_tao)
+                VALUES(:name, :trang_thai, :thong_so_loai, NOW())";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
             ':name' => $name,
-            ':trang_thai' => (int)$trang_thai
+            ':trang_thai' => (int)$trang_thai,
+            ':thong_so_loai' => $thong_so_loai
         ]);
     }
 
@@ -62,10 +74,10 @@ class DanhMuc
     }
 
     // Cập nhật danh mục
-    public function update($id, $name, $trang_thai)
+    public function update($id, $name, $trang_thai, $thong_so_loai = 'do_day_vot')
     {
         $sql = "UPDATE CATEGORIES
-                SET name = :name, trang_thai = :trang_thai
+                SET name = :name, trang_thai = :trang_thai, thong_so_loai = :thong_so_loai
                 WHERE category_id = :id";
 
         $stmt = $this->db->prepare($sql);
@@ -73,6 +85,7 @@ class DanhMuc
         return $stmt->execute([
             ':name' => $name,
             ':trang_thai' => (int)$trang_thai,
+            ':thong_so_loai' => $thong_so_loai,
             ':id' => $id
         ]);
     }
