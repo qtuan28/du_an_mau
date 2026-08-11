@@ -1,12 +1,14 @@
-﻿<style>
+<style>
 .adi-full-banner-wrapper {
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .adi-full-banner {
     position: relative;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    width: 100%;
+    margin: 0;
     height: 460px;
     background-color: #000;
     overflow: hidden;

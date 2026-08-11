@@ -1,15 +1,17 @@
-﻿<style>
+<style>
 .adi-hero-banner-wrapper {
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .adi-hero-banner {
     position: relative;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    width: 100%;
+    margin: 0;
     height: calc(100vh - 115px);
-    min-height: 650px;
-    background-color: #fff;
+    min-height: 600px;
+    background-color: #0c1c2e;
     background-image: url('assets/images/hero_court_blue.jpg');
     background-size: cover;
     background-position: center;
