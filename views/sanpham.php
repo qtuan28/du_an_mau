@@ -415,20 +415,7 @@ if (!function_exists('buildPlpUrl')) {
                                 </div>
 
                                 <div class="adi-card-info">
-                                    <?php 
-                                        $giaGoc = (float)$sp['gia'];
-                                        $giamGia = (int)($sp['giam_gia'] ?? 0);
-                                        $giaThucTe = $giamGia > 0 ? round($giaGoc * (1 - $giamGia / 100)) : $giaGoc;
-                                    ?>
-                                    <?php if ($giamGia > 0): ?>
-                                        <div class="adi-card-price" style="color: #e50010; display: flex; align-items: center; gap: 6px;">
-                                            <span><?= number_format($giaThucTe, 0, ',', '.') ?>₫</span>
-                                            <span style="font-size: 11px; color: #767677; text-decoration: line-through; font-weight: normal;"><?= number_format($giaGoc, 0, ',', '.') ?>₫</span>
-                                            <span style="background: #e50010; color: #fff; font-size: 10px; padding: 1px 4px; font-weight: 700;">-<?= $giamGia ?>%</span>
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="adi-card-price"><?= number_format($giaGoc, 0, ',', '.') ?>₫</div>
-                                    <?php endif; ?>
+                                    <div class="adi-card-price"><?= number_format($sp['gia'], 0, ',', '.') ?>₫</div>
                                     <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="text-decoration: none;">
                                         <div class="adi-card-title"><?= htmlspecialchars($sp['ten']) ?></div>
                                     </a>

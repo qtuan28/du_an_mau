@@ -128,12 +128,7 @@
                                         </td>
                                         <td><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Chưa phân loại') ?></td>
                                         <td>
-                                            <?php if ($giamGia > 0): ?>
-                                                <div style="font-weight: bold; color: #dc3545;"><?= number_format($giaSauGiam, 0, ',', '.') ?>đ</div>
-                                                <div style="text-decoration: line-through; color: #767677; font-size: 11px;"><?= number_format($giaGoc, 0, ',', '.') ?>đ</div>
-                                            <?php else: ?>
-                                                <div style="font-weight: bold;"><?= number_format($giaGoc, 0, ',', '.') ?>đ</div>
-                                            <?php endif; ?>
+                                            <div style="font-weight: bold; font-family: monospace; font-size: 14px;"><?= number_format($sp['gia'], 0, ',', '.') ?>đ</div>
                                         </td>
                                         
                                         <td>

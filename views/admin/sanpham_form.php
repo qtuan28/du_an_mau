@@ -249,35 +249,19 @@
 
                                 <!-- Column 2 -->
                                 <div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                                        <div class="adi-field-group">
-                                            <label class="adi-field-label" for="gia">Giá bán gốc (VNĐ) <span class="req">*</span></label>
-                                            <input
-                                                type="number"
-                                                id="gia"
-                                                name="gia"
-                                                class="adi-field-input"
-                                                value="<?= htmlspecialchars($sanPham['gia'] ?? '') ?>"
-                                                placeholder="Ví dụ: 2500000"
-                                                min="0"
-                                                step="1000"
-                                                required
-                                            >
-                                        </div>
-
-                                        <div class="adi-field-group">
-                                            <label class="adi-field-label" for="giam_gia">Giảm giá (%)</label>
-                                            <input
-                                                type="number"
-                                                id="giam_gia"
-                                                name="giam_gia"
-                                                class="adi-field-input"
-                                                value="<?= htmlspecialchars($sanPham['giam_gia'] ?? 0) ?>"
-                                                placeholder="0 - 100"
-                                                min="0"
-                                                max="100"
-                                            >
-                                        </div>
+                                    <div class="adi-field-group">
+                                        <label class="adi-field-label" for="gia">Giá bán sản phẩm (VNĐ) <span class="req">*</span></label>
+                                        <input
+                                            type="number"
+                                            id="gia"
+                                            name="gia"
+                                            class="adi-field-input"
+                                            value="<?= htmlspecialchars($sanPham['gia'] ?? '') ?>"
+                                            placeholder="Ví dụ: 2500000"
+                                            min="0"
+                                            step="1000"
+                                            required
+                                        >
                                     </div>
 
                                     <div class="adi-field-group">

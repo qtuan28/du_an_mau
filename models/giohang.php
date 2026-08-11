@@ -6,7 +6,7 @@ class GioHang {
         return $_SESSION['cart'] ?? [];
     }
 
-    // 2. Thêm sản phẩm vào giỏ hàng (Áp dụng giá sau giảm thực tế nếu có giảm giá %)
+    // 2. Thêm sản phẩm vào giỏ hàng (Chỉ sử dụng 1 giá bán duy nhất của sản phẩm)
     public function add($sp, $soLuong = 1) {
         $id = $sp['product_id'];
 
@@ -14,22 +14,14 @@ class GioHang {
             $_SESSION['cart'] = [];
         }
 
-        $giaGoc = (float)$sp['gia'];
-        $giamGia = (int)($sp['giam_gia'] ?? 0);
-        $giaThucTe = $giamGia > 0 ? round($giaGoc * (1 - $giamGia / 100)) : $giaGoc;
-
         if (isset($_SESSION['cart'][$id])) {
             $_SESSION['cart'][$id]['so_luong'] += $soLuong;
-            $_SESSION['cart'][$id]['gia'] = $giaThucTe;
-            $_SESSION['cart'][$id]['gia_goc'] = $giaGoc;
-            $_SESSION['cart'][$id]['giam_gia'] = $giamGia;
+            $_SESSION['cart'][$id]['gia'] = (float)$sp['gia'];
         } else {
             $_SESSION['cart'][$id] = [
                 'product_id' => $sp['product_id'],
                 'ten'        => $sp['ten'],
-                'gia_goc'    => $giaGoc,
-                'giam_gia'   => $giamGia,
-                'gia'        => $giaThucTe,
+                'gia'        => (float)$sp['gia'],
                 'anh'        => $sp['anh'],
                 'so_luong'   => $soLuong
             ];
