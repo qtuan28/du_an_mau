@@ -90,7 +90,6 @@
                                     <th style="text-align: center;">HÌNH ẢNH</th>
                                     <th>DANH MỤC</th>
                                     <th>GIÁ BÁN</th>
-                                    <th style="text-align: center;">BÁN CHẠY</th>
                                     <th>TRẠNG THÁI</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
@@ -137,9 +136,6 @@
                                             <?php endif; ?>
                                         </td>
                                         
-                                        <!-- Mock Checkbox -->
-                                        <td style="text-align: center;"><input type="checkbox" <?= $giamGia > 0 ? 'checked' : '' ?>></td>
-                                        
                                         <td>
                                             <div class="adi-status-radio">
                                                 <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= (isset($sp['trang_thai']) && $sp['trang_thai'] == 1) ? 'checked' : '' ?>> Còn hàng</label>
@@ -155,7 +151,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" style="text-align: center; padding: 20px;">Chưa có sản phẩm nào.</td>
+                                    <td colspan="8" style="text-align: center; padding: 20px;">Chưa có sản phẩm nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>
