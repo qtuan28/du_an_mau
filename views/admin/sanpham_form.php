@@ -294,6 +294,73 @@
                                 </div>
                             </div>
 
+                            <!-- Specification Section -->
+                            <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed #ccc;">
+                                <h4 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 20px 0; color: #000;">
+                                    <i class="fa-solid fa-list-check"></i> Thông số kỹ thuật chi tiết
+                                </h4>
+
+                                <div class="adi-form-grid">
+                                    <div>
+                                        <div class="adi-field-group">
+                                            <label class="adi-field-label" for="spec_chat_lieu">Chất liệu sản phẩm</label>
+                                            <input type="text" id="spec_chat_lieu" name="spec_chat_lieu" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chat_lieu'] ?? '') ?>" placeholder="Ví dụ: Carbon Fiber T700 / Fiberglass">
+                                        </div>
+
+                                        <div class="adi-field-group">
+                                            <label class="adi-field-label" for="spec_do_day_loi">Độ dày lõi (mm)</label>
+                                            <input type="number" step="0.1" id="spec_do_day_loi" name="spec_do_day_loi" class="adi-field-input" value="<?= htmlspecialchars($sanPham['do_day_loi'] ?? '') ?>" placeholder="Ví dụ: 16.0">
+                                        </div>
+
+                                        <div class="adi-field-group">
+                                            <label class="adi-field-label" for="spec_loai_tay_cam">Loại / Kiểu tay cầm</label>
+                                            <input type="text" id="spec_loai_tay_cam" name="spec_loai_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['loai_tay_cam'] ?? '') ?>" placeholder="Ví dụ: Selkirk Geo Grip Pro / Standard Cushion">
+                                        </div>
+
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                            <div class="adi-field-group">
+                                                <label class="adi-field-label" for="spec_chieu_dai">Chiều dài (cm)</label>
+                                                <input type="number" step="0.1" id="spec_chieu_dai" name="spec_chieu_dai" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chieu_dai'] ?? '') ?>" placeholder="41.9">
+                                            </div>
+
+                                            <div class="adi-field-group">
+                                                <label class="adi-field-label" for="spec_chieu_rong">Chiều rộng (cm)</label>
+                                                <input type="number" step="0.1" id="spec_chieu_rong" name="spec_chieu_rong" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chieu_rong'] ?? '') ?>" placeholder="19.0">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                            <div class="adi-field-group">
+                                                <label class="adi-field-label" for="spec_chieu_dai_tay_cam">Dài tay cầm (cm)</label>
+                                                <input type="number" step="0.1" id="spec_chieu_dai_tay_cam" name="spec_chieu_dai_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chieu_dai_tay_cam'] ?? '') ?>" placeholder="12.7">
+                                            </div>
+
+                                            <div class="adi-field-group">
+                                                <label class="adi-field-label" for="spec_chu_vi_tay_cam">Chu vi tay cầm (cm)</label>
+                                                <input type="number" step="0.1" id="spec_chu_vi_tay_cam" name="spec_chu_vi_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chu_vi_tay_cam'] ?? '') ?>" placeholder="10.8">
+                                            </div>
+                                        </div>
+
+                                        <div class="adi-field-group">
+                                            <label class="adi-field-label" for="spec_trong_luong">Trọng lượng (Gam)</label>
+                                            <input type="number" step="0.1" id="spec_trong_luong" name="spec_trong_luong" class="adi-field-input" value="<?= htmlspecialchars($sanPham['trong_luong'] ?? '') ?>" placeholder="Ví dụ: 225.0">
+                                        </div>
+
+                                        <div class="adi-field-group">
+                                            <label class="adi-field-label" for="spec_chung_nhan">Chứng nhận / Chuẩn thi đấu</label>
+                                            <input type="text" id="spec_chung_nhan" name="spec_chung_nhan" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chung_nhan'] ?? '') ?>" placeholder="Ví dụ: USAPA Approved">
+                                        </div>
+
+                                        <div class="adi-field-group">
+                                            <label class="adi-field-label" for="spec_kich_thuoc">Mô tả kích thước tổng thể</label>
+                                            <input type="text" id="spec_kich_thuoc" name="spec_kich_thuoc" class="adi-field-input" value="<?= htmlspecialchars($sanPham['kich_thuoc'] ?? '') ?>" placeholder="Ví dụ: Standard 16.5' x 7.5'">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="adi-form-actions-bar">
                                 <button type="submit" class="adi-btn-primary">
                                     <i class="fa-solid fa-floppy-disk"></i> <?= ($mode === 'edit') ? 'Cập nhật sản phẩm' : 'Lưu sản phẩm mới' ?>

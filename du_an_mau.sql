@@ -132,3 +132,9 @@ INSERT IGNORE INTO CHITIETDONHANG (chi_tiet_don_id, don_hang_id, product_id, ten
 (4, 3, 3, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 1, 350000.00),
 (5, 4, 2, 'Vợt Selkirk Vanguard', 4200000.00, 1, 4200000.00),
 (6, 5, 3, 'Bộ 4 quả bóng Pickleball Outdoor', 350000.00, 1, 350000.00);
+
+-- Dữ liệu mẫu Thông số kỹ thuật sản phẩm
+INSERT IGNORE INTO SPECIFICATION (product_id, chat_lieu, do_day_loi, loai_tay_cam, chieu_dai, chieu_rong, chieu_dai_tay_cam, chu_vi_tay_cam, trong_luong, chung_nhan, kich_thuoc) VALUES 
+(1, 'Carbon Fiber T700 & Fiberglass Surface', 16.0, 'Cán bọc da cao cấp (Standard Cushion)', 41.9, 19.0, 12.7, 10.8, 225.0, 'USAPA Approved (Thi đấu chuyên nghiệp)', 'Standard 16.5" x 7.5"'),
+(2, 'QuadCarbon Face & Polymer Honeycomb Core', 13.0, 'Selkirk Geo Grip Pro', 40.6, 20.3, 13.3, 10.5, 230.0, 'USAPA Approved & PPA Tour Official', 'Wide Body 16.0" x 8.0"'),
+(3, 'Nhựa Polyethylene cao cấp (40 lỗ đục chính xác)', 0, 'Không áp dụng', 7.4, 7.4, 0, 23.2, 26.0, 'USAPA Tournament Approved', 'Đường kính 74mm (Bộ 4 quả)');

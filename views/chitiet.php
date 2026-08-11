@@ -370,11 +370,49 @@
                             THÔNG SỐ KỸ THUẬT <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="adi-pdp-accordion-body">
-                            <ul style="padding-left: 20px; margin: 0;">
-                                <li>Mặt vợt: Carbon Fiber T700</li>
-                                <li>Độ dày lõi: 16mm Polypropylene Core</li>
-                                <li>Chiều dài tay cầm: Standard 4.25"</li>
-                                <li>Chứng nhận: USAPA Approved</li>
+                            <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <?php if (!empty($sp['chat_lieu'])): ?>
+                                    <li><strong>Chất liệu:</strong> <?= htmlspecialchars($sp['chat_lieu']) ?></li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['do_day_loi']) && $sp['do_day_loi'] > 0): ?>
+                                    <li><strong>Độ dày lõi:</strong> <?= htmlspecialchars($sp['do_day_loi']) ?>mm</li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['loai_tay_cam'])): ?>
+                                    <li><strong>Loại tay cầm:</strong> <?= htmlspecialchars($sp['loai_tay_cam']) ?></li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['chieu_dai']) && $sp['chieu_dai'] > 0): ?>
+                                    <li><strong>Kích thước (Dài x Rộng):</strong> <?= htmlspecialchars($sp['chieu_dai']) ?> cm <?= (!empty($sp['chieu_rong']) && $sp['chieu_rong'] > 0) ? 'x ' . htmlspecialchars($sp['chieu_rong']) . ' cm' : '' ?></li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['chieu_dai_tay_cam']) && $sp['chieu_dai_tay_cam'] > 0): ?>
+                                    <li><strong>Chiều dài tay cầm:</strong> <?= htmlspecialchars($sp['chieu_dai_tay_cam']) ?> cm</li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['chu_vi_tay_cam']) && $sp['chu_vi_tay_cam'] > 0): ?>
+                                    <li><strong>Chu vi tay cầm:</strong> <?= htmlspecialchars($sp['chu_vi_tay_cam']) ?> cm</li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['trong_luong']) && $sp['trong_luong'] > 0): ?>
+                                    <li><strong>Trọng lượng:</strong> <?= htmlspecialchars($sp['trong_luong']) ?>g</li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['chung_nhan'])): ?>
+                                    <li><strong>Chứng nhận:</strong> <?= htmlspecialchars($sp['chung_nhan']) ?></li>
+                                <?php endif; ?>
+
+                                <?php if (!empty($sp['kich_thuoc'])): ?>
+                                    <li><strong>Kích thước tổng thể:</strong> <?= htmlspecialchars($sp['kich_thuoc']) ?></li>
+                                <?php endif; ?>
+
+                                <?php if (empty($sp['chat_lieu']) && empty($sp['chung_nhan']) && empty($sp['loai_tay_cam']) && empty($sp['kich_thuoc']) && empty($sp['trong_luong'])): ?>
+                                    <li>Mặt vợt: Carbon Fiber T700</li>
+                                    <li>Độ dày lõi: 16mm Polypropylene Core</li>
+                                    <li>Chiều dài tay cầm: Standard 4.25"</li>
+                                    <li>Chứng nhận: USAPA Approved</li>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>

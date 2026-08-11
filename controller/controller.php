@@ -496,6 +496,19 @@ class pickleballController {
                 }
             }
 
+            $specData = [
+                'chat_lieu' => trim($_POST['spec_chat_lieu'] ?? ''),
+                'do_day_loi' => (float)($_POST['spec_do_day_loi'] ?? 0),
+                'loai_tay_cam' => trim($_POST['spec_loai_tay_cam'] ?? ''),
+                'chieu_dai' => (float)($_POST['spec_chieu_dai'] ?? 0),
+                'chieu_rong' => (float)($_POST['spec_chieu_rong'] ?? 0),
+                'chieu_dai_tay_cam' => (float)($_POST['spec_chieu_dai_tay_cam'] ?? 0),
+                'chu_vi_tay_cam' => (float)($_POST['spec_chu_vi_tay_cam'] ?? 0),
+                'trong_luong' => (float)($_POST['spec_trong_luong'] ?? 0),
+                'chung_nhan' => trim($_POST['spec_chung_nhan'] ?? ''),
+                'kich_thuoc' => trim($_POST['spec_kich_thuoc'] ?? '')
+            ];
+
             $sanPhamModel = new SanPham();
             $sanPhamModel->add([
                 'category_id' => $category_id,
@@ -503,7 +516,8 @@ class pickleballController {
                 'gia' => $gia,
                 'giam_gia' => $giam_gia,
                 'trang_thai' => $trang_thai,
-                'anh' => $anh
+                'anh' => $anh,
+                'spec' => $specData
             ]);
 
             $_SESSION['success'] = "Thêm sản phẩm '".$ten."' thành công!";
@@ -567,6 +581,19 @@ class pickleballController {
                 }
             }
 
+            $specData = [
+                'chat_lieu' => trim($_POST['spec_chat_lieu'] ?? ''),
+                'do_day_loi' => (float)($_POST['spec_do_day_loi'] ?? 0),
+                'loai_tay_cam' => trim($_POST['spec_loai_tay_cam'] ?? ''),
+                'chieu_dai' => (float)($_POST['spec_chieu_dai'] ?? 0),
+                'chieu_rong' => (float)($_POST['spec_chieu_rong'] ?? 0),
+                'chieu_dai_tay_cam' => (float)($_POST['spec_chieu_dai_tay_cam'] ?? 0),
+                'chu_vi_tay_cam' => (float)($_POST['spec_chu_vi_tay_cam'] ?? 0),
+                'trong_luong' => (float)($_POST['spec_trong_luong'] ?? 0),
+                'chung_nhan' => trim($_POST['spec_chung_nhan'] ?? ''),
+                'kich_thuoc' => trim($_POST['spec_kich_thuoc'] ?? '')
+            ];
+
             $sanPhamModel = new SanPham();
             $sanPhamModel->update($id, [
                 'category_id' => $category_id,
@@ -574,7 +601,8 @@ class pickleballController {
                 'gia' => $gia,
                 'giam_gia' => $giam_gia,
                 'trang_thai' => $trang_thai,
-                'anh' => $anh
+                'anh' => $anh,
+                'spec' => $specData
             ]);
 
             $_SESSION['success'] = "Cập nhật sản phẩm thành công!";
