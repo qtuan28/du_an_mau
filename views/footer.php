@@ -1,9 +1,9 @@
 <style>
 .adi-footer-main {
-    background-color: #fff;
-    color: #000;
+    background-color: #000;
+    color: #fff;
     padding: 50px 40px 40px;
-    border-top: 1px solid #ebedee;
+    border-top: 1px solid #222;
 }
 
 .adi-footer-simple {
@@ -28,7 +28,7 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     margin: 0 0 12px 0;
-    color: #000;
+    color: #fff;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -36,7 +36,7 @@
 
 .adi-footer-brand p {
     font-family: 'Roboto', sans-serif;
-    color: #555;
+    color: #aaa;
     font-size: 14px;
     line-height: 1.6;
     margin: 0;
@@ -54,7 +54,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     margin: 0 0 18px 0;
-    color: #000;
+    color: #fff;
 }
 
 .adi-footer-nav-col ul {
@@ -68,26 +68,27 @@
 
 .adi-footer-nav-col a {
     font-family: 'Roboto', sans-serif;
-    color: #333;
+    color: #ccc;
     text-decoration: none;
     font-size: 14px;
     transition: color 0.2s, padding-left 0.2s;
 }
 
 .adi-footer-nav-col a:hover {
-    color: #000;
+    color: #fff;
     font-weight: 500;
     padding-left: 4px;
 }
 
 .adi-footer-bottom {
     background-color: #000;
-    color: #888;
+    color: #777;
     padding: 20px 40px;
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     text-align: center;
     letter-spacing: 0.5px;
+    border-top: 1px solid #1a1a1a;
 }
 </style>
 
@@ -98,9 +99,9 @@
         <div class="adi-footer-brand">
             <h2 class="adi-footer-brand-title">
                 <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style="height: 28px; width: auto;">
-                    <path d="M0,32.5 L13,32.5 L26,7.5 L13,7.5 Z" fill="#000"/>
-                    <path d="M15,32.5 L28,32.5 L41,0 L28,0 Z" fill="#000"/>
-                    <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z" fill="#000"/>
+                    <path d="M0,32.5 L13,32.5 L26,7.5 L13,7.5 Z" fill="#fff"/>
+                    <path d="M15,32.5 L28,32.5 L41,0 L28,0 Z" fill="#fff"/>
+                    <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z" fill="#fff"/>
                 </svg>
                 PICKLEBALL STORE
             </h2>
