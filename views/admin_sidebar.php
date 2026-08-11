@@ -1,13 +1,12 @@
-﻿<!-- Left Sidebar -->
+<!-- Left Sidebar -->
 <aside class="adi-main-sidebar">
     <!-- Logo Area -->
-    <a href="index.php?act=admin" class="adi-logo-area">
-        <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style="fill: #fff;">
+    <a href="index.php?act=admin" class="adi-logo-area" title="Bảng điều khiển Admin">
+        <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style="fill: #fff; height: 38px; width: auto;">
             <path d="M0,32.5 L13,32.5 L26,7.5 L13,7.5 Z"/>
             <path d="M15,32.5 L28,32.5 L41,0 L28,0 Z"/>
             <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z"/>
         </svg>
-        ADMIN PANEL
     </a>
 
     <!-- User Panel -->

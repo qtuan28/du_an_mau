@@ -1,4 +1,4 @@
-﻿<style>
+<style>
 .adi-footer-main {
     background-color: #000;
     color: #fff;
@@ -98,12 +98,11 @@
         <!-- Shop Brand Info -->
         <div class="adi-footer-brand">
             <h2 class="adi-footer-brand-title">
-                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style="height: 28px; width: auto;">
+                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style="height: 36px; width: auto; display: block;">
                     <path d="M0,32.5 L13,32.5 L26,7.5 L13,7.5 Z" fill="#fff"/>
                     <path d="M15,32.5 L28,32.5 L41,0 L28,0 Z" fill="#fff"/>
                     <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z" fill="#fff"/>
                 </svg>
-                PICKLEBALL STORE
             </h2>
             <p>Hệ thống cung cấp trang thiết bị Pickleball chính hãng. Cung cấp vợt thi đấu, giày thể thao và phụ kiện đạt chuẩn quốc tế.</p>
         </div>
