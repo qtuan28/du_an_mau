@@ -35,13 +35,16 @@
             display: grid;
             grid-template-columns: 7fr 5fr;
             gap: 50px;
+            align-items: start;
         }
 
         .adi-pdp-gallery-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2px;
-            background-color: #e5e7eb;
+            background-color: #ebedee;
+            align-self: start;
+            align-content: start;
         }
 
         .adi-pdp-gallery-item {
@@ -371,7 +374,7 @@
                 <div class="adi-pdp-accordion-box">
                     <div class="adi-pdp-accordion-item">
                         <div class="adi-pdp-accordion-title">
-                            MÔ TẢ SẢN PHẨM <i class="fa-solid fa-chevron-down"></i>
+                            MÔ TẢ SẢN PHẨM
                         </div>
                         <div class="adi-pdp-accordion-body">
                             Sản phẩm sở hữu thiết kế đột phá cho lối chơi pickleball hiện đại. Lõi tổ ong cao cấp kết hợp mặt Carbon T700 đảm bảo kiểm soát lực xoáy tối ưu và độ bền thi đấu vượt trội.
@@ -380,7 +383,7 @@
                     
                     <div class="adi-pdp-accordion-item">
                         <div class="adi-pdp-accordion-title">
-                            THÔNG SỐ KỸ THUẬT <i class="fa-solid fa-chevron-down"></i>
+                            THÔNG SỐ KỸ THUẬT
                         </div>
                         <div class="adi-pdp-accordion-body">
                             <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
