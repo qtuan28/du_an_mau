@@ -93,23 +93,32 @@ class SanPham {
         }
     }
 
-    // Lấy tất cả sản phẩm
-    public function getAll() {
+    // Lấy tất cả sản phẩm (Có tùy chọn chỉ lấy sản phẩm của danh mục đang hoạt động)
+    public function getAll($onlyActiveCategory = true) {
         $sql = "SELECT p.*, c.name as ten_danh_muc 
                 FROM PRODUCTS p 
-                LEFT JOIN CATEGORIES c ON p.category_id = c.category_id
-                ORDER BY p.product_id DESC";
+                LEFT JOIN CATEGORIES c ON p.category_id = c.category_id";
+        
+        if ($onlyActiveCategory) {
+            $sql .= " WHERE (c.trang_thai = 1 OR c.trang_thai IS NULL)";
+        }
+        
+        $sql .= " ORDER BY p.product_id DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Lấy danh sách sản phẩm phân trang & tìm kiếm & lọc danh mục & lọc trạng thái & lọc giá & sắp xếp
-    public function getAllWithPagination($keyword = '', $categoryId = 0, $stockStatus = '', $page = 1, $limit = 16, $priceRange = '', $sort = 'newest') {
+    public function getAllWithPagination($keyword = '', $categoryId = 0, $stockStatus = '', $page = 1, $limit = 16, $priceRange = '', $sort = 'newest', $checkCategoryActive = true) {
         $offset = max(0, ($page - 1) * $limit);
         $sql = "SELECT p.*, c.name as ten_danh_muc 
                 FROM PRODUCTS p 
                 LEFT JOIN CATEGORIES c ON p.category_id = c.category_id
                 WHERE 1=1";
+
+        if ($checkCategoryActive) {
+            $sql .= " AND (c.trang_thai = 1 OR c.trang_thai IS NULL)";
+        }
 
         $params = [];
 
@@ -159,8 +168,15 @@ class SanPham {
     }
 
     // Đếm tổng số sản phẩm theo bộ lọc (để tính số trang)
-    public function getTotalCount($keyword = '', $categoryId = 0, $stockStatus = '', $priceRange = '') {
-        $sql = "SELECT COUNT(*) FROM PRODUCTS p WHERE 1=1";
+    public function getTotalCount($keyword = '', $categoryId = 0, $stockStatus = '', $priceRange = '', $checkCategoryActive = true) {
+        $sql = "SELECT COUNT(*) FROM PRODUCTS p 
+                LEFT JOIN CATEGORIES c ON p.category_id = c.category_id 
+                WHERE 1=1";
+        
+        if ($checkCategoryActive) {
+            $sql .= " AND (c.trang_thai = 1 OR c.trang_thai IS NULL)";
+        }
+
         $params = [];
 
         if ($keyword !== '') {
@@ -191,9 +207,9 @@ class SanPham {
         return (int)$stmt->fetchColumn();
     }
 
-    // Lấy chi tiết 1 sản phẩm theo ID kèm thông số kỹ thuật
-    public function getById($id) {
-        $sql = "SELECT p.*, c.name as ten_danh_muc, 
+    // Lấy chi tiết 1 sản phẩm theo ID kèm thông số kỹ thuật (Có hỗ trợ kiểm tra danh mục đang hoạt động)
+    public function getById($id, $checkActiveCategory = false) {
+        $sql = "SELECT p.*, c.name as ten_danh_muc, c.trang_thai as category_trang_thai,
                        s.spec_id, s.kich_thuoc, s.chat_lieu, s.chung_nhan, s.loai_tay_cam,
                        s.chieu_dai, s.chieu_rong, s.chieu_dai_tay_cam, s.chu_vi_tay_cam,
                        s.trong_luong, s.do_day_loi
@@ -201,6 +217,10 @@ class SanPham {
                 LEFT JOIN CATEGORIES c ON p.category_id = c.category_id 
                 LEFT JOIN SPECIFICATION s ON p.product_id = s.product_id
                 WHERE p.product_id = :id";
+
+        if ($checkActiveCategory) {
+            $sql .= " AND (c.trang_thai = 1 OR c.trang_thai IS NULL)";
+        }
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id' => $id]);

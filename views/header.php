@@ -244,9 +244,19 @@
     </a>
     
     <nav class="adi-nav-menu">
-        <a href="index.php?act=sanpham&id=1" class="adi-nav-item">VỢT PICKLEBALL</a>
-        <a href="index.php?act=sanpham&id=2" class="adi-nav-item">GIÀY THỂ THAO</a>
-        <a href="index.php?act=sanpham&id=3" class="adi-nav-item">PHỤ KIỆN</a>
+        <?php 
+            require_once 'models/danhmuc.php';
+            $headerDmModel = new DanhMuc();
+            $headerCategories = $headerDmModel->getAll();
+            if (!empty($headerCategories)):
+                foreach ($headerCategories as $hCategory):
+                    if (isset($hCategory['trang_thai']) && (int)$hCategory['trang_thai'] === 0) continue;
+        ?>
+            <a href="index.php?act=sanpham&id=<?= $hCategory['category_id'] ?>" class="adi-nav-item"><?= htmlspecialchars(mb_strtoupper($hCategory['name'])) ?></a>
+        <?php 
+                endforeach;
+            endif;
+        ?>
         <?php if (isset($_SESSION['user']) && ($_SESSION['user']['vai_tro_id'] ?? 0) == 1): ?>
             <a href="index.php?act=admin" class="adi-nav-item" style="color: #7c3aed;">ADMIN PANEL</a>
         <?php endif; ?>

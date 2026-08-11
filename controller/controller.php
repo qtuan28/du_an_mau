@@ -93,9 +93,22 @@ class pickleballController {
 
     public function chiTietSanPham() {
         $id = $_GET['id'] ?? 0;
-        // [TỰ CODE] Gọi Model lấy chi tiết sản phẩm
-         $sanPhamModel = new SanPham();
-         $sp = $sanPhamModel->getById($id);
+        $sanPhamModel = new SanPham();
+        $sp = $sanPhamModel->getById($id, true); // True checks if parent category is active
+
+        if (!$sp) {
+            header("HTTP/1.0 404 Not Found");
+            echo "<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><title>Danh mục hoặc sản phẩm không tồn tại</title><link rel='stylesheet' href='assets/css/style.css'></head><body style='font-family: sans-serif; background: #f8f9fa; margin: 0;'>";
+            require_once 'views/header.php';
+            echo "<div style='text-align: center; padding: 120px 20px; min-height: 50vh;'>";
+            echo "<h1 style='font-family: \"Oswald\", sans-serif; font-size: 36px; color: #000; text-transform: uppercase; margin-bottom: 16px;'>DANH MỤC HOẶC SẢN PHẨM KHÔNG TỒN TẠI</h1>";
+            echo "<p style='font-family: \"Roboto\", sans-serif; font-size: 16px; color: #666; max-width: 600px; margin: 0 auto 30px;'>Danh mục sản phẩm này đã bị ẩn hoặc không tồn tại trên hệ thống. Vui lòng tham khảo các sản phẩm khác.</p>";
+            echo "<a href='index.php?act=sanpham' style='display: inline-block; background: #000; color: #fff; font-family: \"Oswald\", sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; text-decoration: none;'>QUAY LẠI CỬA HÀNG →</a>";
+            echo "</div>";
+            require_once 'views/footer.php';
+            echo "</body></html>";
+            exit();
+        }
         require_once 'views/chitiet.php';
     }
 
@@ -111,9 +124,31 @@ class pickleballController {
         $sanPhamModel = new SanPham();
         $danhMucModel = new DanhMuc();
 
-        $dsDanhMuc = $danhMucModel->getAll();
-        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, $categoryId, 1, $page, $limit, $priceRange, $sort);
-        $totalCount = $sanPhamModel->getTotalCount($keyword, $categoryId, 1, $priceRange);
+        // Lọc danh mục nếu truy cập trực tiếp bằng ID
+        if ($categoryId > 0) {
+            $currentCategory = $danhMucModel->getById($categoryId);
+            if (!$currentCategory || (isset($currentCategory['trang_thai']) && (int)$currentCategory['trang_thai'] === 0)) {
+                header("HTTP/1.0 404 Not Found");
+                echo "<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><title>Danh mục không tồn tại</title><link rel='stylesheet' href='assets/css/style.css'></head><body style='font-family: sans-serif; background: #f8f9fa; margin: 0;'>";
+                require_once 'views/header.php';
+                echo "<div style='text-align: center; padding: 120px 20px; min-height: 50vh;'>";
+                echo "<h1 style='font-family: \"Oswald\", sans-serif; font-size: 36px; color: #000; text-transform: uppercase; margin-bottom: 16px;'>DANH MỤC KHÔNG TỒN TẠI</h1>";
+                echo "<p style='font-family: \"Roboto\", sans-serif; font-size: 16px; color: #666; max-width: 600px; margin: 0 auto 30px;'>Danh mục sản phẩm này đã bị ẩn hoặc không còn tồn tại trên hệ thống.</p>";
+                echo "<a href='index.php?act=sanpham' style='display: inline-block; background: #000; color: #fff; font-family: \"Oswald\", sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; text-decoration: none;'>XEM TẤT CẢ SẢN PHẨM →</a>";
+                echo "</div>";
+                require_once 'views/footer.php';
+                echo "</body></html>";
+                exit();
+            }
+        }
+
+        $allCategories = $danhMucModel->getAll();
+        $dsDanhMuc = array_filter($allCategories, function($cat) {
+            return !isset($cat['trang_thai']) || (int)$cat['trang_thai'] === 1;
+        });
+
+        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, $categoryId, 1, $page, $limit, $priceRange, $sort, true);
+        $totalCount = $sanPhamModel->getTotalCount($keyword, $categoryId, 1, $priceRange, true);
         $totalPages = max(1, (int)ceil($totalCount / $limit));
 
         $currentCategory = null;
