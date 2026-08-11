@@ -110,12 +110,10 @@
 <div class="adi-hero-banner-wrapper">
     <section class="adi-hero-banner">
         <div class="adi-hero-overlay-content">
-            <div class="adi-hero-tag">BỘ SƯU TẬP CHÍNH HÃNG 2026</div>
-            <h1 class="adi-hero-title">BỘ SƯU TẬP<br>PICKLEBALL PPA TOUR</h1>
+            <h1 class="adi-hero-title">BST PICKLEBALL PPA TOUR</h1>
             <p class="adi-hero-desc">Kiến tạo lối chơi làm chủ sân đấu. Trang bị công nghệ Carbon T700 chuẩn quốc tế cùng hiệu suất kiểm soát tối đa.</p>
             <div class="adi-hero-buttons">
-                <a href="index.php?act=sanpham&id=1" class="adi-btn-sharp">MUA VỢT NGAY <i class="fa-solid fa-arrow-right-long"></i></a>
-                <a href="index.php?act=sanpham&id=2" class="adi-btn-sharp secondary">MUA GIÀY THỂ THAO <i class="fa-solid fa-arrow-right-long"></i></a>
+                <a href="index.php?act=sanpham" class="adi-btn-sharp">MUA NGAY <i class="fa-solid fa-arrow-right-long"></i></a>
             </div>
         </div>
     </section>
