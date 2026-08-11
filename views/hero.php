@@ -10,7 +10,7 @@
     height: calc(100vh - 115px);
     min-height: 650px;
     background-color: #111;
-    background-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%), url('assets/images/hero_paddle.png');
+    background-image: linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.1) 100%), url('assets/images/hero_court_blue.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
