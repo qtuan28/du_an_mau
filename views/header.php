@@ -260,7 +260,6 @@
         </form>
 
         <a href="index.php?act=profile" class="adi-icon-link" title="Tài khoản"><i class="fa-regular fa-user"></i></a>
-        <a href="index.php?act=sanpham" class="adi-icon-link" title="Yêu thích"><i class="fa-regular fa-heart"></i></a>
         <a href="index.php?act=giohang" class="adi-icon-link" title="Giỏ hàng">
             <i class="fa-solid fa-bag-shopping"></i>
             <span class="adi-badge-num" id="headerCartBadge">

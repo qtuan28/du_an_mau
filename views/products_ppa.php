@@ -16,7 +16,6 @@
                 <div class="adi-card">
                     <div class="adi-card-media">
                         <span class="adi-card-badge" style="background-color: #e50010;">HOT</span>
-                        <button type="button" class="adi-card-fav" title="Yêu thích"><i class="fa-regular fa-heart"></i></button>
                         <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
                             <img src="<?= !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'assets/images/' . $sp['anh']) : 'assets/images/hero_paddle.png' ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
                         </a>

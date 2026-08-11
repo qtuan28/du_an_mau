@@ -219,18 +219,6 @@
             z-index: 2;
         }
 
-        .adi-card-fav {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            font-size: 18px;
-            color: #000;
-            cursor: pointer;
-            z-index: 2;
-        }
-
         .adi-card-info {
             padding: 14px 12px;
             display: flex;
@@ -375,7 +363,6 @@
                             ?>
                             <div class="adi-card">
                                 <div class="adi-card-media">
-                                    <button type="button" class="adi-card-fav" title="Yêu thích"><i class="fa-regular fa-heart"></i></button>
                                     <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
                                         <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
                                     </a>
