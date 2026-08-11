@@ -394,7 +394,18 @@ if (!function_exists('buildPlpUrl')) {
                     <div class="adi-grid-3">
                         <?php foreach ($dsSanPham as $sp): ?>
                             <?php 
-                                $imgPath = !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'assets/images/' . $sp['anh']) : 'assets/images/hero_paddle.png';
+                                $imgPath = 'assets/images/hero_paddle.png';
+                                if (!empty($sp['anh'])) {
+                                    if (strpos($sp['anh'], 'assets/') === 0 || strpos($sp['anh'], 'uploads/') === 0) {
+                                        $imgPath = $sp['anh'];
+                                    } elseif (file_exists('assets/images/' . $sp['anh'])) {
+                                        $imgPath = 'assets/images/' . $sp['anh'];
+                                    } elseif (file_exists('uploads/' . $sp['anh'])) {
+                                        $imgPath = 'uploads/' . $sp['anh'];
+                                    } else {
+                                        $imgPath = 'assets/images/' . $sp['anh'];
+                                    }
+                                }
                             ?>
                             <div class="adi-card">
                                 <div class="adi-card-media">

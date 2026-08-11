@@ -13,11 +13,25 @@
     <?php if (!empty($listPpa)): ?>
         <div class="adi-grid-4">
             <?php foreach ($listPpa as $sp): ?>
+                <?php
+                    $imgPath = 'assets/images/hero_paddle.png';
+                    if (!empty($sp['anh'])) {
+                        if (strpos($sp['anh'], 'assets/') === 0 || strpos($sp['anh'], 'uploads/') === 0) {
+                            $imgPath = $sp['anh'];
+                        } elseif (file_exists('assets/images/' . $sp['anh'])) {
+                            $imgPath = 'assets/images/' . $sp['anh'];
+                        } elseif (file_exists('uploads/' . $sp['anh'])) {
+                            $imgPath = 'uploads/' . $sp['anh'];
+                        } else {
+                            $imgPath = 'assets/images/' . $sp['anh'];
+                        }
+                    }
+                ?>
                 <div class="adi-card">
                     <div class="adi-card-media">
                         <span class="adi-card-badge" style="background-color: #e50010;">HOT</span>
                         <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
-                            <img src="<?= !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'assets/images/' . $sp['anh']) : 'assets/images/hero_paddle.png' ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
+                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
                         </a>
                     </div>
 

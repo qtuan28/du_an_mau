@@ -111,11 +111,21 @@
                                             <div style="font-size: 11px; color: #777;">ID: <?= $sp['product_id'] ?></div>
                                         </td>
                                         <td style="text-align: center;">
-                                            <?php if (!empty($sp['anh'])): ?>
-                                                <img src="<?= (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'uploads/' . $sp['anh']) ?>" alt="IMG" onerror="this.src='assets/images/hero_paddle.png'">
-                                            <?php else: ?>
-                                                <span style="color: #ccc; font-size: 12px;">[Trống]</span>
-                                            <?php endif; ?>
+                                            <?php 
+                                                $imgSrc = 'assets/images/hero_paddle.png';
+                                                if (!empty($sp['anh'])) {
+                                                    if (strpos($sp['anh'], 'assets/') === 0 || strpos($sp['anh'], 'uploads/') === 0) {
+                                                        $imgSrc = $sp['anh'];
+                                                    } elseif (file_exists('assets/images/' . $sp['anh'])) {
+                                                        $imgSrc = 'assets/images/' . $sp['anh'];
+                                                    } elseif (file_exists('uploads/' . $sp['anh'])) {
+                                                        $imgSrc = 'uploads/' . $sp['anh'];
+                                                    } else {
+                                                        $imgSrc = 'assets/images/' . $sp['anh'];
+                                                    }
+                                                }
+                                            ?>
+                                            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" style="width: 50px; height: 50px; object-fit: cover; border: 1px solid #eee;" onerror="this.src='assets/images/hero_paddle.png'">
                                         </td>
                                         <td><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Chưa phân loại') ?></td>
                                         <td>

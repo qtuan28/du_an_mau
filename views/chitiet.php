@@ -278,19 +278,19 @@
             <!-- Left: 2x2 Product Image Showcase Grid -->
             <div class="adi-pdp-gallery-grid">
                 <?php 
-                    $mainImg = !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 || strpos($sp['anh'], 'uploads/') === 0 ? $sp['anh'] : 'uploads/' . $sp['anh']) : 'assets/images/hero_paddle.png';
-
-                    $getImgPath = function($field) use ($sp, $mainImg) {
-                        if (empty($sp[$field])) return $mainImg;
-                        $val = $sp[$field];
+                    $resolveImg = function($val) {
+                        if (empty($val)) return 'assets/images/hero_paddle.png';
                         if (strpos($val, 'assets/') === 0 || strpos($val, 'uploads/') === 0) return $val;
-                        return 'uploads/' . $val;
+                        if (file_exists('assets/images/' . $val)) return 'assets/images/' . $val;
+                        if (file_exists('uploads/' . $val)) return 'uploads/' . $val;
+                        return 'assets/images/' . $val;
                     };
 
-                    $img1 = $getImgPath('anh_1');
-                    $img2 = $getImgPath('anh_2');
-                    $img3 = $getImgPath('anh_3');
-                    $img4 = $getImgPath('anh_4');
+                    $mainImg = $resolveImg($sp['anh'] ?? '');
+                    $img1 = !empty($sp['anh_1']) ? $resolveImg($sp['anh_1']) : $mainImg;
+                    $img2 = !empty($sp['anh_2']) ? $resolveImg($sp['anh_2']) : $mainImg;
+                    $img3 = !empty($sp['anh_3']) ? $resolveImg($sp['anh_3']) : $mainImg;
+                    $img4 = !empty($sp['anh_4']) ? $resolveImg($sp['anh_4']) : $mainImg;
                 ?>
                 <div class="adi-pdp-gallery-item">
                     <img src="<?= htmlspecialchars($img1) ?>" alt="Detail Image 1" onerror="this.src='assets/images/hero_paddle.png'">
