@@ -57,6 +57,14 @@ class pickleballController {
             $address = trim($_POST['address'] ?? '');
 
             if (!empty($username) && !empty($password) && !empty($email)) {
+                // Kiểm tra định dạng Email chuẩn và đuôi tên miền hợp lệ (@gmail.com, @yahoo.com, @fpt.edu.vn, ...)
+                $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn|net|org|edu|gov|io|co|me|info|biz|us|uk)$/i';
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match($emailPattern, $email)) {
+                    $error = "Địa chỉ email không hợp lệ! Vui lòng nhập email có cấu trúc và đuôi tên miền chuẩn (Ví dụ: @gmail.com, @yahoo.com, @fpt.edu.vn...).";
+                    require_once 'views/register.php';
+                    return;
+                }
+
                 $userModel = new User();
                 $userModel->dangKy($username, $password, $email, $address);
                 header("Location: index.php?act=login");

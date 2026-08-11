@@ -205,7 +205,7 @@
                     <label class="adi-form-label">Email *</label>
                     <div class="adi-input-field-wrap">
                         <i class="fa-regular fa-envelope adi-input-icon"></i>
-                        <input type="email" name="email" class="adi-input-text" placeholder="Nhập địa chỉ email" required>
+                        <input type="email" name="email" class="adi-input-text" placeholder="Nhập địa chỉ email (VD: name@gmail.com)" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn|net|org|edu|gov|io|co|me|info|biz|us|uk)" title="Email phải đúng định dạng chuẩn như name@gmail.com, name@yahoo.com, name@fpt.edu.vn..." required>
                     </div>
                 </div>
 
