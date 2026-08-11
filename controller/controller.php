@@ -304,28 +304,109 @@ class pickleballController {
         $user = $userModel->getUserProfile($_SESSION['user']['user_id']);
         $orders = $userModel->getOrdersByUserId($_SESSION['user']['user_id']);
 
+        $msg = $_SESSION['profile_msg'] ?? null;
+        $msg_type = $_SESSION['profile_msg_type'] ?? 'success';
+        unset($_SESSION['profile_msg'], $_SESSION['profile_msg_type']);
+
         require_once 'views/profile.php';
     }
-    public function capNhatHoSo(){
-    if (!isset($_SESSION['user'])) {
-        header("Location:index.php?act=login");
+
+    public function capNhatHoSo() {
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?act=login");
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_SESSION['user']['user_id'];
+            $email = trim($_POST['email'] ?? '');
+            $address = trim($_POST['address'] ?? '');
+
+            if (empty($email)) {
+                $_SESSION['profile_msg'] = "Email không được để trống!";
+                $_SESSION['profile_msg_type'] = "error";
+                header("Location: index.php?act=profile#thong-tin");
+                exit();
+            }
+
+            $userModel = new User();
+            $userModel->updateProfile($id, $email, $address);
+
+            // Cập nhật lại session
+            $_SESSION['user']['email'] = $email;
+            $_SESSION['user']['address'] = $address;
+            $_SESSION['profile_msg'] = "Cập nhật thông tin cá nhân thành công!";
+            $_SESSION['profile_msg_type'] = "success";
+        }
+
+        header("Location: index.php?act=profile#thong-tin");
         exit();
     }
 
-    $userModel = new User();
+    public function doiMatKhau() {
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?act=login");
+            exit();
+        }
 
-    $id = $_POST['user_id'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_SESSION['user']['user_id'];
+            $oldPass = $_POST['old_password'] ?? '';
+            $newPass = $_POST['new_password'] ?? '';
+            $confirmPass = $_POST['confirm_password'] ?? '';
 
-    $userModel->updateProfile($id, $email, $address);
+            if (empty($oldPass) || empty($newPass) || empty($confirmPass)) {
+                $_SESSION['profile_msg'] = "Vui lòng nhập đầy đủ tất cả các trường mật khẩu!";
+                $_SESSION['profile_msg_type'] = "error";
+                header("Location: index.php?act=profile#doi-mat-khau");
+                exit();
+            }
 
-    // cập nhật lại session
-    $_SESSION['user']['email'] = $email;
-    $_SESSION['user']['address'] = $address;
+            $userModel = new User();
+            $currentUser = $userModel->getUserById($userId);
 
-    header("Location:index.php?act=profile");
-}
+            // Kiểm tra mật khẩu hiện tại với mật khẩu lưu trong CSDL
+            if (!$currentUser || $currentUser['password'] !== $oldPass) {
+                $_SESSION['profile_msg'] = "Mật khẩu hiện tại không chính xác! Mật khẩu mới KHÔNG được cập nhật.";
+                $_SESSION['profile_msg_type'] = "error";
+                header("Location: index.php?act=profile#doi-mat-khau");
+                exit();
+            }
+
+            if (strlen($newPass) < 6) {
+                $_SESSION['profile_msg'] = "Mật khẩu mới phải có ít nhất 6 ký tự!";
+                $_SESSION['profile_msg_type'] = "error";
+                header("Location: index.php?act=profile#doi-mat-khau");
+                exit();
+            }
+
+            if ($newPass !== $confirmPass) {
+                $_SESSION['profile_msg'] = "Mật khẩu xác nhận không khớp với mật khẩu mới!";
+                $_SESSION['profile_msg_type'] = "error";
+                header("Location: index.php?act=profile#doi-mat-khau");
+                exit();
+            }
+
+            if ($oldPass === $newPass) {
+                $_SESSION['profile_msg'] = "Mật khẩu mới không được trùng với mật khẩu cũ!";
+                $_SESSION['profile_msg_type'] = "error";
+                header("Location: index.php?act=profile#doi-mat-khau");
+                exit();
+            }
+
+            // Thực hiện đổi mật khẩu trong DB chỉ khi mật khẩu hiện tại ĐÚNG
+            $userModel->resetPassword($userId, $newPass);
+            $_SESSION['user']['password'] = $newPass;
+
+            $_SESSION['profile_msg'] = "Đổi mật khẩu thành công!";
+            $_SESSION['profile_msg_type'] = "success";
+            header("Location: index.php?act=profile#doi-mat-khau");
+            exit();
+        }
+
+        header("Location: index.php?act=profile");
+        exit();
+    }
 
 
     // --- USE CASES: ADMIN (BẢO MẬT BỞI checkAdmin) ---

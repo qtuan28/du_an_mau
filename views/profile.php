@@ -264,6 +264,60 @@
             color: #767677;
             font-family: 'Roboto', sans-serif;
         }
+
+        /* Alert Notifications */
+        .adi-alert {
+            padding: 14px 18px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid;
+        }
+
+        .adi-alert-success {
+            background-color: #f0fdf4;
+            border-color: #16a34a;
+            color: #15803d;
+        }
+
+        .adi-alert-error {
+            background-color: #fef2f2;
+            border-color: #e50010;
+            color: #991b1b;
+        }
+
+        /* Password Input Field with Eye Toggle */
+        .adi-pwd-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .adi-pwd-wrap .adi-input-text {
+            padding-right: 46px;
+        }
+
+        .adi-pwd-toggle {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            color: #767677;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .adi-pwd-toggle:hover {
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -296,6 +350,9 @@
                     <a href="#thong-tin" class="adi-profile-menu-link active">
                         <i class="fa-regular fa-user"></i> Thông tin cá nhân
                     </a>
+                    <a href="#doi-mat-khau" class="adi-profile-menu-link">
+                        <i class="fa-solid fa-key"></i> Đổi mật khẩu
+                    </a>
                     <a href="#lich-su" class="adi-profile-menu-link">
                         <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
                     </a>
@@ -310,6 +367,13 @@
 
             <!-- Main Content Area -->
             <main>
+                <?php if (!empty($msg)): ?>
+                    <div class="adi-alert <?= ($msg_type === 'error') ? 'adi-alert-error' : 'adi-alert-success' ?>">
+                        <i class="fa-solid <?= ($msg_type === 'error') ? 'fa-circle-exclamation' : 'fa-circle-check' ?>" style="font-size: 18px;"></i>
+                        <span><?= htmlspecialchars($msg) ?></span>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Form Profile Update -->
                 <section id="thong-tin" class="adi-profile-section">
                     <h2 class="adi-section-head">
@@ -336,6 +400,56 @@
 
                         <button type="submit" class="adi-btn-save">
                             <i class="fa-solid fa-floppy-disk"></i> CẬP NHẬT HỒ SƠ
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Change Password Form -->
+                <section id="doi-mat-khau" class="adi-profile-section">
+                    <h2 class="adi-section-head">
+                        <i class="fa-solid fa-key"></i> ĐỔI MẬT KHẨU
+                    </h2>
+
+                    <?php if (!empty($msg)): ?>
+                        <div class="adi-alert <?= ($msg_type === 'error') ? 'adi-alert-error' : 'adi-alert-success' ?>">
+                            <i class="fa-solid <?= ($msg_type === 'error') ? 'fa-circle-exclamation' : 'fa-circle-check' ?>" style="font-size: 18px;"></i>
+                            <span><?= htmlspecialchars($msg) ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <form action="index.php?act=doi_mat_khau" method="post" onsubmit="return validatePasswordForm()">
+                        <div class="adi-form-group">
+                            <label class="adi-form-label">Mật khẩu hiện tại <span style="color: #e50010;">*</span></label>
+                            <div class="adi-pwd-wrap">
+                                <input type="password" name="old_password" id="old_password" class="adi-input-text" placeholder="Nhập mật khẩu hiện tại..." required>
+                                <button type="button" class="adi-pwd-toggle" onclick="togglePasswordVisibility('old_password', this)" title="Ẩn/Hiện mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="adi-form-group">
+                            <label class="adi-form-label">Mật khẩu mới <span style="color: #e50010;">*</span></label>
+                            <div class="adi-pwd-wrap">
+                                <input type="password" name="new_password" id="new_password" class="adi-input-text" placeholder="Tối thiểu 6 ký tự..." required minlength="6">
+                                <button type="button" class="adi-pwd-toggle" onclick="togglePasswordVisibility('new_password', this)" title="Ẩn/Hiện mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="adi-form-group">
+                            <label class="adi-form-label">Xác nhận mật khẩu mới <span style="color: #e50010;">*</span></label>
+                            <div class="adi-pwd-wrap">
+                                <input type="password" name="confirm_password" id="confirm_password" class="adi-input-text" placeholder="Nhập lại mật khẩu mới..." required minlength="6">
+                                <button type="button" class="adi-pwd-toggle" onclick="togglePasswordVisibility('confirm_password', this)" title="Ẩn/Hiện mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="adi-btn-save">
+                            <i class="fa-solid fa-shield-halved"></i> CẬP NHẬT MẬT KHẨU
                         </button>
                     </form>
                 </section>
@@ -394,5 +508,54 @@
     <!-- Footer -->
     <?php include 'views/footer.php'; ?>
 
+    <script>
+        function validatePasswordForm() {
+            const newPass = document.getElementById('new_password').value;
+            const confirmPass = document.getElementById('confirm_password').value;
+
+            if (newPass.length < 6) {
+                alert('Mật khẩu mới phải có ít nhất 6 ký tự!');
+                return false;
+            }
+            if (newPass !== confirmPass) {
+                alert('Mật khẩu xác nhận không trùng khớp với mật khẩu mới!');
+                return false;
+            }
+            return true;
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Active state handling for sidebar navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuLinks = document.querySelectorAll('.adi-profile-menu-link');
+            
+            function updateActiveLink() {
+                const currentHash = window.location.hash || '#thong-tin';
+                menuLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentHash) {
+                        link.classList.add('active');
+                    } else if (link.getAttribute('href').startsWith('#')) {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            window.addEventListener('hashchange', updateActiveLink);
+            updateActiveLink();
+        });
+    </script>
 </body>
 </html>

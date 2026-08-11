@@ -64,6 +64,9 @@ switch ($act) {
     case 'updateProfile':
         $sp_controller->capNhatHoSo();
         break;
+    case 'doi_mat_khau':
+        $sp_controller->doiMatKhau();
+        break;
     case 'profile':
     case 'lichsu_donhang':
         $sp_controller->hoSoCaNhan();
