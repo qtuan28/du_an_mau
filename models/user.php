@@ -6,13 +6,31 @@ class User {
 
     public function __construct() {
         $this->db = new Database();
-        // Tự động bổ sung cột trang_thai nếu bảng USER trong MySQL chưa có
+        $this->checkAndMigrate();
+    }
+
+    private function checkAndMigrate() {
         try {
             $this->db->conn->exec("ALTER TABLE USER ADD COLUMN trang_thai INT DEFAULT 1");
-        } catch (PDOException $e) {
-            // Cột trang_thai đã tồn tại trong MySQL DB
-        }
+        } catch (PDOException $e) {}
+
+        try {
+            // Khởi tạo bảng VAITRO nếu trống
+            $countStmt = $this->db->conn->query("SELECT COUNT(*) FROM VAITRO");
+            if ($countStmt && $countStmt->fetchColumn() == 0) {
+                $this->db->conn->exec("INSERT INTO VAITRO (vai_tro_id, ten_vai_tro) VALUES (1, 'Admin'), (2, 'Khách hàng')");
+            }
+
+            // Khởi tạo tài khoản mẫu nếu USER trống
+            $countUser = $this->db->conn->query("SELECT COUNT(*) FROM USER");
+            if ($countUser && $countUser->fetchColumn() == 0) {
+                $this->db->conn->exec("INSERT INTO USER (user_id, vai_tro_id, username, password, email, address, trang_thai) VALUES
+                    (1, 1, 'admin', '123456', 'admin@example.com', 'Hà Nội', 1),
+                    (2, 2, 'user', '123456', 'user@example.com', 'Hồ Chí Minh', 1)");
+            }
+        } catch (PDOException $e) {}
     }
+
 
     // Kiểm tra đăng nhập (Chỉ cho phép tài khoản đang hoạt động trang_thai = 1 hoặc IS NULL)
     public function checkLogin($username, $password) {
@@ -115,4 +133,13 @@ class User {
     public function getUserProfile($userId) {
         return $this->getUserById($userId);
     }
+
+    // Lấy danh sách đơn hàng của người dùng
+    public function getOrdersByUserId($userId) {
+        $sql = "SELECT * FROM DONHANG WHERE user_id = ? ORDER BY don_hang_id DESC";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
+

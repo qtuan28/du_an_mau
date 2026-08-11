@@ -50,8 +50,24 @@ class pickleballController {
     }
 
     public function postRegister() {
-        // [TỰ CODE] Xử lý đăng ký tài khoản mới
-        header("Location: index.php?act=login");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = trim($_POST['username'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $address = trim($_POST['address'] ?? '');
+
+            if (!empty($username) && !empty($password) && !empty($email)) {
+                $userModel = new User();
+                $userModel->dangKy($username, $password, $email, $address);
+                header("Location: index.php?act=login");
+                exit();
+            } else {
+                $error = "Vui lòng nhập đầy đủ Tên đăng nhập, Mật khẩu và Email!";
+                require_once 'views/register.php';
+                return;
+            }
+        }
+        header("Location: index.php?act=register");
         exit();
     }
 
@@ -106,21 +122,37 @@ class pickleballController {
         $soLuong = isset($_GET['soluong']) ? (int)$_GET['soluong'] : 1;
         if ($soLuong <= 0) $soLuong = 1;
 
+        $gioHangModel = new GioHang();
+
         if ($id > 0) {
             $sanPhamModel = new SanPham();
             $sp = $sanPhamModel->getById($id);
             if ($sp) {
-                $gioHangModel = new GioHang();
                 $gioHangModel->add($sp, $soLuong);
             }
         }
 
-        // Nếu có tham số redirect=thanhtoan thì chuyển sang trang thanh toán
-        $redirect = $_GET['redirect'] ?? 'giohang';
+        $totalItems = $gioHangModel->getTongSoLuong();
+        $isAjax = isset($_GET['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+
+        if ($isAjax) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode([
+                'status' => 'success',
+                'cart_count' => $totalItems,
+                'message' => 'Đã thêm sản phẩm vào giỏ hàng!'
+            ]);
+            exit();
+        }
+
+        $redirect = $_GET['redirect'] ?? 'back';
         if ($redirect === 'thanhtoan') {
             header("Location: index.php?act=thanhtoan");
-        } else {
+        } else if ($redirect === 'giohang') {
             header("Location: index.php?act=giohang");
+        } else {
+            $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php?act=sanpham';
+            header("Location: " . $referer);
         }
         exit();
     }
@@ -160,19 +192,52 @@ class pickleballController {
     }
 
     public function postThanhToan() {
-        // [TỰ CODE] Xử lý lưu đơn hàng và thanh toán
+        $gioHangModel = new GioHang();
+        $gioHang = $gioHangModel->getGioHang();
+
+        if (empty($gioHang)) {
+            header("Location: index.php?act=giohang");
+            exit();
+        }
+
+        $userId = $_SESSION['user']['user_id'] ?? 0;
+        $hoTen = $_SESSION['user']['username'] ?? 'Khách hàng';
+        $email = $_SESSION['user']['email'] ?? '';
+        $sdt = '0901234567';
+        $diaChi = trim($_POST['address'] ?? ($_SESSION['user']['address'] ?? 'Chưa cập nhật'));
+        $tongTien = $gioHangModel->getTongTien();
+
+        $db = new Database();
+        $sqlDon = "INSERT INTO DONHANG (user_id, ho_ten, sdt, email, dia_chi, tong_tien, trang_thai, ngay_dat) 
+                   VALUES (?, ?, ?, ?, ?, ?, 'Đã giao', NOW())";
+
+        $stmt = $db->conn->prepare($sqlDon);
+        $stmt->execute([$userId, $hoTen, $sdt, $email, $diaChi, $tongTien]);
+        $donHangId = $db->conn->lastInsertId();
+
+        $sqlChiTiet = "INSERT INTO CHITIETDONHANG (don_hang_id, product_id, ten_san_pham, don_gia, so_luong, thanh_tien) 
+                       VALUES (?, ?, ?, ?, ?, ?)";
+        $stmtCT = $db->conn->prepare($sqlChiTiet);
+
+        foreach ($gioHang as $item) {
+            $thanhTien = $item['gia'] * $item['so_luong'];
+            $stmtCT->execute([$donHangId, $item['product_id'], $item['ten'], $item['gia'], $item['so_luong'], $thanhTien]);
+        }
+
+        $gioHangModel->clear();
+
         header("Location: index.php?act=profile");
         exit();
     }
 
     public function hoSoCaNhan() {
-        // [TỰ CODE] Lấy hồ sơ cá nhân và lịch sử đơn hàng
-        if(!isset($_SESSION['user'])){
-            header("Location:index.php?act=login");
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?act=login");
             exit();
-    }
+        }
         $userModel = new User();
         $user = $userModel->getUserProfile($_SESSION['user']['user_id']);
+        $orders = $userModel->getOrdersByUserId($_SESSION['user']['user_id']);
 
         require_once 'views/profile.php';
     }
@@ -202,6 +267,19 @@ class pickleballController {
 
     public function trangAdmin() {
         $this->checkAdmin();
+        require_once 'models/thongke.php';
+        $thongKeModel = new ThongKe();
+
+        $tkSanPham = $thongKeModel->thongKeSanPham();
+        $tkKhachHang = $thongKeModel->thongKeKhachHang();
+        $tkDonHang = $thongKeModel->thongKeDonHang();
+        $tkDoanhThu = $thongKeModel->thongKeDoanhThu();
+
+        $countSanPham = $tkSanPham['tong_san_pham'] ?? 0;
+        $countKhachHang = $tkKhachHang['tong_khach_hang'] ?? 0;
+        $countDonHang = $tkDonHang['tong_don_hang'] ?? 0;
+        $tongDoanhThu = $tkDoanhThu['tong_doanh_thu'] ?? 0;
+
         require_once 'views/admin.php';
     }
 
@@ -358,12 +436,12 @@ class pickleballController {
         $limit = 5; // Số sản phẩm hiển thị trên 1 trang
 
         $sanPhamModel = new SanPham();
-        $totalCount = $sanPhamModel->getTotalCount($keyword, $stockStatus);
+        $totalCount = $sanPhamModel->getTotalCount($keyword, 0, $stockStatus);
         $totalPages = ceil($totalCount / $limit);
         if ($totalPages < 1) $totalPages = 1;
         if ($page > $totalPages) $page = $totalPages;
 
-        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, $stockStatus, $page, $limit);
+        $dsSanPham = $sanPhamModel->getAllWithPagination($keyword, 0, $stockStatus, $page, $limit);
 
         require_once 'views/admin/sanpham.php';
     }

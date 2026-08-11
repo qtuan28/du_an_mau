@@ -1,194 +1,179 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Sản phẩm</title>
+    <title>Quản lý Sản phẩm | Bảng Điều Khiển Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
+    <div class="adi-admin-wrapper">
+        
+        <!-- Sidebar -->
+        <?php include 'views/admin_sidebar.php'; ?>
 
-<div class="container">
+        <!-- Right Main Panel -->
+        <div class="adi-main-panel">
+            <!-- Top Navbar -->
+            <header class="adi-main-header">
+                <div class="adi-header-left">
+                    <a href="index.php" class="adi-header-link"><i class="fa-solid fa-globe"></i> Xem website</a>
+                </div>
+                <div class="adi-header-right">
+                    <div class="adi-header-user">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?>
+                    </div>
+                    <a href="index.php?act=logout" class="adi-header-link" style="color: #dc3545;" title="Đăng xuất"><i class="fa-solid fa-power-off"></i></a>
+                </div>
+            </header>
 
-    <div class="header-action">
-        <a href="index.php?act=admin" class="btn-back">&larr; Về Bảng Quản Trị</a>
-        <h1>QUẢN LÝ SẢN PHẨM</h1>
-    </div>
+            <!-- Page Content -->
+            <div class="adi-content-wrapper">
+                
+                <!-- Page Header & Breadcrumb -->
+                <div class="adi-content-header">
+                    <h1 class="adi-page-title">Quản lý Sản phẩm</h1>
+                    <div class="adi-breadcrumb">
+                        <a href="index.php?act=admin"><i class="fa-solid fa-house"></i> Trang chủ</a> > 
+                        <a href="#">Bán hàng</a> > Sản phẩm
+                    </div>
+                </div>
 
-    <?php
-    if(isset($_SESSION['success'])){
-        echo "<div class='success'>".$_SESSION['success']."</div>";
-        unset($_SESSION['success']);
-    }
+                <?php
+                if(isset($_SESSION['success'])){
+                    echo "<div style='color: #155724; background: #d4edda; padding: 10px; margin-bottom: 20px; border: 1px solid #c3e6cb;'>".$_SESSION['success']."</div>";
+                    unset($_SESSION['success']);
+                }
+                if(isset($_SESSION['error'])){
+                    echo "<div style='color: #721c24; background: #f8d7da; padding: 10px; margin-bottom: 20px; border: 1px solid #f5c6cb;'>".$_SESSION['error']."</div>";
+                    unset($_SESSION['error']);
+                }
+                ?>
 
-    if(isset($_SESSION['error'])){
-        echo "<div class='error'>".$_SESSION['error']."</div>";
-        unset($_SESSION['error']);
-    }
-    ?>
+                <!-- Main Box -->
+                <div class="adi-box">
+                    
+                    <!-- Complex Toolbar -->
+                    <div class="adi-box-header">
+                        <div class="adi-toolbar">
+                            <form method="GET" action="index.php" style="display: flex; gap: 5px;">
+                                <input type="hidden" name="act" value="admin_sanpham">
+                                
+                                <select name="trang_thai" class="adi-form-control">
+                                    <option value="">Tất cả trạng thái</option>
+                                    <option value="1" <?= (isset($_GET['trang_thai']) && $_GET['trang_thai'] === '1') ? 'selected' : '' ?>>Còn hàng</option>
+                                    <option value="0" <?= (isset($_GET['trang_thai']) && $_GET['trang_thai'] === '0') ? 'selected' : '' ?>>Hết hàng</option>
+                                </select>
 
-    <div class="top-bar">
-        <a href="index.php?act=admin_sanpham_add_form" class="btn-add">
-            ➕ Thêm sản phẩm mới
-        </a>
-
-        <form method="GET" action="index.php" class="search-form">
-            <input type="hidden" name="act" value="admin_sanpham">
-
-            <select name="trang_thai" class="form-select" style="padding: 9px 12px;">
-                <option value="">-- Tất cả trạng thái --</option>
-                <option value="1" <?= (isset($_GET['trang_thai']) && $_GET['trang_thai'] === '1') ? 'selected' : '' ?>>🟢 Còn hàng</option>
-                <option value="0" <?= (isset($_GET['trang_thai']) && $_GET['trang_thai'] === '0') ? 'selected' : '' ?>>🔴 Hết hàng</option>
-            </select>
-
-            <input
-                type="text"
-                name="keyword"
-                value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>"
-                placeholder="Nhập tên sản phẩm..."
-            >
-            <button type="submit" class="btn-search">🔍 Tìm kiếm</button>
-            <?php if (!empty($_GET['keyword']) || (isset($_GET['trang_thai']) && $_GET['trang_thai'] !== '')): ?>
-                <a href="index.php?act=admin_sanpham" class="btn-reset">Đặt lại</a>
-            <?php endif; ?>
-        </form>
-    </div>
-
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th style="width: 50px;">ID</th>
-                    <th style="width: 70px;">Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th style="width: 140px;">Danh mục</th>
-                    <th style="width: 160px;">Giá bán</th>
-                    <th style="width: 90px;">Giảm giá</th>
-                    <th style="width: 150px;">Trạng thái</th>
-                    <th style="width: 140px;">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php if (!empty($dsSanPham)): ?>
-                <?php foreach($dsSanPham as $sp): ?>
-                    <?php
-                        $giaGoc = (float)$sp['gia'];
-                        $giamGia = (int)($sp['giam_gia'] ?? 0);
-                        $giaSauGiam = $giamGia > 0 ? $giaGoc * (1 - $giamGia / 100) : $giaGoc;
-                    ?>
-                    <tr>
-                        <td class="text-center"><strong><?= $sp['product_id'] ?></strong></td>
-
-                        <td class="text-center">
-                            <?php if (!empty($sp['anh'])): ?>
-                                <img src="uploads/<?= htmlspecialchars($sp['anh']) ?>"
-                                     alt="Thumb"
-                                     class="prod-img"
-                                     onerror="this.src='assets/images/no-image.png'">
-                            <?php else: ?>
-                                <span class="text-muted" style="font-size: 11px;">[Không ảnh]</span>
-                            <?php endif; ?>
-                        </td>
-
-                        <td>
-                            <strong class="cat-name"><?= htmlspecialchars($sp['ten']) ?></strong>
-                        </td>
-
-                        <td>
-                            <span class="badge-category"><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Chưa phân loại') ?></span>
-                        </td>
-
-                        <td>
-                            <?php if ($giamGia > 0): ?>
-                                <span class="price-new"><?= number_format($giaSauGiam, 0, ',', '.') ?>đ</span><br>
-                                <span class="price-old"><?= number_format($giaGoc, 0, ',', '.') ?>đ</span>
-                            <?php else: ?>
-                                <strong class="price-normal"><?= number_format($giaGoc, 0, ',', '.') ?>đ</strong>
-                            <?php endif; ?>
-                        </td>
-
-                        <td class="text-center">
-                            <?php if ($giamGia > 0): ?>
-                                <span class="discount-badge">-<?= $giamGia ?>%</span>
-                            <?php else: ?>
-                                <span class="text-muted">0%</span>
-                            <?php endif; ?>
-                        </td>
-
-                        <td class="text-center">
-                            <?php if (isset($sp['trang_thai']) && $sp['trang_thai'] == 1): ?>
-                                <span class="badge badge-active">🟢 Còn hàng</span>
-                                <a href="index.php?act=admin_sanpham_toggle&id=<?= $sp['product_id'] ?>"
-                                   class="btn-toggle" title="Đổi sang Hết hàng">
-                                    [Hết]
-                                </a>
-                            <?php else: ?>
-                                <span class="badge badge-inactive">🔴 Hết hàng</span>
-                                <a href="index.php?act=admin_sanpham_toggle&id=<?= $sp['product_id'] ?>"
-                                   class="btn-toggle" title="Đổi sang Còn hàng">
-                                    [Còn]
-                                </a>
-                            <?php endif; ?>
-                        </td>
-
-                        <td class="text-center actions-cell">
-                            <a href="index.php?act=admin_sanpham_edit_form&id=<?= $sp['product_id'] ?>"
-                               class="btn-action btn-edit">
-                                ✏️ Sửa
+                                <input type="text" name="keyword" value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" placeholder="Nhập tên sản phẩm..." class="adi-form-control" style="width: 200px;">
+                                <button type="submit" class="adi-btn-outline" style="padding: 6px 12px;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
+                        </div>
+                        
+                        <div>
+                            <a href="index.php?act=admin_sanpham_add_form" class="adi-btn" style="background: #3c8dbc; border-color: #367fa9; color: #fff;">
+                                <i class="fa-solid fa-plus"></i> Thêm mới
                             </a>
+                        </div>
+                    </div>
 
-                            <a href="index.php?act=admin_sanpham_delete&id=<?= $sp['product_id'] ?>"
-                               class="btn-action btn-delete"
-                               onclick="return confirm('Bạn có chắc muốn xóa sản phẩm \'<?= htmlspecialchars($sp['ten']) ?>\'?')">
-                                🗑️ Xóa
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="8" class="empty-state">
-                        Chưa có sản phẩm nào phù hợp với bộ lọc.
-                    </td>
-                </tr>
-            <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                    <!-- Complex Data Table -->
+                    <div class="adi-table-responsive">
+                        <table class="adi-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
+                                    <th style="width: 60px; text-align: center;">STT</th>
+                                    <th>SẢN PHẨM</th>
+                                    <th style="text-align: center;">HÌNH ẢNH</th>
+                                    <th>DANH MỤC</th>
+                                    <th>GIÁ BÁN</th>
+                                    <th style="text-align: center;">BÁN CHẠY</th>
+                                    <th>TRẠNG THÁI</th>
+                                    <th style="text-align: center;">TÁC VỤ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php if (!empty($dsSanPham)): ?>
+                                <?php $stt = 1; foreach($dsSanPham as $sp): ?>
+                                    <?php
+                                        $giaGoc = (float)$sp['gia'];
+                                        $giamGia = (int)($sp['giam_gia'] ?? 0);
+                                        $giaSauGiam = $giamGia > 0 ? $giaGoc * (1 - $giamGia / 100) : $giaGoc;
+                                    ?>
+                                    <tr>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
+                                        <td>
+                                            <strong><?= htmlspecialchars($sp['ten']) ?></strong>
+                                            <div style="font-size: 11px; color: #777;">ID: <?= $sp['product_id'] ?></div>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <?php if (!empty($sp['anh'])): ?>
+                                                <img src="<?= (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'uploads/' . $sp['anh']) ?>" alt="IMG" onerror="this.src='assets/images/hero_paddle.png'">
+                                            <?php else: ?>
+                                                <span style="color: #ccc; font-size: 12px;">[Trống]</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Chưa phân loại') ?></td>
+                                        <td>
+                                            <?php if ($giamGia > 0): ?>
+                                                <div style="font-weight: bold; color: #dc3545;"><?= number_format($giaSauGiam, 0, ',', '.') ?>đ</div>
+                                                <div style="text-decoration: line-through; color: #767677; font-size: 11px;"><?= number_format($giaGoc, 0, ',', '.') ?>đ</div>
+                                            <?php else: ?>
+                                                <div style="font-weight: bold;"><?= number_format($giaGoc, 0, ',', '.') ?>đ</div>
+                                            <?php endif; ?>
+                                        </td>
+                                        
+                                        <!-- Mock Checkbox -->
+                                        <td style="text-align: center;"><input type="checkbox" <?= $giamGia > 0 ? 'checked' : '' ?>></td>
+                                        
+                                        <td>
+                                            <div class="adi-status-radio">
+                                                <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= (isset($sp['trang_thai']) && $sp['trang_thai'] == 1) ? 'checked' : '' ?>> Còn hàng</label>
+                                                <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= (!isset($sp['trang_thai']) || $sp['trang_thai'] != 1) ? 'checked' : '' ?>> Hết hàng</label>
+                                            </div>
+                                        </td>
 
-    <!-- Thanh phân trang (Pagination) -->
-    <?php if ($totalPages > 1): ?>
-        <?php
-            $queryParams = $_GET;
-            unset($queryParams['page']);
-            $queryString = http_build_query($queryParams);
-        ?>
-        <div class="pagination">
-            <span class="pagination-info">Trang <?= $page ?> / <?= $totalPages ?> (Tổng <?= $totalCount ?> sản phẩm)</span>
+                                        <td style="text-align: center;">
+                                            <a href="index.php?act=admin_sanpham_edit_form&id=<?= $sp['product_id'] ?>" class="adi-action-btn edit" title="Sửa">Sửa <i class="fa-solid fa-pen"></i></a>
+                                            <a href="index.php?act=admin_sanpham_delete&id=<?= $sp['product_id'] ?>" onclick="return confirm('Xóa?')" class="adi-action-btn delete" title="Xóa">Xóa <i class="fa-solid fa-xmark"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 20px;">Chưa có sản phẩm nào.</td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
 
-            <div class="pagination-links">
-                <?php if ($page > 1): ?>
-                    <a href="index.php?<?= $queryString ?>&page=<?= $page - 1 ?>" class="page-link">&laquo; Trước</a>
-                <?php endif; ?>
+                    <!-- Pagination -->
+                    <?php if (isset($totalPages) && $totalPages > 1): ?>
+                        <div style="padding: 15px; border-top: 1px solid #ebedee; display: flex; justify-content: flex-end;">
+                            <div style="display: flex; gap: 5px;">
+                                <?php
+                                    $queryParams = $_GET;
+                                    unset($queryParams['page']);
+                                    $queryString = http_build_query($queryParams);
+                                ?>
+                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <a href="index.php?<?= $queryString ?>&page=<?= $i ?>" class="adi-btn" style="min-width: 32px; padding: 4px 8px; <?= ($i == $page) ? '' : 'background: #fff; color: #000; border-color: #ccc;' ?>">
+                                        <?= $i ?>
+                                    </a>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="index.php?<?= $queryString ?>&page=<?= $i ?>"
-                       class="page-link <?= ($i == $page) ? 'active' : '' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
+                </div>
 
-                <?php if ($page < $totalPages): ?>
-                    <a href="index.php?<?= $queryString ?>&page=<?= $page + 1 ?>" class="page-link">Sau &raquo;</a>
-                <?php endif; ?>
             </div>
         </div>
-    <?php endif; ?>
-
-</div>
-
+    </div>
 </body>
-
 </html>

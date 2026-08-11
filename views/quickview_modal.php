@@ -1,0 +1,1 @@
+<!-- Quickview modal component -->

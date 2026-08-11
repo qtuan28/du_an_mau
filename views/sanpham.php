@@ -3,236 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Sản Phẩm - Pickleball Store</title>
+    <title>Danh Sách Sản Phẩm | adidas Việt Nam</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .catalog-container {
+        .adi-plp-container {
             max-width: 1400px;
-            margin: 40px auto;
-            padding: 0 24px;
+            margin: 0 auto;
+            padding: 20px 40px 80px;
         }
 
-        .catalog-header {
+        .adi-plp-breadcrumb {
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #767677;
+            margin-bottom: 20px;
+        }
+
+        .adi-plp-breadcrumb a {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        .adi-plp-title-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ebedee;
+            padding-bottom: 20px;
+        }
+
+        .adi-plp-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 38px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .adi-plp-count {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            color: #767677;
+            font-weight: 400;
+        }
+
+        .adi-plp-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 32px;
+        }
+
+        .adi-plp-sidebar {
+            width: 100%;
+        }
+
+        .adi-filter-group {
+            border-bottom: 1px solid #ebedee;
+            padding: 20px 0;
+        }
+
+        .adi-filter-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 16px;
         }
 
-        .catalog-title {
-            font-family: var(--font-primary, 'Montserrat', sans-serif);
-            font-size: 24px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
+        .adi-filter-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .catalog-filter-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-            background-color: #f8fafc;
-            padding: 16px 20px;
-            border-radius: 8px;
+        .adi-filter-item {
+            margin-bottom: 10px;
         }
 
-        .filter-chip {
-            padding: 8px 16px;
-            border-radius: 20px;
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
+        .adi-filter-item a {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #363636;
             text-decoration: none;
-            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
         }
 
-        .filter-chip:hover, .filter-chip.active {
-            background-color: #0f1115;
-            color: #ffffff;
-            border-color: #0f1115;
+        .adi-filter-item a:hover, .adi-filter-item.active a {
+            color: #000;
+            font-weight: 700;
+            text-decoration: underline;
         }
 
-        /* 4 Products per row layout */
-        .catalog-grid {
+        .adi-plp-content {
+            min-width: 0;
+        }
+
+        .adi-plp-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .adi-sort-select {
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 10px 16px;
+            border: 1px solid #000;
+            background: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .adi-grid-3 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-items: stretch;
+            margin-bottom: 50px;
         }
 
         @media (max-width: 1024px) {
-            .catalog-grid {
+            .adi-grid-3 {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (max-width: 640px) {
-            .catalog-grid {
+        @media (max-width: 820px) {
+            .adi-plp-layout {
+                grid-template-columns: 1fr;
+            }
+            .adi-grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 520px) {
+            .adi-grid-3 {
                 grid-template-columns: 1fr;
             }
         }
 
-        .product-card-item {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            overflow: hidden;
+        .adi-pagination-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .adi-card {
+            position: relative;
+            background-color: #fff;
+            text-decoration: none;
+            color: #000;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 100%;
+            border: 1px solid #ebedee;
+            transition: all 0.2s ease-in-out;
         }
 
-        .product-card-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        .adi-card:hover {
+            border-color: #000;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
         }
 
-        .product-card-img-wrapper {
+        .adi-card-media {
             position: relative;
+            background-color: #fff;
             aspect-ratio: 1 / 1;
-            background-color: #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
             overflow: hidden;
         }
 
-        .product-card-img-wrapper img {
-            max-height: 85%;
-            width: auto;
-            object-fit: contain;
+        .adi-card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: transform 0.3s ease;
         }
 
-        .product-card-item:hover .product-card-img-wrapper img {
-            transform: scale(1.06);
+        .adi-card:hover .adi-card-media img {
+            transform: scale(1.05);
         }
 
-        .product-card-info {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .product-card-category {
+        .adi-card-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            color: #1f6b52;
-            margin-bottom: 6px;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            z-index: 2;
         }
 
-        .product-card-name {
-            font-size: 14px;
+        .adi-card-fav {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            color: #000;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .adi-card-info {
+            padding: 14px 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .adi-card-price {
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
             font-weight: 700;
-            color: #0f1115;
-            margin-bottom: 8px;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .adi-card-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #000;
             line-height: 1.4;
+            min-height: 40px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
-            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            height: 40px;
+            margin-bottom: 4px;
         }
 
-        .product-card-price {
-            font-family: var(--font-primary, sans-serif);
-            font-size: 16px;
-            font-weight: 800;
-            color: #000000;
-            margin-bottom: 14px;
+        .adi-card-sub {
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            color: #767677;
+            text-transform: capitalize;
+            margin-bottom: 12px;
         }
 
-        .product-card-actions {
+        .adi-card-btn {
             margin-top: auto;
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-view-detail {
-            flex: 1;
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             text-align: center;
-            padding: 9px 12px;
-            background-color: #f1f5f9;
-            color: #0f1115;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 4px;
+            padding: 12px 0;
             text-decoration: none;
-            transition: background-color 0.2s ease;
+            border: 1px solid #000;
+            transition: all 0.2s ease-in-out;
         }
 
-        .btn-view-detail:hover {
-            background-color: #e2e8f0;
-        }
-
-        .btn-add-cart {
-            flex: 1;
-            text-align: center;
-            padding: 9px 12px;
-            background-color: #0f1115;
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-add-cart:hover {
-            background-color: #1f6b52;
-        }
-
-        /* Pagination Controls Bar */
-        .pagination-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin: 40px 0;
-        }
-
-        .page-link-btn {
-            min-width: 40px;
-            height: 40px;
-            padding: 0 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            color: #1e293b;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .page-link-btn:hover {
-            background-color: #f1f5f9;
-            border-color: #0f1115;
-            color: #0f1115;
-        }
-
-        .page-link-btn.active {
-            background-color: #0f1115;
-            border-color: #0f1115;
-            color: #ffffff;
-        }
-
-        .page-link-btn.disabled {
-            opacity: 0.4;
-            pointer-events: none;
+        .adi-card-btn:hover {
+            color: #767677;
         }
     </style>
 </head>
@@ -241,116 +296,134 @@
     <!-- Header bar -->
     <?php include 'views/header.php'; ?>
 
-    <div class="catalog-container">
-        <div class="catalog-header">
-            <div>
-                <h1 class="catalog-title">
-                    <?= $currentCategory ? htmlspecialchars($currentCategory['name']) : ($keyword !== '' ? 'Kết quả tìm kiếm: "' . htmlspecialchars($keyword) . '"' : 'TẤT CẢ SẢN PHẨM') ?>
-                </h1>
-                <p style="font-size: 13px; color: #64748b; margin-top: 4px;">
-                    Hiển thị <?= count($dsSanPham) ?> / <?= $totalCount ?> sản phẩm (Trang <?= $page ?> / <?= $totalPages ?>)
-                </p>
-            </div>
-
-            <!-- Top Search Form -->
-            <form action="index.php" method="GET" style="display: flex; gap: 8px;">
-                <input type="hidden" name="act" value="sanpham">
-                <?php if ($categoryId > 0): ?>
-                    <input type="hidden" name="id" value="<?= $categoryId ?>">
-                <?php endif; ?>
-                <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Tìm sản phẩm..." style="padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none;">
-                <button type="submit" style="padding: 10px 18px; background-color: #0f1115; color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">Tìm</button>
-            </form>
+    <div class="adi-plp-container">
+        <!-- Breadcrumb -->
+        <div class="adi-plp-breadcrumb">
+            <a href="index.php">TRANG CHỦ</a> / <span><?= $currentCategory ? mb_strtoupper($currentCategory['name']) : 'TẤT CẢ SẢN PHẨM' ?></span>
         </div>
 
-        <!-- Filter Chips Bar -->
-        <div class="catalog-filter-bar">
-            <span style="font-weight: 700; font-size: 13px; color: #0f1115;">Danh mục:</span>
-            <a href="index.php?act=sanpham<?= $keyword !== '' ? '&keyword=' . urlencode($keyword) : '' ?>" class="filter-chip <?= $categoryId == 0 ? 'active' : '' ?>">Tất cả sản phẩm</a>
-            <?php if (!empty($dsDanhMuc)): ?>
-                <?php foreach ($dsDanhMuc as $dm): ?>
-                    <a href="index.php?act=sanpham&id=<?= $dm['category_id'] ?><?= $keyword !== '' ? '&keyword=' . urlencode($keyword) : '' ?>" class="filter-chip <?= $categoryId == $dm['category_id'] ? 'active' : '' ?>">
-                        <?= htmlspecialchars($dm['name']) ?>
-                    </a>
-                <?php endforeach; ?>
-            <?php endif; ?>
+        <!-- Title Row -->
+        <div class="adi-plp-title-row">
+            <h1 class="adi-plp-title">
+                <?= $currentCategory ? htmlspecialchars($currentCategory['name']) : ($keyword !== '' ? 'KẾT QUẢ: "' . htmlspecialchars($keyword) . '"' : 'TẤT CẢ SẢN PHẨM') ?>
+                <span class="adi-plp-count">[<?= $totalCount ?>]</span>
+            </h1>
+
+            <div class="adi-plp-toolbar">
+                <select class="adi-sort-select" onchange="location = this.value;">
+                    <option value="">SẮP XẾP THEO: MỚI NHẤT</option>
+                    <option value="">GIÁ: TỪ THẤP ĐẾN CAO</option>
+                    <option value="">GIÁ: TỪ CAO ĐẾN THẤP</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Product Grid (4 items per row, 16 items per page max) -->
-        <?php if (!empty($dsSanPham)): ?>
-            <div class="catalog-grid">
-                <?php foreach ($dsSanPham as $sp): ?>
-                    <?php 
-                        $imgPath = !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'assets/images/' . $sp['anh']) : 'assets/images/hero_paddle.png';
-                    ?>
-                    <div class="product-card-item">
-                        <div class="product-card-img-wrapper">
-                            <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
-                        </div>
-                        <div class="product-card-info">
-                            <div class="product-card-category"><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Pickleball') ?></div>
-                            <h3 class="product-card-name"><?= htmlspecialchars($sp['ten']) ?></h3>
-                            <div class="product-card-price"><?= number_format($sp['gia'], 0, ',', '.') ?> VNĐ</div>
-                            <div class="product-card-actions">
-                                <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" class="btn-view-detail">Chi tiết</a>
-                                <a href="index.php?act=add_giohang&id=<?= $sp['product_id'] ?>" class="btn-add-cart">Thêm giỏ</a>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <!-- Pagination Bar -->
-            <?php if ($totalPages > 1): ?>
-                <?php 
-                    // Build base URL for pagination links
-                    $queryParams = ['act' => 'sanpham'];
-                    if ($categoryId > 0) $queryParams['id'] = $categoryId;
-                    if ($keyword !== '') $queryParams['keyword'] = $keyword;
-                ?>
-                <div class="pagination-wrapper">
-                    <!-- First & Previous -->
-                    <?php $queryParams['page'] = 1; ?>
-                    <a href="index.php?<?= http_build_query($queryParams) ?>" class="page-link-btn <?= $page <= 1 ? 'disabled' : '' ?>" title="Trang đầu">«</a>
-                    
-                    <?php $queryParams['page'] = max(1, $page - 1); ?>
-                    <a href="index.php?<?= http_build_query($queryParams) ?>" class="page-link-btn <?= $page <= 1 ? 'disabled' : '' ?>" title="Trang trước">‹</a>
-
-                    <!-- Page Numbers -->
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <?php $queryParams['page'] = $i; ?>
-                        <a href="index.php?<?= http_build_query($queryParams) ?>" class="page-link-btn <?= $page == $i ? 'active' : '' ?>">
-                            <?= $i ?>
-                        </a>
-                    <?php endfor; ?>
-
-                    <!-- Next & Last -->
-                    <?php $queryParams['page'] = min($totalPages, $page + 1); ?>
-                    <a href="index.php?<?= http_build_query($queryParams) ?>" class="page-link-btn <?= $page >= $totalPages ? 'disabled' : '' ?>" title="Trang sau">›</a>
-
-                    <?php $queryParams['page'] = $totalPages; ?>
-                    <a href="index.php?<?= http_build_query($queryParams) ?>" class="page-link-btn <?= $page >= $totalPages ? 'disabled' : '' ?>" title="Trang cuối">»</a>
+        <!-- Layout Sidebar + Content -->
+        <div class="adi-plp-layout">
+            <!-- Left Filter Sidebar -->
+            <aside class="adi-plp-sidebar">
+                <!-- Search Box Filter -->
+                <div class="adi-filter-group" style="padding-top: 0;">
+                    <div class="adi-filter-title">TÌM KIẾM SẢN PHẨM</div>
+                    <form action="index.php" method="GET" style="display: flex; gap: 8px;">
+                        <input type="hidden" name="act" value="sanpham">
+                        <?php if ($categoryId > 0): ?>
+                            <input type="hidden" name="id" value="<?= $categoryId ?>">
+                        <?php endif; ?>
+                        <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Nhập tên sản phẩm..." style="width: 100%; padding: 10px; border: 1px solid #ebedee; font-family: 'Roboto', sans-serif; font-size: 13px; outline: none;">
+                        <button type="submit" style="padding: 10px 14px; background: #000; color: #fff; border: none; cursor: pointer;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
                 </div>
-            <?php endif; ?>
 
-        <?php else: ?>
-            <div style="text-align: center; padding: 80px 0; background-color: #f8fafc; border-radius: 8px;">
-                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin: 0 auto 16px; color: #94a3b8; display: block;">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-                <h3 style="font-size: 18px; font-weight: 700; color: #334155; margin-bottom: 8px;">Không tìm thấy sản phẩm phù hợp</h3>
-                <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">Rất tiếc, chưa có sản phẩm nào thuộc tiêu chí lọc này.</p>
-                <a href="index.php?act=sanpham" class="filter-chip active" style="display: inline-block;">Xem tất cả sản phẩm</a>
-            </div>
-        <?php endif; ?>
+                <!-- Categories Filter -->
+                <div class="adi-filter-group">
+                    <div class="adi-filter-title">DANH MỤC <i class="fa-solid fa-minus" style="font-size: 12px;"></i></div>
+                    <ul class="adi-filter-list">
+                        <li class="adi-filter-item <?= $categoryId == 0 ? 'active' : '' ?>">
+                            <a href="index.php?act=sanpham<?= $keyword !== '' ? '&keyword=' . urlencode($keyword) : '' ?>">Tất cả sản phẩm</a>
+                        </li>
+                        <?php if (!empty($dsDanhMuc)): ?>
+                            <?php foreach ($dsDanhMuc as $dm): ?>
+                                <li class="adi-filter-item <?= $categoryId == $dm['category_id'] ? 'active' : '' ?>">
+                                    <a href="index.php?act=sanpham&id=<?= $dm['category_id'] ?><?= $keyword !== '' ? '&keyword=' . urlencode($keyword) : '' ?>">
+                                        <?= htmlspecialchars($dm['name']) ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+
+                <!-- Price Filter -->
+                <div class="adi-filter-group">
+                    <div class="adi-filter-title">MỨC GIÁ <i class="fa-solid fa-plus" style="font-size: 12px;"></i></div>
+                    <ul class="adi-filter-list">
+                        <li class="adi-filter-item"><a href="#">Dưới 1.000.000₫</a></li>
+                        <li class="adi-filter-item"><a href="#">1.000.000₫ - 3.000.000₫</a></li>
+                        <li class="adi-filter-item"><a href="#">Trên 3.000.000₫</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Main Product Grid Content -->
+            <main class="adi-plp-content">
+                <?php if (!empty($dsSanPham)): ?>
+                    <div class="adi-grid-3">
+                        <?php foreach ($dsSanPham as $sp): ?>
+                            <?php 
+                                $imgPath = !empty($sp['anh']) ? (strpos($sp['anh'], 'assets/') === 0 ? $sp['anh'] : 'assets/images/' . $sp['anh']) : 'assets/images/hero_paddle.png';
+                            ?>
+                            <div class="adi-card">
+                                <div class="adi-card-media">
+                                    <button type="button" class="adi-card-fav" title="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+                                    <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="display: contents;">
+                                        <img src="<?= htmlspecialchars($imgPath) ?>" alt="<?= htmlspecialchars($sp['ten']) ?>" onerror="this.src='assets/images/hero_paddle.png'">
+                                    </a>
+                                </div>
+
+                                <div class="adi-card-info">
+                                    <div class="adi-card-price"><?= number_format($sp['gia'], 0, ',', '.') ?>₫</div>
+                                    <a href="index.php?act=sanpham_chitiet&id=<?= $sp['product_id'] ?>" style="text-decoration: none;">
+                                        <div class="adi-card-title"><?= htmlspecialchars($sp['ten']) ?></div>
+                                    </a>
+                                    <div class="adi-card-sub"><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Pickleball Store') ?></div>
+
+                                    <a href="index.php?act=add_giohang&id=<?= $sp['product_id'] ?>" class="adi-card-btn">THÊM VÀO GIỎ HÀNG</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Pagination -->
+                    <?php if ($totalPages > 1): ?>
+                        <?php 
+                            $queryParams = ['act' => 'sanpham'];
+                            if ($categoryId > 0) $queryParams['id'] = $categoryId;
+                            if ($keyword !== '') $queryParams['keyword'] = $keyword;
+                        ?>
+                        <div class="adi-pagination-wrap">
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <?php $queryParams['page'] = $i; ?>
+                                <a href="index.php?<?= http_build_query($queryParams) ?>" class="adi-page-btn <?= $page == $i ? 'active' : '' ?>">
+                                    <?= $i ?>
+                                </a>
+                            <?php endfor; ?>
+                        </div>
+                    <?php endif; ?>
+
+                <?php else: ?>
+                    <div style="text-align: center; padding: 100px 0; background-color: #ebedee;">
+                        <h2 style="font-family: 'Oswald', sans-serif; font-size: 28px; text-transform: uppercase; margin-bottom: 12px;">KHÔNG TÌM THẤY SẢN PHẨM PHÙ HỢP</h2>
+                        <p style="color: #767677; margin-bottom: 24px;">Rất tiếc, chưa có sản phẩm nào thuộc bộ lọc này.</p>
+                        <a href="index.php?act=sanpham" class="adi-btn-sharp">XEM TẤT CẢ SẢN PHẨM →</a>
+                    </div>
+                <?php endif; ?>
+            </main>
+        </div>
     </div>
 
     <!-- Footer -->
     <?php include 'views/footer.php'; ?>
-
-    <!-- Cart Drawer & Quick View Modal -->
-    <?php include 'views/cart_drawer.php'; ?>
-    <?php include 'views/quickview_modal.php'; ?>
 
     <script src="assets/js/main.js"></script>
 </body>

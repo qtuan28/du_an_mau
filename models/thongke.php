@@ -52,9 +52,10 @@ class ThongKe {
                 $this->db->conn->exec("INSERT INTO DONHANG (don_hang_id, user_id, ho_ten, sdt, email, dia_chi, tong_tien, trang_thai, ngay_dat) VALUES
                     (1, 2, 'Nguyễn Văn User', '0901234567', 'user@example.com', 'Hồ Chí Minh', 6700000.00, 'Đã giao', DATE_SUB(NOW(), INTERVAL 10 DAY)),
                     (2, 4, 'Nguyễn Văn A', '0912345678', 'nguyenvana@gmail.com', 'Hà Nội', 2500000.00, 'Đã giao', DATE_SUB(NOW(), INTERVAL 2 DAY)),
-                    (3, 5, 'Trần Thị B', '0923456789', 'tranthib@gmail.com', 'Đà Nẵng', 350000.00, 'Đang xử lý', DATE_SUB(NOW(), INTERVAL 1 DAY)),
-                    (4, 6, 'Lê Văn C', '0934567890', 'levanc@gmail.com', 'Hồ Chí Minh', 4200000.00, 'Đang xử lý', NOW()),
+                    (3, 5, 'Trần Thị B', '0923456789', 'tranthib@gmail.com', 'Đà Nẵng', 350000.00, 'Đã giao', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+                    (4, 6, 'Lê Văn C', '0934567890', 'levanc@gmail.com', 'Hồ Chí Minh', 4200000.00, 'Đã giao', NOW()),
                     (5, 7, 'Phạm Thị D', '0945678901', 'phamthid@gmail.com', 'Cần Thơ', 350000.00, 'Đã hủy', DATE_SUB(NOW(), INTERVAL 5 DAY))");
+
 
                 $this->db->conn->exec("INSERT INTO CHITIETDONHANG (chi_tiet_don_id, don_hang_id, product_id, ten_san_pham, don_gia, so_luong, thanh_tien) VALUES
                     (1, 1, 1, 'Vợt Pickleball Franklin Signature', 2500000.00, 1, 2500000.00),

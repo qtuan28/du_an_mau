@@ -3,95 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Quản Trị - Admin System</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Admin CSS -->
+    <title>Bảng Điều Khiển Admin | adidas System</title>
     <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="admin-layout">
-        <!-- Top Navbar -->
-        <header class="admin-navbar">
-            <div class="admin-brand">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span>Pickleball Admin</span>
-            </div>
-            <div class="admin-nav-links">
-                <a href="index.php?act=index" class="nav-item-btn" target="_blank">
-                    <i class="fa-solid fa-globe"></i> Trang chủ website
-                </a>
-                <a href="index.php?act=logout" class="nav-item-btn" style="color: var(--danger-600);">
-                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-                </a>
-            </div>
-        </header>
+    <div class="adi-admin-wrapper">
+        
+        <!-- Sidebar -->
+        <?php include 'views/admin_sidebar.php'; ?>
 
-        <!-- Main Container -->
-        <main class="admin-container">
-            <div class="page-header">
-                <div class="page-title-group">
-                    <h1>
-                        <div class="title-icon">
-                            <i class="fa-solid fa-gauge-high"></i>
-                        </div>
-                        Bảng Điều Khiển Quản Trị
-                    </h1>
-                    <p>Xin chào Admin: <strong><?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?></strong> | Chúc bạn một ngày làm việc hiệu quả!</p>
+        <!-- Right Main Panel -->
+        <div class="adi-main-panel">
+            <!-- Top Navbar -->
+            <header class="adi-main-header">
+                <div class="adi-header-left">
+                    <a href="index.php" class="adi-header-link"><i class="fa-solid fa-globe"></i> Xem website</a>
                 </div>
+                <div class="adi-header-right">
+                    <div class="adi-header-user">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?>
+                    </div>
+                    <a href="index.php?act=logout" class="adi-header-link" style="color: #dc3545;" title="Đăng xuất"><i class="fa-solid fa-power-off"></i></a>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="adi-content-wrapper">
+                
+                <!-- Page Header & Breadcrumb -->
+                <div class="adi-content-header">
+                    <h1 class="adi-page-title">Dashboard</h1>
+                    <div class="adi-breadcrumb">
+                        <a href="index.php?act=admin"><i class="fa-solid fa-house"></i> Trang chủ</a> > Dashboard
+                    </div>
+                </div>
+
+                <!-- Dashboard Content Box -->
+                <div class="adi-box">
+                    <div class="adi-box-header">
+                        <h3 style="font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; margin: 0;">Tổng Quan Hệ Thống</h3>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p style="margin-bottom: 20px; font-size: 14px;">Chào mừng bạn đến với hệ thống quản trị lấy cảm hứng từ thiết kế AdminLTE kết hợp phong cách adidas UI. Hãy chọn các chức năng bên trái để bắt đầu quản lý.</p>
+                        
+                        <!-- Mini stat cards placeholder -->
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                            <div style="background: #10b981; color: #fff; padding: 20px; text-align: center;">
+                                <i class="fa-solid fa-box-open" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <div style="font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700;"><?= number_format($countSanPham ?? 0) ?></div>
+                                <div style="font-size: 13px; text-transform: uppercase;">Sản phẩm</div>
+                            </div>
+                            <div style="background: #000; color: #fff; padding: 20px; text-align: center;">
+                                <i class="fa-solid fa-users" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <div style="font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700;"><?= number_format($countKhachHang ?? 0) ?></div>
+                                <div style="font-size: 13px; text-transform: uppercase;">Người dùng</div>
+                            </div>
+                            <div style="background: #f89406; color: #fff; padding: 20px; text-align: center;">
+                                <i class="fa-solid fa-shopping-cart" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <div style="font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700;"><?= number_format($countDonHang ?? 0) ?></div>
+                                <div style="font-size: 13px; text-transform: uppercase;">Đơn hàng</div>
+                            </div>
+                            <div style="background: #dc3545; color: #fff; padding: 20px; text-align: center;">
+                                <i class="fa-solid fa-chart-line" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <div style="font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;"><?= number_format($tongDoanhThu ?? 0, 0, ',', '.') ?>₫</div>
+                                <div style="font-size: 13px; text-transform: uppercase;">Doanh thu</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <!-- Management Feature Modules Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 10px;">
-                <!-- Module 1: Danh Mục -->
-                <a href="index.php?act=admin_danhmuc" class="content-card" style="padding: 24px; display: block; text-decoration: none; transition: var(--transition);">
-                    <div style="width: 50px; height: 50px; border-radius: var(--radius-md); background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 16px;">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <h3 style="font-family: var(--admin-font-heading); font-size: 1.2rem; color: var(--text-dark); margin-bottom: 6px;">1. Quản Lý Danh Mục</h3>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">Xem, thêm mới, chỉnh sửa, xóa và tìm kiếm danh mục sản phẩm.</p>
-                </a>
-
-                <!-- Module 2: Sản Phẩm -->
-                <a href="index.php?act=admin_sanpham" class="content-card" style="padding: 24px; display: block; text-decoration: none; transition: var(--transition);">
-                    <div style="width: 50px; height: 50px; border-radius: var(--radius-md); background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 16px;">
-                        <i class="fa-solid fa-box-open"></i>
-                    </div>
-                    <h3 style="font-family: var(--admin-font-heading); font-size: 1.2rem; color: var(--text-dark); margin-bottom: 6px;">2. Quản Lý Sản Phẩm</h3>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">Quản lý danh sách sản phẩm, cập nhật giá, hình ảnh và tồn kho.</p>
-                </a>
-
-                <!-- Module 3: Người Dùng -->
-                <a href="index.php?act=admin_nguoidung" class="content-card" style="padding: 24px; display: block; text-decoration: none; border-color: var(--primary-500); box-shadow: var(--shadow-md); transition: var(--transition);">
-                    <div style="width: 50px; height: 50px; border-radius: var(--radius-md); background: #f3e8ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 16px;">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <h3 style="font-family: var(--admin-font-heading); font-size: 1.2rem; color: var(--text-dark); margin-bottom: 6px;">3. Quản Lý Người Dùng</h3>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">Quản lý tài khoản người dùng, phân quyền Admin và khóa/mở khóa tài khoản.</p>
-                </a>
-
-                <!-- Module 4: Thống Kê -->
-                <a href="index.php?act=admin_thongke" class="content-card" style="padding: 24px; display: block; text-decoration: none; transition: var(--transition);">
-                    <div style="width: 50px; height: 50px; border-radius: var(--radius-md); background: #fffbeb; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 16px;">
-                        <i class="fa-solid fa-chart-pie"></i>
-                    </div>
-                    <h3 style="font-family: var(--admin-font-heading); font-size: 1.2rem; color: var(--text-dark); margin-bottom: 6px;">4. Thống Kê Số Liệu</h3>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">Báo cáo tổng quan về sản phẩm, đơn hàng và lượng người dùng.</p>
-                </a>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="admin-footer">
-            &copy; <?= date('Y') ?> Pickleball Admin Management System.
-        </footer>
+        </div>
     </div>
 </body>
 </html>

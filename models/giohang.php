@@ -57,5 +57,15 @@ class GioHang {
         }
         return $tongTien;
     }
+
+    // 7. Tính tổng số lượng sản phẩm trong giỏ hàng
+    public function getTongSoLuong() {
+        $tongSoLuong = 0;
+        $gioHang = $this->getGioHang();
+        foreach ($gioHang as $item) {
+            $tongSoLuong += (int)($item['so_luong'] ?? 1);
+        }
+        return $tongSoLuong;
+    }
 }
 

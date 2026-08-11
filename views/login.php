@@ -2,35 +2,292 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng nhập</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Pickleball Store</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .adi-auth-wrapper {
+            min-height: calc(100vh - 280px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .adi-auth-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 460px;
+            padding: 40px;
+            border: 1px solid #ebedee;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .adi-auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .adi-auth-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .adi-auth-logo svg {
+            height: 32px;
+            width: auto;
+        }
+
+        .adi-auth-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #000;
+            margin: 0 0 6px 0;
+        }
+
+        .adi-auth-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #767677;
+            margin: 0;
+        }
+
+        .adi-alert-error {
+            background-color: #fef2f2;
+            border-left: 4px solid #e50010;
+            color: #991b1b;
+            padding: 12px 16px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .adi-form-group {
+            margin-bottom: 20px;
+        }
+
+        .adi-form-label {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .adi-input-field-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .adi-input-icon {
+            position: absolute;
+            left: 14px;
+            color: #999;
+            font-size: 15px;
+        }
+
+        .adi-input-text {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #fff;
+        }
+
+        .adi-input-text:focus {
+            border-color: #000;
+        }
+
+        .adi-auth-btn {
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 16px;
+            border: 1px solid #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s ease-in-out;
+            margin-top: 8px;
+        }
+
+        .adi-auth-btn:hover {
+            background-color: #222;
+        }
+
+        .adi-auth-footer-links {
+            margin-top: 28px;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .adi-auth-footer-links a {
+            color: #000;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .adi-demo-box {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .adi-demo-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #767677;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .adi-demo-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .adi-demo-chip {
+            flex: 1;
+            padding: 10px 8px;
+            background-color: #f1f3f5;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .adi-demo-chip:hover {
+            background-color: #e9ecef;
+            border-color: #000;
+        }
+
+        .adi-demo-chip-role {
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #000;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .adi-demo-chip-sub {
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h2>ĐĂNG NHẬP HỆ THỐNG</h2>
 
-    <?php if (isset($error) && !empty($error)): ?>
-        <p style="color: red;"><?= $error ?></p>
-    <?php endif; ?>
+    <!-- Header bar -->
+    <?php include 'views/header.php'; ?>
 
-    <form action="index.php?act=post_login" method="POST">
-        <div>
-            <label>Tên đăng nhập:</label><br>
-            <input type="text" name="username" required>
+    <div class="adi-auth-wrapper">
+        <div class="adi-auth-card">
+            <div class="adi-auth-header">
+                <div class="adi-auth-logo">
+                    <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0,32.5 L13,32.5 L26,7.5 L13,7.5 Z" fill="#000"/>
+                        <path d="M15,32.5 L28,32.5 L41,0 L28,0 Z" fill="#000"/>
+                        <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z" fill="#000"/>
+                    </svg>
+                </div>
+                <h1 class="adi-auth-title">ĐĂNG NHẬP HỆ THỐNG</h1>
+                <p class="adi-auth-subtitle">Nhập tài khoản để trải nghiệm dịch vụ Pickleball Store</p>
+            </div>
+
+            <?php if (isset($error) && !empty($error)): ?>
+                <div class="adi-alert-error">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span><?= htmlspecialchars($error) ?></span>
+                </div>
+            <?php endif; ?>
+
+            <form action="index.php?act=post_login" method="POST" id="loginForm">
+                <div class="adi-form-group">
+                    <label class="adi-form-label">Tên đăng nhập</label>
+                    <div class="adi-input-field-wrap">
+                        <i class="fa-regular fa-user adi-input-icon"></i>
+                        <input type="text" name="username" id="inputUsername" class="adi-input-text" placeholder="Nhập tên đăng nhập" required>
+                    </div>
+                </div>
+
+                <div class="adi-form-group">
+                    <label class="adi-form-label">Mật khẩu</label>
+                    <div class="adi-input-field-wrap">
+                        <i class="fa-solid fa-lock adi-input-icon"></i>
+                        <input type="password" name="password" id="inputPassword" class="adi-input-text" placeholder="Nhập mật khẩu" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="adi-auth-btn">
+                    ĐĂNG NHẬP <i class="fa-solid fa-arrow-right-long"></i>
+                </button>
+            </form>
+
+            <div class="adi-auth-footer-links">
+                <div>Chưa có tài khoản? <a href="index.php?act=register">Đăng ký ngay</a></div>
+                <div><a href="index.php?act=index" style="color: #767677; font-weight: 400;">← Quay lại Trang chủ</a></div>
+            </div>
+
+            <div class="adi-demo-box">
+                <div class="adi-demo-title">Gợi ý tài khoản thử nghiệm (Bấm để chọn):</div>
+                <div class="adi-demo-buttons">
+                    <div class="adi-demo-chip" onclick="fillAccount('admin', '123456')">
+                        <span class="adi-demo-chip-role"><i class="fa-solid fa-user-shield"></i> Admin</span>
+                        <span class="adi-demo-chip-sub">admin / 123456</span>
+                    </div>
+                    <div class="adi-demo-chip" onclick="fillAccount('user', '123456')">
+                        <span class="adi-demo-chip-role"><i class="fa-regular fa-user"></i> Khách hàng</span>
+                        <span class="adi-demo-chip-sub">user / 123456</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-        <div>
-            <label>Mật khẩu:</label><br>
-            <input type="password" name="password" required>
-        </div>
-        <br>
-        <button type="submit">Đăng nhập</button>
-    </form>
+    </div>
 
-    <p><a href="index.php?act=index">Quay lại Trang chủ</a></p>
-    <hr>
-    <p><em>Gợi ý tài khoản thử nghiệm:</em></p>
-    <ul>
-        <li>Admin: username: <code>admin</code> / password: <code>123456</code></li>
-        <li>User: username: <code>user</code> / password: <code>123456</code></li>
-    </ul>
+    <!-- Footer -->
+    <?php include 'views/footer.php'; ?>
+
+    <script>
+        function fillAccount(username, password) {
+            document.getElementById('inputUsername').value = username;
+            document.getElementById('inputPassword').value = password;
+        }
+    </script>
 </body>
 </html>
