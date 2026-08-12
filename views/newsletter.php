@@ -1,1 +1,1 @@
-﻿<!-- Newsletter section -->
+<!-- Newsletter section -->

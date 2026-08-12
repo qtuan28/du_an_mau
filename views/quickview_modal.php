@@ -1,1 +1,1 @@
-﻿<!-- Quickview modal component -->
+<!-- Quickview modal component -->

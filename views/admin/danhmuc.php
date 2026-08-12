@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -84,6 +84,8 @@
                                     <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
                                     <th style="width: 60px; text-align: center;">STT</th>
                                     <th>DANH MỤC</th>
+                                    <th style="text-align: center;">SỐ LƯỢNG SP</th>
+                                    <th style="text-align: center;">NGÀY TẠO</th>
                                     <th style="text-align: center;">TRẠNG THÁI HIỂN THỊ</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
@@ -96,6 +98,23 @@
                                         <td style="text-align: center;"><input type="checkbox"></td>
                                         <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
                                         <td><strong><?= htmlspecialchars($dm['name']) ?></strong></td>
+
+                                        <td style="text-align: center;">
+                                            <?php $soSP = (int)($dm['so_san_pham'] ?? 0); ?>
+                                            <span style="font-family: monospace; font-weight: 700; font-size: 16px; color: <?= $soSP > 0 ? '#10b981' : '#999'; ?>">
+                                                <?= $soSP ?>
+                                            </span>
+                                            <div style="font-size: 11px; color: #777;">sản phẩm</div>
+                                        </td>
+
+                                        <td style="text-align: center; white-space: nowrap;">
+                                            <?php if (!empty($dm['ngay_tao'])): ?>
+                                                <div style="font-size: 12px; color: #333;"><?= date('d/m/Y', strtotime($dm['ngay_tao'])) ?></div>
+                                                <div style="font-size: 11px; color: #777;"><?= date('H:i', strtotime($dm['ngay_tao'])) ?></div>
+                                            <?php else: ?>
+                                                <span style="color: #999; font-size: 11px;">N/A</span>
+                                            <?php endif; ?>
+                                        </td>
                                         
                                         <td style="text-align: center;">
                                             <?php if ($isShowing): ?>
@@ -117,7 +136,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" style="text-align: center; padding: 20px;">Chưa có danh mục nào.</td>
+                                    <td colspan="7" style="text-align: center; padding: 20px;">Chưa có danh mục nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>

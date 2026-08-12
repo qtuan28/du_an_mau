@@ -1,4 +1,4 @@
-﻿<style>
+<style>
 .adi-section-wrapper {
     padding: 60px 40px;
 }

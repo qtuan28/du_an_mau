@@ -12,7 +12,7 @@ class Database {
             $this->conn = new PDO("mysql:host={$this->host};port={$this->port};dbname={$this->db_name};charset=utf8", $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die("Kết nối thất bại: " . $e->getMessage());
+            die("Káº¿t ná»‘i tháº¥t báº¡i: " . $e->getMessage());
         }
     }
 }

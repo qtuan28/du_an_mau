@@ -113,7 +113,7 @@
     <section class="adi-hero-banner">
         <div class="adi-hero-overlay-content">
             <h1 class="adi-hero-title">BST PICKLEBALL PPA TOUR</h1>
-            <p class="adi-hero-desc">Kiến tạo lối chơi làm chủ sân đấu. Trang bị công nghệ Carbon T700 chuẩn quốc tế cùng hiệu suất kiểm soát tối đa.</p>
+            <p class="adi-hero-desc">Kiáº¿n táº¡o lá»‘i chÆ¡i lÃ m chá»§ sÃ¢n Ä‘áº¥u. Trang bá»‹ cÃ´ng nghá»‡ Carbon T700 chuáº©n quá»‘c táº¿ cÃ¹ng hiá»‡u suáº¥t kiá»ƒm soÃ¡t tá»‘i Ä‘a.</p>
             <div class="adi-hero-buttons">
                 <a href="index.php?act=sanpham" class="adi-btn-sharp">MUA NGAY <i class="fa-solid fa-arrow-right-long"></i></a>
             </div>

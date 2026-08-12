@@ -12,7 +12,7 @@ class DanhMuc
         $this->checkAndMigrateColumns();
     }
 
-    // Tự động kiểm tra và nâng cấp bảng CATEGORIES nếu chưa có cột ngay_tao, trang_thai, thong_so_loai
+    // Tá»± Ä‘á»™ng kiá»ƒm tra vÃ  nÃ¢ng cáº¥p báº£ng CATEGORIES náº¿u chÆ°a cÃ³ cá»™t ngay_tao, trang_thai, thong_so_loai
     private function checkAndMigrateColumns()
     {
         try {
@@ -30,26 +30,31 @@ class DanhMuc
             if ($stmt->rowCount() == 0) {
                 $this->db->exec("ALTER TABLE CATEGORIES ADD COLUMN thong_so_loai VARCHAR(50) DEFAULT 'do_day_vot'");
                 
-                // Cập nhật giá trị thông số mặc định cho danh mục ban đầu
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'do_day_vot' WHERE LOWER(name) LIKE '%vợt%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%giày%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%bóng%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'loai_phu_kien' WHERE LOWER(name) LIKE '%phụ kiện%'");
+                // Cáº­p nháº­t giÃ¡ trá»‹ thÃ´ng sá»‘ máº·c Ä‘á»‹nh cho danh má»¥c ban Ä‘áº§u
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'do_day_vot' WHERE LOWER(name) LIKE '%vá»£t%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%giÃ y%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%bÃ³ng%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'loai_phu_kien' WHERE LOWER(name) LIKE '%phá»¥ kiá»‡n%'");
             }
         } catch (Exception $e) {
-            // Bỏ qua lỗi nếu bảng chưa sẵn sàng hoặc đã được nâng cấp
+            // Bá» qua lá»—i náº¿u báº£ng chÆ°a sáºµn sÃ ng hoáº·c Ä‘Ã£ Ä‘Æ°á»£c nÃ¢ng cáº¥p
         }
     }
 
-    // Lấy tất cả danh mục
+    // Láº¥y táº¥t cáº£ danh má»¥c (kÃ¨m sá»‘ lÆ°á»£ng sáº£n pháº©m)
     public function getAll()
     {
-        $sql = "SELECT * FROM CATEGORIES ORDER BY category_id DESC";
+        $sql = "SELECT c.*, 
+                    COUNT(p.product_id) AS so_san_pham
+                FROM CATEGORIES c
+                LEFT JOIN PRODUCTS p ON p.category_id = c.category_id
+                GROUP BY c.category_id
+                ORDER BY c.category_id DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Thêm danh mục
+    // ThÃªm danh má»¥c
     public function add($name, $trang_thai = 1, $thong_so_loai = 'do_day_vot')
     {
         $sql = "INSERT INTO CATEGORIES(name, trang_thai, thong_so_loai, ngay_tao)
@@ -64,7 +69,7 @@ class DanhMuc
         ]);
     }
 
-    // Lấy theo ID
+    // Láº¥y theo ID
     public function getById($id)
     {
         $sql = "SELECT * FROM CATEGORIES WHERE category_id = :id";
@@ -73,7 +78,7 @@ class DanhMuc
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Cập nhật danh mục
+    // Cáº­p nháº­t danh má»¥c
     public function update($id, $name, $trang_thai, $thong_so_loai = 'do_day_vot')
     {
         $sql = "UPDATE CATEGORIES
@@ -90,7 +95,7 @@ class DanhMuc
         ]);
     }
 
-    // Chuyển đổi trạng thái hoạt động nhanh
+    // Chuyá»ƒn Ä‘á»•i tráº¡ng thÃ¡i hoáº¡t Ä‘á»™ng nhanh
     public function toggleStatus($id)
     {
         $sql = "UPDATE CATEGORIES
@@ -100,7 +105,7 @@ class DanhMuc
         return $stmt->execute([':id' => $id]);
     }
 
-    // Xóa danh mục
+    // XÃ³a danh má»¥c
     public function delete($id)
     {
         $sql = "DELETE FROM CATEGORIES WHERE category_id = :id";
@@ -108,19 +113,23 @@ class DanhMuc
         return $stmt->execute([':id' => $id]);
     }
 
-    // Tìm kiếm danh mục
+    // TÃ¬m kiáº¿m danh má»¥c (kÃ¨m sá»‘ lÆ°á»£ng sáº£n pháº©m)
     public function search($keyword)
     {
-        $sql = "SELECT * FROM CATEGORIES
-                WHERE name LIKE :keyword
-                ORDER BY category_id DESC";
+        $sql = "SELECT c.*,
+                    COUNT(p.product_id) AS so_san_pham
+                FROM CATEGORIES c
+                LEFT JOIN PRODUCTS p ON p.category_id = c.category_id
+                WHERE c.name LIKE :keyword
+                GROUP BY c.category_id
+                ORDER BY c.category_id DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':keyword' => '%' . $keyword . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Kiểm tra trùng tên danh mục
+    // Kiá»ƒm tra trÃ¹ng tÃªn danh má»¥c
     public function checkExists($name, $ignoreId = 0)
     {
         $sql = "SELECT * FROM CATEGORIES WHERE name = :name AND category_id != :ignoreId";

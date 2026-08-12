@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -42,16 +42,7 @@
                     </div>
                 </div>
 
-                <div class="adidas-dashboard-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
-                    <div class="adi-box" style="margin-bottom: 0;">
-                        <div style="padding: 20px; text-align: center;">
-                            <div style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; color: #777; margin-bottom: 10px;">Doanh Thu</div>
-                            <div style="font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700; color: #10b981;">
-                                <?= number_format($doanhThuStats['tong_doanh_thu'] ?? 0, 0, ',', '.') ?>đ
-                            </div>
-                            <div style="font-size: 12px; color: #777; margin-top: 5px;">Tổng doanh thu hệ thống</div>
-                        </div>
-                    </div>
+                <div class="adidas-dashboard-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px;">
                     <div class="adi-box" style="margin-bottom: 0;">
                         <div style="padding: 20px; text-align: center;">
                             <div style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; color: #777; margin-bottom: 10px;">Sản Phẩm</div>
@@ -81,51 +72,128 @@
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 20px;">
-                    <!-- Doanh thu chi tiết -->
-                    <div class="adi-box" style="flex: 2;">
-                        <div class="adi-box-header">
-                            <h3 style="font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; margin: 0;">Doanh Thu Theo Sản Phẩm</h3>
-                            <button class="adi-btn-outline" style="padding: 4px 8px; font-size: 11px;"><i class="fa-solid fa-download"></i> Xuất Báo Cáo</button>
-                        </div>
-                        <div class="adi-table-responsive">
-                            <table class="adi-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 80px; text-align: center;">MÃ SP</th>
-                                        <th>TÊN SẢN PHẨM</th>
-                                        <th style="text-align: center;">SỐ LƯỢNG BÁN</th>
-                                        <th style="text-align: right;">DOANH THU</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($doanhThuStats['theo_san_pham'])): ?>
-                                        <?php foreach (array_slice($doanhThuStats['theo_san_pham'], 0, 5) as $sp): ?>
-                                            <tr>
-                                                <td style="text-align: center; font-weight: bold;"><?= $sp['product_id'] ?></td>
-                                                <td><strong><?= htmlspecialchars($sp['ten']) ?></strong></td>
-                                                <td style="text-align: center; font-weight: bold;"><?= number_format($sp['tong_so_luong']) ?></td>
-                                                <td style="text-align: right; font-weight: bold; color: #10b981;"><?= number_format($sp['tong_doanh_thu'], 0, ',', '.') ?>đ</td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <tr><td colspan="4" style="text-align: center;">Chưa có dữ liệu giao dịch.</td></tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
+                <!-- Card Tổng tồn kho -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
+                    <div class="adi-box" style="margin-bottom: 0; border-top: 3px solid #10b981;">
+                        <div style="padding: 16px 20px; text-align: center;">
+                            <div style="font-size: 12px; font-weight: 700; color: #777; text-transform: uppercase; margin-bottom: 6px;">Tổng tồn kho</div>
+                            <div style="font-size: 28px; font-weight: 700; color: #10b981;"><?= number_format($tonKhoStats['tong_ton_kho'] ?? 0) ?></div>
+                            <div style="font-size: 11px; color: #777;">sản phẩm</div>
                         </div>
                     </div>
+                    <div class="adi-box" style="margin-bottom: 0; border-top: 3px solid #10b981;">
+                        <div style="padding: 16px 20px; text-align: center;">
+                            <div style="font-size: 12px; font-weight: 700; color: #777; text-transform: uppercase; margin-bottom: 6px;">🟢 Còn hàng</div>
+                            <div style="font-size: 28px; font-weight: 700; color: #137333;"><?= $tonKhoStats['con_hang'] ?? 0 ?></div>
+                            <div style="font-size: 11px; color: #777;">loại sản phẩm (>0)</div>
+                        </div>
+                    </div>
+                    <div class="adi-box" style="margin-bottom: 0; border-top: 3px solid #f89406;">
+                        <div style="padding: 16px 20px; text-align: center;">
+                            <div style="font-size: 12px; font-weight: 700; color: #777; text-transform: uppercase; margin-bottom: 6px;">🟡 Sắp hết</div>
+                            <div style="font-size: 28px; font-weight: 700; color: #7d5200;"><?= $tonKhoStats['sap_het'] ?? 0 ?></div>
+                            <div style="font-size: 11px; color: #777;">loại sản phẩm (1–10)</div>
+                        </div>
+                    </div>
+                    <div class="adi-box" style="margin-bottom: 0; border-top: 3px solid #dc3545;">
+                        <div style="padding: 16px 20px; text-align: center;">
+                            <div style="font-size: 12px; font-weight: 700; color: #777; text-transform: uppercase; margin-bottom: 6px;">🔴 Hết hàng</div>
+                            <div style="font-size: 28px; font-weight: 700; color: #c5221f;"><?= $tonKhoStats['het_hang'] ?? 0 ?></div>
+                            <div style="font-size: 11px; color: #777;">loại sản phẩm (= 0)</div>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Chart Box -->
-                    <div class="adi-box" style="flex: 1;">
-                        <div class="adi-box-header">
-                            <h3 style="font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; margin: 0;">Trạng Thái Đơn Hàng</h3>
-                        </div>
-                        <div style="padding: 20px; text-align: center;">
-                            <div style="height: 250px; position: relative;">
-                                <canvas id="orderChart"></canvas>
-                            </div>
-                        </div>
+                <!-- Lịch sử đơn hàng chi tiết -->
+                <div class="adi-box" style="margin-bottom: 30px;">
+                    <div class="adi-box-header">
+                        <h3 style="font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; margin: 0;">Lịch Sử Đơn Hàng Gần Đây</h3>
+                    </div>
+                    <div class="adi-table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="adi-table">
+                            <thead style="position: sticky; top: 0; background: #fff; z-index: 1;">
+                                <tr>
+                                    <th style="width: 120px; text-align: center;">MÃ ĐƠN HÀNG</th>
+                                    <th>KHÁCH HÀNG</th>
+                                    <th>SẢN PHẨM</th>
+                                    <th style="text-align: right;">TỔNG TIỀN</th>
+                                    <th style="text-align: center;">TRẠNG THÁI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($lichSuDonHang)): ?>
+                                    <?php foreach ($lichSuDonHang as $don): ?>
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold; color: #007bff;"><?= htmlspecialchars($don['ma_don_hang']) ?></td>
+                                            <td>
+                                                <strong><?= htmlspecialchars($don['ho_ten']) ?></strong><br>
+                                                <span style="font-size: 11px; color: #777;"><?= date('d/m/Y H:i', strtotime($don['ngay_dat'])) ?></span>
+                                            </td>
+                                            <td style="font-size: 12px; line-height: 1.4;"><?= $don['san_pham'] ?></td>
+                                            <td style="text-align: right; font-weight: bold; color: #10b981;"><?= number_format($don['tong_tien'], 0, ',', '.') ?>đ</td>
+                                            <td style="text-align: center;">
+                                                <?php
+                                                    $badgeBg = '#f8f9fa'; $badgeColor = '#333';
+                                                    if ($don['trang_thai'] == 'Đã giao') { $badgeBg = '#e6f4ea'; $badgeColor = '#137333'; }
+                                                    elseif ($don['trang_thai'] == 'Đang xử lý') { $badgeBg = '#fff8e1'; $badgeColor = '#7d5200'; }
+                                                    elseif ($don['trang_thai'] == 'Đã hủy') { $badgeBg = '#fce8e6'; $badgeColor = '#c5221f'; }
+                                                ?>
+                                                <span style="background: <?= $badgeBg ?>; color: <?= $badgeColor ?>; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
+                                                    <?= $don['trang_thai'] ?>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="5" style="text-align: center;">Chưa có đơn hàng nào.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bảng tồn kho chi tiết -->
+                <div class="adi-box" style="margin-top: 0;">
+                    <div class="adi-box-header">
+                        <h3 style="font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; margin: 0;">📦 Tồn Kho Theo Sản Phẩm</h3>
+                    </div>
+                    <div class="adi-table-responsive">
+                        <table class="adi-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px; text-align: center;">MÃ SP</th>
+                                    <th>TÊN SẢN PHẨM</th>
+                                    <th style="text-align: center; width: 120px;">TỒN KHO</th>
+                                    <th style="text-align: center;">TRẠNG THÁI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php if (!empty($tonKhoStats['ds_san_pham'])): ?>
+                                <?php foreach ($tonKhoStats['ds_san_pham'] as $sp): ?>
+                                    <?php
+                                        $qty = (int)$sp['tong_ton_kho'];
+                                        if ($qty > 10) { $bg='#e6f4ea'; $cl='#137333'; $label='🟢 Còn hàng'; }
+                                        elseif ($qty > 0) { $bg='#fff8e1'; $cl='#7d5200'; $label='🟡 Sắp hết hàng'; }
+                                        else { $bg='#fce8e6'; $cl='#c5221f'; $label='🔴 Hết hàng'; }
+                                    ?>
+                                    <tr style="background: <?= $qty == 0 ? '#fef2f2' : ($qty <= 10 ? '#fffbf0' : 'transparent') ?>;">
+                                        <td style="text-align: center; font-weight: bold;"><?= $sp['ma_sp'] ?></td>
+                                        <td><strong><?= htmlspecialchars($sp['ten']) ?></strong></td>
+                                        <td style="text-align: center;">
+                                            <span style="font-family: monospace; font-size: 20px; font-weight: 700; color: <?= $cl ?>;"><?= $qty ?></span>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span style="background: <?= $bg ?>; color: <?= $cl ?>; padding: 4px 12px; font-weight: 700; font-size: 11px;">
+                                                <?= $label ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr><td colspan="4" style="text-align: center; padding: 20px;">Chưa có dữ liệu tồn kho.</td></tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -133,41 +201,5 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const ctx = document.getElementById('orderChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Đang xử lý', 'Đã giao', 'Đã hủy'],
-                    datasets: [{
-                        data: [
-                            <?= (int)($donHangStats['dang_xu_ly'] ?? 0) ?>,
-                            <?= (int)($donHangStats['da_giao'] ?? 0) ?>,
-                            <?= (int)($donHangStats['da_huy'] ?? 0) ?>
-                        ],
-                        backgroundColor: ['#f89406', '#10b981', '#dc3545'],
-                        borderWidth: 2,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: {
-                                font: {
-                                    family: "'Roboto', sans-serif"
-                                }
-                            }
-                        }
-                    },
-                    cutout: '65%'
-                }
-            });
-        });
-    </script>
 </body>
 </html>

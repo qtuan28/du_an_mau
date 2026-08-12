@@ -85,11 +85,12 @@
                             <thead>
                                 <tr>
                                     <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
-                                    <th style="width: 60px; text-align: center;">STT</th>
+                                    <th style="width: 60px; text-align: center;">MÃ SP</th>
                                     <th>SẢN PHẨM</th>
                                     <th style="text-align: center;">HÌNH ẢNH</th>
                                     <th>DANH MỤC</th>
                                     <th>GIÁ BÁN</th>
+                                    <th style="text-align: center;">TỒN KHO</th>
                                     <th>TRẠNG THÁI</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
@@ -104,10 +105,9 @@
                                     ?>
                                     <tr>
                                         <td style="text-align: center;"><input type="checkbox"></td>
-                                        <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
+                                        <td style="text-align: center; font-weight: bold; font-family: monospace; color: #007bff;"><?= htmlspecialchars($sp['ma_sp'] ?? $sp['product_id']) ?></td>
                                         <td>
                                             <strong><?= htmlspecialchars($sp['ten']) ?></strong>
-                                            <div style="font-size: 11px; color: #777;">ID: <?= $sp['product_id'] ?></div>
                                         </td>
                                         <td style="text-align: center;">
                                             <?php 
@@ -130,11 +130,28 @@
                                         <td>
                                             <div style="font-weight: bold; font-family: monospace; font-size: 14px;"><?= number_format($sp['gia'], 0, ',', '.') ?>đ</div>
                                         </td>
+
+                                        <td style="text-align: center;">
+                                            <?php
+                                                $tonKho = (int)($sp['so_luong'] ?? 0);
+                                                if ($tonKho > 10) {
+                                                    $stockColor = '#137333'; $stockBg = '#e6f4ea'; $stockLabel = 'Còn hàng';
+                                                } elseif ($tonKho > 0) {
+                                                    $stockColor = '#7d5200'; $stockBg = '#fff8e1'; $stockLabel = 'Sắp hết';
+                                                } else {
+                                                    $stockColor = '#c5221f'; $stockBg = '#fce8e6'; $stockLabel = 'Hết hàng';
+                                                }
+                                            ?>
+                                            <div style="font-family: monospace; font-weight: 700; font-size: 18px; color: <?= $stockColor ?>;"><?= $tonKho ?></div>
+                                            <span style="background: <?= $stockBg ?>; color: <?= $stockColor ?>; padding: 2px 8px; font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 4px;"><?= $stockLabel ?></span>
+                                            <br>
+                                            <a href="index.php?act=admin_sanpham_history&id=<?= $sp['product_id'] ?>" style="font-size: 11px; color: #3c8dbc; text-decoration: underline;"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử</a>
+                                        </td>
                                         
                                         <td>
                                             <div class="adi-status-radio">
-                                                <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= (isset($sp['trang_thai']) && $sp['trang_thai'] == 1) ? 'checked' : '' ?>> Còn hàng</label>
-                                                <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= (!isset($sp['trang_thai']) || $sp['trang_thai'] != 1) ? 'checked' : '' ?>> Hết hàng</label>
+                                                <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= $tonKho > 0 ? 'checked' : '' ?> onclick="return false;"> Còn hàng</label>
+                                                <label><input type="radio" name="status_<?= $sp['product_id'] ?>" <?= $tonKho <= 0 ? 'checked' : '' ?> onclick="return false;"> Hết hàng</label>
                                             </div>
                                         </td>
 

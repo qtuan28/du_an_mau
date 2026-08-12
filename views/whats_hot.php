@@ -1,1 +1,1 @@
-﻿<!-- Whats hot section -->
+<!-- Whats hot section -->

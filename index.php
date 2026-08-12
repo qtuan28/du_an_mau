@@ -104,6 +104,9 @@ switch ($act) {
     case 'admin_sanpham':
         $sp_controller->adminQuanLySanPham();
         break;
+    case 'admin_sanpham_history':
+        $sp_controller->adminLichSuKho();
+        break;
     case 'admin_sanpham_add_form':
         $sp_controller->adminFormThemSanPham();
         break;

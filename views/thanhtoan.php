@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -135,6 +135,13 @@
 
         <h1 class="adi-checkout-title">THANH TOÁN ĐƠN HÀNG</h1>
 
+        <?php if (!isset($_SESSION['user'])): ?>
+            <div style="background:#fef2f2;border-left:4px solid #e50010;padding:16px 20px;margin-bottom:24px;font-family:'Roboto',sans-serif;font-size:14px;display:flex;align-items:center;gap:12px;">
+                <i class="fa-solid fa-lock" style="color:#e50010;font-size:18px;"></i>
+                <span>Bạn cần <a href="index.php?act=login&redirect=thanhtoan" style="color:#e50010;font-weight:700;text-decoration:underline;">đăng nhập</a> để tiến hành thanh toán.</span>
+            </div>
+        <?php endif; ?>
+
         <div class="adi-checkout-card">
             <div class="adi-checkout-header-box">
                 <i class="fa-solid fa-truck-ramp-box"></i>
@@ -142,17 +149,38 @@
             </div>
 
             <form action="index.php?act=post_thanhtoan" method="POST">
-                <div class="adi-form-group">
-                    <label class="adi-form-label">Người nhận hàng</label>
-                    <input type="text" class="adi-input-text" value="<?= htmlspecialchars($_SESSION['user']['username'] ?? 'Khách hàng') ?>" readonly style="background: #f5f5f5; color: #555;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
+                    <div class="adi-form-group" style="grid-column:1/3;">
+                        <label class="adi-form-label">Họ và tên người nhận <span style="color:#e50010;">*</span></label>
+                        <input type="text" name="ho_ten" class="adi-input-text"
+                            value="<?= htmlspecialchars($_SESSION['user']['username'] ?? '') ?>"
+                            placeholder="Nhập họ và tên người nhận hàng" required>
+                    </div>
+
+                    <div class="adi-form-group">
+                        <label class="adi-form-label">Số điện thoại <span style="color:#e50010;">*</span></label>
+                        <input type="tel" name="sdt" class="adi-input-text"
+                            value="<?= htmlspecialchars($_SESSION['user']['sdt'] ?? '') ?>"
+                            placeholder="VD: 0901234567" pattern="[0-9]{9,11}"
+                            title="Số điện thoại phải có 9-11 chữ số" required>
+                    </div>
+
+                    <div class="adi-form-group">
+                        <label class="adi-form-label">Email xác nhận <span style="color:#e50010;">*</span></label>
+                        <input type="email" name="email" class="adi-input-text"
+                            value="<?= htmlspecialchars($_SESSION['user']['email'] ?? '') ?>"
+                            placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="adi-form-group" style="grid-column:1/3;">
+                        <label class="adi-form-label">Địa chỉ giao hàng <span style="color:#e50010;">*</span></label>
+                        <input type="text" name="address" class="adi-input-text"
+                            value="<?= htmlspecialchars($_SESSION['user']['address'] ?? '') ?>"
+                            placeholder="Nhập số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố..." required autofocus>
+                    </div>
                 </div>
 
-                <div class="adi-form-group">
-                    <label class="adi-form-label">Địa chỉ giao hàng <span style="color: #e50010;">*</span></label>
-                    <input type="text" name="address" class="adi-input-text" value="<?= htmlspecialchars($_SESSION['user']['address'] ?? '') ?>" placeholder="Nhập số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố..." required autofocus>
-                </div>
-
-                <button type="submit" class="adi-order-confirm-btn">
+                <button type="submit" class="adi-order-confirm-btn" <?= !isset($_SESSION['user']) ? 'onclick="window.location.href=\'index.php?act=login&redirect=thanhtoan\';return false;"' : '' ?>>
                     XÁC NHẬN ĐẶT HÀNG <i class="fa-solid fa-arrow-right-long"></i>
                 </button>
             </form>

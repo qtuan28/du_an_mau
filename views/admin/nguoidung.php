@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -86,9 +86,10 @@
                                     <th style="width: 60px; text-align: center;">STT</th>
                                     <th>NGƯỜI DÙNG</th>
                                     <th>EMAIL</th>
-                                    <th>MẬT KHẨU</th>
+                                    <th>SỐ ĐIỆN THOẠI</th>
                                     <th style="text-align: center;">VAI TRÒ</th>
                                     <th style="text-align: center;">TRẠNG THÁI</th>
+                                    <th style="text-align: center;">ĐĂNG NHẬP CUỐI</th>
                                     <th style="text-align: center;">TÁC VỤ</th>
                                 </tr>
                             </thead>
@@ -112,21 +113,20 @@
                                             <?php if (!$isActive): ?>
                                                 <span style="font-size: 10px; background: #e50010; color: #fff; padding: 2px 6px; margin-left: 6px; font-weight: 700;">ĐÃ KHÓA</span>
                                             <?php endif; ?>
+                                            <?php
+                                                // Cảnh báo không hoạt động >90 ngày
+                                                $lastLogin = $u['last_login'] ?? null;
+                                                $soNgay = $lastLogin ? (int)((time() - strtotime($lastLogin)) / 86400) : null;
+                                                $isInactive = ($lastLogin === null || $soNgay > 90);
+                                            ?>
+                                            <?php if ($isInactive && !$isAdminRole): ?>
+                                                <span style="font-size: 10px; background: #f89406; color: #fff; padding: 2px 6px; margin-left: 4px; font-weight: 700;">⚠ KHÔNG HOẠT ĐỘNG</span>
+                                            <?php endif; ?>
                                             <div style="font-size: 11px; color: #777;">ID: <?= $u['user_id'] ?></div>
                                         </td>
                                         <td><?= htmlspecialchars($u['email']) ?></td>
+                                        <td><?= htmlspecialchars($u['sdt'] ?? '—') ?></td>
 
-                                        <td>
-                                            <div style="display: flex; align-items: center; gap: 8px;">
-                                                <span id="pass_<?= $u['user_id'] ?>" data-hidden="true" style="font-family: monospace; font-weight: 700; background: #000; color: #fff; padding: 3px 8px; font-size: 13px; letter-spacing: 0.5px;">
-                                                    ••••••••
-                                                </span>
-                                                <button type="button" onclick="togglePassVisibility(<?= $u['user_id'] ?>, '<?= htmlspecialchars(addslashes($userPass)) ?>')" style="background: none; border: none; cursor: pointer; color: #333; padding: 2px 4px;" title="Ẩn/Hiện mật khẩu">
-                                                    <i id="eye_icon_<?= $u['user_id'] ?>" class="fa-solid fa-eye-slash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        
                                         <td style="text-align: center;">
                                             <?php if ($isAdminRole): ?>
                                                 <span style="background: #17a2b8; color: #fff; padding: 2px 6px; font-size: 11px; font-weight: bold;">ADMIN</span>
@@ -147,6 +147,17 @@
                                             <?php endif; ?>
                                         </td>
 
+                                        <td style="text-align: center; white-space: nowrap;">
+                                            <?php if ($lastLogin): ?>
+                                                <div style="font-size: 12px; color: #333;"><?= date('d/m/Y', strtotime($lastLogin)) ?></div>
+                                                <div style="font-size: 11px; color: <?= $isInactive ? '#f89406' : '#777'; ?>">
+                                                    <?= $soNgay > 0 ? $soNgay . ' ngày trước' : 'Hôm nay' ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <span style="color: #999; font-size: 11px;">Chưa đăng nhập</span>
+                                            <?php endif; ?>
+                                        </td>
+
                                         <td style="text-align: center;">
                                             <a href="index.php?act=admin_nguoidung_edit&id=<?= $u['user_id'] ?>" class="adi-action-btn edit" title="Sửa">Sửa <i class="fa-solid fa-pen"></i></a>
                                             <?php if (!$isSelf): ?>
@@ -162,7 +173,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="8" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
+                                    <td colspan="9" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>

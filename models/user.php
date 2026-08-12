@@ -15,6 +15,14 @@ class User {
         } catch (PDOException $e) {}
 
         try {
+            $this->db->conn->exec("ALTER TABLE USER ADD COLUMN sdt VARCHAR(15) DEFAULT NULL");
+        } catch (PDOException $e) {}
+
+        try {
+            $this->db->conn->exec("ALTER TABLE USER ADD COLUMN last_login DATETIME DEFAULT NULL");
+        } catch (PDOException $e) {}
+
+        try {
             // Khởi tạo bảng VAITRO nếu trống
             $countStmt = $this->db->conn->query("SELECT COUNT(*) FROM VAITRO");
             if ($countStmt && $countStmt->fetchColumn() == 0) {
@@ -64,10 +72,10 @@ class User {
     }
 
     // Đăng ký người dùng mới
-    public function dangKy($username, $password, $email, $address) {
-        $sql = "INSERT INTO USER (vai_tro_id, username, password, email, address, trang_thai) VALUES (2, ?, ?, ?, ?, 1)";
+    public function dangKy($username, $password, $email, $address, $sdt = '') {
+        $sql = "INSERT INTO USER (vai_tro_id, username, password, email, address, sdt, trang_thai) VALUES (2, ?, ?, ?, ?, ?, 1)";
         $stmt = $this->db->conn->prepare($sql);
-        return $stmt->execute([$username, $password, $email, $address]);
+        return $stmt->execute([$username, $password, $email, $address, $sdt ?: null]);
     }
 
     // 1. Lấy danh sách tất cả người dùng (Có hỗ trợ tìm kiếm theo từ khóa)
@@ -101,26 +109,26 @@ class User {
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function updateProfile($id, $email, $address){
+    public function updateProfile($id, $email, $address, $sdt = ''){
         $sql = "UPDATE USER
-                SET email = ?, address = ?
+                SET email = ?, address = ?, sdt = ?
                 WHERE user_id = ?";
         $stmt = $this->db->conn->prepare($sql);
-        return $stmt->execute([$email, $address, $id]);
+        return $stmt->execute([$email, $address, $sdt ?: null, $id]);
     }
 
     // 3. Thêm tài khoản người dùng mới (Admin)
-    public function addUser($username, $password, $email, $address, $vai_tro_id = 2) {
-        $sql = "INSERT INTO USER (username, password, email, address, vai_tro_id, trang_thai) VALUES (?, ?, ?, ?, ?, 1)";
+    public function addUser($username, $password, $email, $address, $vai_tro_id = 2, $sdt = '') {
+        $sql = "INSERT INTO USER (username, password, email, address, sdt, vai_tro_id, trang_thai) VALUES (?, ?, ?, ?, ?, ?, 1)";
         $stmt = $this->db->conn->prepare($sql);
-        return $stmt->execute([$username, $password, $email, $address, $vai_tro_id]);
+        return $stmt->execute([$username, $password, $email, $address, $sdt ?: null, $vai_tro_id]);
     }
 
     // 4. Sửa thông tin người dùng & Phân quyền (Admin)
-    public function updateUser($userId, $email, $address, $vai_tro_id) {
-        $sql = "UPDATE USER SET email = ?, address = ?, vai_tro_id = ? WHERE user_id = ?";
+    public function updateUser($userId, $email, $address, $vai_tro_id, $sdt = '') {
+        $sql = "UPDATE USER SET email = ?, address = ?, sdt = ?, vai_tro_id = ? WHERE user_id = ?";
         $stmt = $this->db->conn->prepare($sql);
-        return $stmt->execute([$email, $address, $vai_tro_id, $userId]);
+        return $stmt->execute([$email, $address, $sdt ?: null, $vai_tro_id, $userId]);
     }
 
     // 5. Xóa tài khoản người dùng
@@ -160,6 +168,27 @@ class User {
         $sql = "SELECT * FROM DONHANG WHERE user_id = ? ORDER BY don_hang_id DESC";
         $stmt = $this->db->conn->prepare($sql);
         $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Cập nhật last_login sau khi đăng nhập thành công
+    public function updateLastLogin($userId) {
+        $sql = "UPDATE USER SET last_login = NOW() WHERE user_id = ?";
+        $stmt = $this->db->conn->prepare($sql);
+        return $stmt->execute([$userId]);
+    }
+
+    // Lấy danh sách tài khoản không hoạt động lâu (không đăng nhập trong X ngày)
+    public function getInactiveUsers($days = 90) {
+        $sql = "SELECT u.*, v.ten_vai_tro,
+                    DATEDIFF(NOW(), u.last_login) AS so_ngay_khong_hoat_dong
+                FROM USER u
+                JOIN VAITRO v ON u.vai_tro_id = v.vai_tro_id
+                WHERE u.last_login IS NULL 
+                   OR u.last_login < DATE_SUB(NOW(), INTERVAL ? DAY)
+                ORDER BY u.last_login ASC";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$days]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -206,6 +206,14 @@
                     <div class="adi-input-field-wrap">
                         <i class="fa-regular fa-envelope adi-input-icon"></i>
                         <input type="email" name="email" class="adi-input-text" placeholder="Nhập địa chỉ email (VD: name@gmail.com)" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn|net|org|edu|gov|io|co|me|info|biz|us|uk)" title="Email phải đúng định dạng chuẩn như name@gmail.com, name@yahoo.com, name@fpt.edu.vn..." required>
+                    </div>
+                </div>
+
+                <div class="adi-form-group">
+                    <label class="adi-form-label">Số điện thoại</label>
+                    <div class="adi-input-field-wrap">
+                        <i class="fa-solid fa-phone adi-input-icon"></i>
+                        <input type="tel" name="sdt" class="adi-input-text" placeholder="Nhập số điện thoại (VD: 0901234567)" pattern="[0-9]{9,11}" title="Số điện thoại phải có 9-11 chữ số">
                     </div>
                 </div>
 

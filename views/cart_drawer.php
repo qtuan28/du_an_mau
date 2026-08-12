@@ -1,1 +1,1 @@
-﻿<!-- Cart drawer component -->
+<!-- Cart drawer component -->
