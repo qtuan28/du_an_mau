@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= ($mode === 'edit') ? 'Sá»­a Sáº£n Pháº©m' : 'ThÃªm Sáº£n Pháº©m Má»›i' ?> | Admin Panel</title>
+    <title><?= ($mode === 'edit') ? 'Sửa Sản Phẩm' : 'Thêm Sản Phẩm Mới' ?> | Admin Panel</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -150,7 +150,7 @@
                         <i class="fa-solid fa-circle-user"></i>
                         <?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?>
                     </div>
-                    <a href="index.php?act=logout" class="adi-header-link" style="color: #dc3545;" title="ÄÄƒng xuáº¥t"><i class="fa-solid fa-power-off"></i></a>
+                    <a href="index.php?act=logout" class="adi-header-link" style="color: #dc3545;" title="Đăng xuất"><i class="fa-solid fa-power-off"></i></a>
                 </div>
             </header>
 
@@ -160,15 +160,15 @@
                 <!-- Page Header & Breadcrumb -->
                 <div class="adi-content-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <div>
-                        <h1 class="adi-page-title"><?= ($mode === 'edit') ? 'Cáº¬P NHáº¬T Sáº¢N PHáº¨M' : 'THÃŠM Sáº¢N PHáº¨M Má»šI' ?></h1>
+                        <h1 class="adi-page-title"><?= ($mode === 'edit') ? 'CẬP NHẬT SẢN PHẨM' : 'THÊM SẢN PHẨM MỚI' ?></h1>
                         <div class="adi-breadcrumb">
-                            <a href="index.php?act=admin"><i class="fa-solid fa-house"></i> Trang chá»§</a> > 
-                            <a href="index.php?act=admin_sanpham">Quáº£n lÃ½ Sáº£n pháº©m</a> > 
-                            <?= ($mode === 'edit') ? 'Chá»‰nh sá»­a' : 'ThÃªm má»›i' ?>
+                            <a href="index.php?act=admin"><i class="fa-solid fa-house"></i> Trang chủ</a> > 
+                            <a href="index.php?act=admin_sanpham">Quản lý Sản phẩm</a> > 
+                            <?= ($mode === 'edit') ? 'Chỉnh sửa' : 'Thêm mới' ?>
                         </div>
                     </div>
                     <a href="index.php?act=admin_sanpham" class="adi-btn-secondary">
-                        <i class="fa-solid fa-arrow-left"></i> Quay láº¡i danh sÃ¡ch
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
                     </a>
                 </div>
 
@@ -184,7 +184,7 @@
                 <div class="adi-box">
                     <div class="adi-box-header">
                         <h3 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0;">
-                            <i class="fa-solid fa-box-open"></i> ThÃ´ng tin sáº£n pháº©m
+                            <i class="fa-solid fa-box-open"></i> Thông tin sản phẩm
                         </h3>
                     </div>
 
@@ -206,36 +206,36 @@
                                 <!-- Column 1 -->
                                 <div>
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="ten">TÃªn sáº£n pháº©m <span class="req">*</span></label>
+                                        <label class="adi-field-label" for="ten">Tên sản phẩm <span class="req">*</span></label>
                                         <input
                                             type="text"
                                             id="ten"
                                             name="ten"
                                             class="adi-field-input"
                                             value="<?= htmlspecialchars($sanPham['ten'] ?? '') ?>"
-                                            placeholder="VÃ­ dá»¥: Vá»£t Pickleball Force 1 Pro"
+                                            placeholder="Ví dụ: Vợt Pickleball Force 1 Pro"
                                             required
                                             autofocus
                                         >
                                     </div>
 
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="ma_sp">MÃ£ sáº£n pháº©m (SKU)</label>
+                                        <label class="adi-field-label" for="ma_sp">Mã sản phẩm (SKU)</label>
                                         <input
                                             type="text"
                                             id="ma_sp"
                                             name="ma_sp"
                                             class="adi-field-input"
                                             value="<?= htmlspecialchars($sanPham['ma_sp'] ?? '') ?>"
-                                            placeholder="Náº¿u Ä‘á»ƒ trá»‘ng sáº½ tá»± Ä‘á»™ng sinh mÃ£"
+                                            placeholder="Nếu để trống sẽ tự động sinh mã"
                                         >
-                                        <div style="font-size: 11px; color: #777; margin-top: 4px;">Khoáº£ng 8 kÃ½ tá»±, dÃ¹ng Ä‘á»ƒ Ä‘á»‹nh danh duy nháº¥t.</div>
+                                        <div style="font-size: 11px; color: #777; margin-top: 4px;">Khoảng 8 ký tự, dùng để định danh duy nhất.</div>
                                     </div>
 
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="category_id">Danh má»¥c sáº£n pháº©m <span class="req">*</span></label>
+                                        <label class="adi-field-label" for="category_id">Danh mục sản phẩm <span class="req">*</span></label>
                                         <select id="category_id" name="category_id" class="adi-field-input" required>
-                                            <option value="">-- Chá»n danh má»¥c --</option>
+                                            <option value="">-- Chọn danh mục --</option>
                                             <?php if (!empty($dsDanhMuc)): ?>
                                                 <?php foreach ($dsDanhMuc as $dm): ?>
                                                     <option value="<?= $dm['category_id'] ?>"
@@ -248,13 +248,13 @@
                                     </div>
 
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="trang_thai">Tráº¡ng thÃ¡i kinh doanh</label>
+                                        <label class="adi-field-label" for="trang_thai">Trạng thái kinh doanh</label>
                                         <select id="trang_thai" name="trang_thai" class="adi-field-input">
                                             <option value="1" <?= (isset($sanPham['trang_thai']) && $sanPham['trang_thai'] == 1) ? 'selected' : '' ?>>
-                                                ðŸŸ¢ CÃ²n hÃ ng (Äang kinh doanh)
+                                                🟢 Còn hàng (Đang kinh doanh)
                                             </option>
                                             <option value="0" <?= (isset($sanPham['trang_thai']) && $sanPham['trang_thai'] == 0) ? 'selected' : '' ?>>
-                                                ðŸ”´ Háº¿t hÃ ng (Táº¡m ngÆ°ng)
+                                                🔴 Hết hàng (Tạm ngưng)
                                             </option>
                                         </select>
                                     </div>
@@ -263,7 +263,7 @@
                                 <!-- Column 2 -->
                                 <div>
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="gia">GiÃ¡ bÃ¡n (VNÄ) <span class="req">*</span></label>
+                                        <label class="adi-field-label" for="gia">Giá bán (VNĐ) <span class="req">*</span></label>
                                         <input
                                             type="number"
                                             id="gia"
@@ -278,7 +278,7 @@
 
                                     <div class="adi-field-group">
                                         <label class="adi-field-label" for="so_luong_nhap">
-                                            <?= ($mode === 'edit') ? 'ThÃªm sá»‘ lÆ°á»£ng tá»“n kho' : 'Sá»‘ lÆ°á»£ng nháº­p kho ban Ä‘áº§u' ?>
+                                            <?= ($mode === 'edit') ? 'Thêm số lượng tồn kho' : 'Số lượng nhập kho ban đầu' ?>
                                         </label>
                                         <input
                                             type="number"
@@ -287,20 +287,20 @@
                                             class="adi-field-input"
                                             value="0"
                                             min="0"
-                                            placeholder="Nháº­p sá»‘ lÆ°á»£ng Ä‘á»ƒ cáº­p nháº­t kho"
+                                            placeholder="Nhập số lượng để cập nhật kho"
                                         >
                                         <?php if ($mode === 'edit'): ?>
                                             <div style="font-size: 11px; color: #10b981; margin-top: 4px; font-weight: bold;">
-                                                Sá»‘ lÆ°á»£ng tá»“n kho hiá»‡n táº¡i: <?= htmlspecialchars($sanPham['so_luong'] ?? 0) ?>
+                                                Số lượng tồn kho hiện tại: <?= htmlspecialchars($sanPham['so_luong'] ?? 0) ?>
                                             </div>
                                             <div style="font-size: 11px; color: #777; margin-top: 2px;">
-                                                Nháº­p sá»‘ lÆ°á»£ng muá»‘n nháº­p thÃªm. Äá»ƒ 0 náº¿u khÃ´ng Ä‘á»•i tá»“n kho.
+                                                Nhập số lượng muốn nhập thêm. Để 0 nếu không đổi tồn kho.
                                             </div>
                                         <?php endif; ?>
                                     </div>
 
                                     <div class="adi-field-group">
-                                        <label class="adi-field-label" for="anh">HÃ¬nh áº£nh sáº£n pháº©m chÃ­nh (áº¢nh bÃ¬a)</label>
+                                        <label class="adi-field-label" for="anh">Hình ảnh sản phẩm chính (Ảnh bìa)</label>
                                         <input type="file" id="anh" name="anh" accept="image/*" class="adi-field-input" style="padding: 10px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh'])): ?>
                                             <div class="adi-image-upload-preview">
@@ -308,7 +308,7 @@
                                                      alt="Thumbnail"
                                                      onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
                                                 <div>
-                                                    <span style="font-family: 'Roboto', sans-serif; font-size: 12px; color: #666; display: block;">áº¢nh hiá»‡n táº¡i:</span>
+                                                    <span style="font-family: 'Roboto', sans-serif; font-size: 12px; color: #666; display: block;">Ảnh hiện tại:</span>
                                                     <strong style="font-family: 'Roboto', sans-serif; font-size: 13px; color: #000;"><?= htmlspecialchars($sanPham['anh']) ?></strong>
                                                 </div>
                                             </div>
@@ -320,13 +320,13 @@
                             <!-- 4 Detail Images Gallery Section -->
                             <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed #ccc;">
                                 <h4 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 20px 0; color: #000;">
-                                    <i class="fa-regular fa-images"></i> 4 HÃ¬nh áº£nh chi tiáº¿t sáº£n pháº©m (Album LÆ°á»›i 2x2)
+                                    <i class="fa-regular fa-images"></i> 4 Hình ảnh chi tiết sản phẩm (Album Lưới 2x2)
                                 </h4>
 
                                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
                                     <!-- Image 1 -->
                                     <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
-                                        <label class="adi-field-label" for="anh_1">áº¢nh chi tiáº¿t 1 (GÃ³c trÃªn bÃªn trÃ¡i)</label>
+                                        <label class="adi-field-label" for="anh_1">Ảnh chi tiết 1 (Góc trên bên trái)</label>
                                         <input type="file" id="anh_1" name="anh_1" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_1'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
@@ -338,7 +338,7 @@
 
                                     <!-- Image 2 -->
                                     <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
-                                        <label class="adi-field-label" for="anh_2">áº¢nh chi tiáº¿t 2 (GÃ³c trÃªn bÃªn pháº£i)</label>
+                                        <label class="adi-field-label" for="anh_2">Ảnh chi tiết 2 (Góc trên bên phải)</label>
                                         <input type="file" id="anh_2" name="anh_2" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_2'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
@@ -350,7 +350,7 @@
 
                                     <!-- Image 3 -->
                                     <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
-                                        <label class="adi-field-label" for="anh_3">áº¢nh chi tiáº¿t 3 (GÃ³c dÆ°á»›i bÃªn trÃ¡i)</label>
+                                        <label class="adi-field-label" for="anh_3">Ảnh chi tiết 3 (Góc dưới bên trái)</label>
                                         <input type="file" id="anh_3" name="anh_3" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_3'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
@@ -362,7 +362,7 @@
 
                                     <!-- Image 4 -->
                                     <div class="adi-field-group" style="background: #fafafa; padding: 16px; border: 1px dashed #ddd;">
-                                        <label class="adi-field-label" for="anh_4">áº¢nh chi tiáº¿t 4 (GÃ³c dÆ°á»›i bÃªn pháº£i)</label>
+                                        <label class="adi-field-label" for="anh_4">Ảnh chi tiết 4 (Góc dưới bên phải)</label>
                                         <input type="file" id="anh_4" name="anh_4" accept="image/*" class="adi-field-input" style="padding: 8px;">
                                         <?php if ($mode === 'edit' && !empty($sanPham['anh_4'])): ?>
                                             <div class="adi-image-upload-preview" style="margin-top: 8px;">
@@ -377,34 +377,34 @@
                             <!-- Specification Section -->
                             <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed #ccc;">
                                 <h4 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 20px 0; color: #000;">
-                                    <i class="fa-solid fa-list-check"></i> ThÃ´ng sá»‘ ká»¹ thuáº­t chi tiáº¿t
+                                    <i class="fa-solid fa-list-check"></i> Thông số kỹ thuật chi tiết
                                 </h4>
 
                                 <div class="adi-form-grid">
                                     <div>
                                         <div class="adi-field-group">
-                                            <label class="adi-field-label" for="spec_chat_lieu">Cháº¥t liá»‡u sáº£n pháº©m</label>
-                                            <input type="text" id="spec_chat_lieu" name="spec_chat_lieu" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chat_lieu'] ?? '') ?>" placeholder="VÃ­ dá»¥: Carbon Fiber T700 / Fiberglass">
+                                            <label class="adi-field-label" for="spec_chat_lieu">Chất liệu sản phẩm</label>
+                                            <input type="text" id="spec_chat_lieu" name="spec_chat_lieu" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chat_lieu'] ?? '') ?>" placeholder="Ví dụ: Carbon Fiber T700 / Fiberglass">
                                         </div>
 
                                         <div class="adi-field-group">
-                                            <label class="adi-field-label" for="spec_do_day_loi">Äá»™ dÃ y lÃµi (mm)</label>
-                                            <input type="number" step="0.1" id="spec_do_day_loi" name="spec_do_day_loi" class="adi-field-input" value="<?= htmlspecialchars($sanPham['do_day_loi'] ?? '') ?>" placeholder="VÃ­ dá»¥: 16.0">
+                                            <label class="adi-field-label" for="spec_do_day_loi">Độ dày lõi (mm)</label>
+                                            <input type="number" step="0.1" id="spec_do_day_loi" name="spec_do_day_loi" class="adi-field-input" value="<?= htmlspecialchars($sanPham['do_day_loi'] ?? '') ?>" placeholder="Ví dụ: 16.0">
                                         </div>
 
                                         <div class="adi-field-group">
-                                            <label class="adi-field-label" for="spec_loai_tay_cam">Loáº¡i / Kiá»ƒu tay cáº§m</label>
-                                            <input type="text" id="spec_loai_tay_cam" name="spec_loai_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['loai_tay_cam'] ?? '') ?>" placeholder="VÃ­ dá»¥: Selkirk Geo Grip Pro / Standard Cushion">
+                                            <label class="adi-field-label" for="spec_loai_tay_cam">Loại / Kiểu tay cầm</label>
+                                            <input type="text" id="spec_loai_tay_cam" name="spec_loai_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['loai_tay_cam'] ?? '') ?>" placeholder="Ví dụ: Selkirk Geo Grip Pro / Standard Cushion">
                                         </div>
 
                                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                                             <div class="adi-field-group">
-                                                <label class="adi-field-label" for="spec_chieu_dai">Chiá»u dÃ i (cm)</label>
+                                                <label class="adi-field-label" for="spec_chieu_dai">Chiều dài (cm)</label>
                                                 <input type="number" step="0.1" id="spec_chieu_dai" name="spec_chieu_dai" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chieu_dai'] ?? '') ?>" placeholder="41.9">
                                             </div>
 
                                             <div class="adi-field-group">
-                                                <label class="adi-field-label" for="spec_chieu_rong">Chiá»u rá»™ng (cm)</label>
+                                                <label class="adi-field-label" for="spec_chieu_rong">Chiều rộng (cm)</label>
                                                 <input type="number" step="0.1" id="spec_chieu_rong" name="spec_chieu_rong" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chieu_rong'] ?? '') ?>" placeholder="19.0">
                                             </div>
                                         </div>
@@ -413,54 +413,54 @@
                                     <div>
                                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                                             <div class="adi-field-group">
-                                                <label class="adi-field-label" for="spec_chieu_dai_tay_cam">DÃ i tay cáº§m (cm)</label>
+                                                <label class="adi-field-label" for="spec_chieu_dai_tay_cam">Dài tay cầm (cm)</label>
                                                 <input type="number" step="0.1" id="spec_chieu_dai_tay_cam" name="spec_chieu_dai_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chieu_dai_tay_cam'] ?? '') ?>" placeholder="12.7">
                                             </div>
 
                                             <div class="adi-field-group">
-                                                <label class="adi-field-label" for="spec_chu_vi_tay_cam">Chu vi tay cáº§m (cm)</label>
+                                                <label class="adi-field-label" for="spec_chu_vi_tay_cam">Chu vi tay cầm (cm)</label>
                                                 <input type="number" step="0.1" id="spec_chu_vi_tay_cam" name="spec_chu_vi_tay_cam" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chu_vi_tay_cam'] ?? '') ?>" placeholder="10.8">
                                             </div>
                                         </div>
 
                                         <div class="adi-field-group">
-                                            <label class="adi-field-label" for="spec_trong_luong">Trá»ng lÆ°á»£ng (Gam)</label>
-                                            <input type="number" step="0.1" id="spec_trong_luong" name="spec_trong_luong" class="adi-field-input" value="<?= htmlspecialchars($sanPham['trong_luong'] ?? '') ?>" placeholder="VÃ­ dá»¥: 225.0">
+                                            <label class="adi-field-label" for="spec_trong_luong">Trọng lượng (Gam)</label>
+                                            <input type="number" step="0.1" id="spec_trong_luong" name="spec_trong_luong" class="adi-field-input" value="<?= htmlspecialchars($sanPham['trong_luong'] ?? '') ?>" placeholder="Ví dụ: 225.0">
                                         </div>
 
                                         <div class="adi-field-group">
-                                            <label class="adi-field-label" for="spec_chung_nhan">Chá»©ng nháº­n / Chuáº©n thi Ä‘áº¥u</label>
-                                            <input type="text" id="spec_chung_nhan" name="spec_chung_nhan" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chung_nhan'] ?? '') ?>" placeholder="VÃ­ dá»¥: USAPA Approved">
+                                            <label class="adi-field-label" for="spec_chung_nhan">Chứng nhận / Chuẩn thi đấu</label>
+                                            <input type="text" id="spec_chung_nhan" name="spec_chung_nhan" class="adi-field-input" value="<?= htmlspecialchars($sanPham['chung_nhan'] ?? '') ?>" placeholder="Ví dụ: USAPA Approved">
                                         </div>
 
                                         <div class="adi-field-group">
-                                            <label class="adi-field-label" for="spec_kich_thuoc">MÃ´ táº£ kÃ­ch thÆ°á»›c tá»•ng thá»ƒ</label>
-                                            <input type="text" id="spec_kich_thuoc" name="spec_kich_thuoc" class="adi-field-input" value="<?= htmlspecialchars($sanPham['kich_thuoc'] ?? '') ?>" placeholder="VÃ­ dá»¥: Standard 16.5' x 7.5'">
+                                            <label class="adi-field-label" for="spec_kich_thuoc">Mô tả kích thước tổng thể</label>
+                                            <input type="text" id="spec_kich_thuoc" name="spec_kich_thuoc" class="adi-field-input" value="<?= htmlspecialchars($sanPham['kich_thuoc'] ?? '') ?>" placeholder="Ví dụ: Standard 16.5' x 7.5'">
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- =====================================================
-                                 BIáº¾N THá»‚ Sáº¢N PHáº¨M
+                                 BIẾN THỂ SẢN PHẨM
                                  ===================================================== -->
                             <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed #ccc;">
                                 <h4 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 20px 0; color: #000;">
-                                    <i class="fa-solid fa-sliders"></i> TÃ¹y chá»n Biáº¿n Thá»ƒ Sáº£n Pháº©m
+                                    <i class="fa-solid fa-sliders"></i> Tùy chọn Biến Thể Sản Phẩm
                                 </h4>
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="bien_the">CÃ¡c lá»±a chá»n biáº¿n thá»ƒ (CÃ¡ch nhau báº±ng dáº¥u pháº©y)</label>
-                                    <input type="text" id="bien_the" name="bien_the" class="adi-field-input" value="<?= htmlspecialchars($sanPham['bien_the'] ?? '') ?>" placeholder="VD: Äá», Xanh, VÃ ng hoáº·c 14mm, 16mm, 20mm">
-                                    <div style="font-size:11px;color:#777;margin-top:5px;"><i class="fa-solid fa-circle-info"></i> Äá»ƒ trá»‘ng náº¿u sáº£n pháº©m khÃ´ng cÃ³ biáº¿n thá»ƒ.</div>
+                                    <label class="adi-field-label" for="bien_the">Các lựa chọn biến thể (Cách nhau bằng dấu phẩy)</label>
+                                    <input type="text" id="bien_the" name="bien_the" class="adi-field-input" value="<?= htmlspecialchars($sanPham['bien_the'] ?? '') ?>" placeholder="VD: Đỏ, Xanh, Vàng hoặc 14mm, 16mm, 20mm">
+                                    <div style="font-size:11px;color:#777;margin-top:5px;"><i class="fa-solid fa-circle-info"></i> Để trống nếu sản phẩm không có biến thể.</div>
                                 </div>
                             </div>
 
                             <div class="adi-form-actions-bar">
                                 <button type="submit" class="adi-btn-primary">
-                                    <i class="fa-solid fa-floppy-disk"></i> <?= ($mode === 'edit') ? 'Cáº­p nháº­t sáº£n pháº©m' : 'LÆ°u sáº£n pháº©m má»›i' ?>
+                                    <i class="fa-solid fa-floppy-disk"></i> <?= ($mode === 'edit') ? 'Cập nhật sản phẩm' : 'Lưu sản phẩm mới' ?>
                                 </button>
                                 <a href="index.php?act=admin_sanpham" class="adi-btn-secondary">
-                                    Há»§y bá»
+                                    Hủy bỏ
                                 </a>
                             </div>
 

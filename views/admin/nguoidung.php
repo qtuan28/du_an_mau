@@ -6,6 +6,65 @@
     <title>Quản lý Người Dùng | Bảng Điều Khiển Admin</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    .adi-user-tabs {
+        display: flex;
+        gap: 8px;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 0;
+        background: #f8f9fa;
+        padding: 12px 15px 0 15px;
+        border-radius: 4px 4px 0 0;
+    }
+    .adi-tab-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #555;
+        text-decoration: none;
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s ease-in-out;
+        border-radius: 4px 4px 0 0;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+    .adi-tab-item:hover {
+        color: #3c8dbc;
+        background: #ffffff;
+    }
+    .adi-tab-item.active {
+        color: #3c8dbc;
+        border-bottom-color: #3c8dbc;
+        background: #ffffff;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.03);
+    }
+    .adi-badge-count {
+        font-size: 11px;
+        padding: 2px 7px;
+        border-radius: 10px;
+        background: #6c757d;
+        color: #fff;
+        font-weight: 700;
+    }
+    .adi-tab-item.active .adi-badge-count {
+        background: #3c8dbc;
+    }
+    .adi-badge-count.bg-user {
+        background: #6c757d;
+    }
+    .adi-tab-item.active .adi-badge-count.bg-user {
+        background: #4b5563;
+    }
+    .adi-badge-count.bg-admin {
+        background: #17a2b8;
+    }
+    .adi-tab-item.active .adi-badge-count.bg-admin {
+        background: #0891b2;
+    }
+    </style>
 </head>
 <body>
     <div class="adi-admin-wrapper">
@@ -55,18 +114,42 @@
                 <!-- Main Box -->
                 <div class="adi-box">
                     
+                    <!-- Tab Phân Loại Tài Khoản -->
+                    <?php
+                        $currentRole = $roleFilter ?? 'all';
+                        $kwQuery = !empty($keyword) ? '&keyword=' . urlencode($keyword) : '';
+                    ?>
+                    <div class="adi-user-tabs">
+                        <a href="index.php?act=admin_nguoidung&role=all<?= $kwQuery ?>" 
+                           class="adi-tab-item <?= ($currentRole == 'all') ? 'active' : '' ?>">
+                            <i class="fa-solid fa-users"></i> Tất cả người dùng
+                            <span class="adi-badge-count"><?= $userCounts['all'] ?? 0 ?></span>
+                        </a>
+                        <a href="index.php?act=admin_nguoidung&role=user<?= $kwQuery ?>" 
+                           class="adi-tab-item <?= ($currentRole == 'user') ? 'active' : '' ?>">
+                            <i class="fa-solid fa-user"></i> Tài khoản Khách hàng
+                            <span class="adi-badge-count bg-user"><?= $userCounts['user'] ?? 0 ?></span>
+                        </a>
+                        <a href="index.php?act=admin_nguoidung&role=admin<?= $kwQuery ?>" 
+                           class="adi-tab-item <?= ($currentRole == 'admin') ? 'active' : '' ?>">
+                            <i class="fa-solid fa-user-shield"></i> Quản trị viên (Admin)
+                            <span class="adi-badge-count bg-admin"><?= $userCounts['admin'] ?? 0 ?></span>
+                        </a>
+                    </div>
+
                     <!-- Complex Toolbar -->
-                    <div class="adi-box-header">
+                    <div class="adi-box-header" style="padding: 15px;">
                         <div class="adi-toolbar">
-                            <form method="GET" action="index.php" style="display: flex; gap: 5px;">
+                            <form method="GET" action="index.php" style="display: flex; gap: 6px; align-items: center;">
                                 <input type="hidden" name="act" value="admin_nguoidung">
-                                <input type="text" name="keyword" value="<?= htmlspecialchars($keyword ?? '') ?>" placeholder="Tên, email..." class="adi-form-control" style="width: 200px;">
-                                <select class="adi-form-control">
-                                    <option>Tìm theo...</option>
-                                    <option>Tên người dùng</option>
-                                    <option>Email</option>
-                                </select>
-                                <button type="submit" class="adi-btn-outline" style="padding: 6px 12px;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <input type="hidden" name="role" value="<?= htmlspecialchars($currentRole) ?>">
+                                <input type="text" name="keyword" value="<?= htmlspecialchars($keyword ?? '') ?>" placeholder="Tên, email, địa chỉ..." class="adi-form-control" style="width: 230px;">
+                                <button type="submit" class="adi-btn-outline" style="padding: 6px 14px;"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                                <?php if (!empty($keyword)): ?>
+                                    <a href="index.php?act=admin_nguoidung&role=<?= htmlspecialchars($currentRole) ?>" class="adi-btn-outline" style="padding: 6px 10px; color: #dc3545; text-decoration: none;" title="Xóa tìm kiếm">
+                                        <i class="fa-solid fa-xmark"></i> Bỏ lọc
+                                    </a>
+                                <?php endif; ?>
                             </form>
                         </div>
                         
@@ -173,7 +256,16 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" style="text-align: center; padding: 20px;">Chưa có người dùng nào.</td>
+                                    <td colspan="9" style="text-align: center; padding: 30px; color: #777;">
+                                        <i class="fa-solid fa-user-slash" style="font-size: 24px; margin-bottom: 8px; color: #ccc;"></i><br>
+                                        <?php if ($currentRole == 'admin'): ?>
+                                            Không tìm thấy tài khoản Quản trị viên (Admin) nào.
+                                        <?php elseif ($currentRole == 'user'): ?>
+                                            Không tìm thấy tài khoản Khách hàng nào.
+                                        <?php else: ?>
+                                            Không tìm thấy người dùng nào.
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>

@@ -947,12 +947,14 @@ class pickleballController {
         $this->adminQuanLySanPham();
     }
 
-    // 3. Quáº£n lÃ½ ngÆ°á»i dÃ¹ng
+    // 3. Quản lý người dùng
     public function adminQuanLyNguoiDung() {
         $this->checkAdmin();
         $keyword = $_GET['keyword'] ?? '';
+        $roleFilter = $_GET['role'] ?? 'all';
         $userModel = new User();
-        $dsNguoiDung = $userModel->getAllUsers($keyword);
+        $dsNguoiDung = $userModel->getAllUsers($keyword, $roleFilter);
+        $userCounts = $userModel->getUserCountsByRole($keyword);
         require_once 'views/admin/nguoidung.php';
     }
 

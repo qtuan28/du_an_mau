@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         <?php 
-        if ($mode === 'add') echo "ThÃªm NgÆ°á»i DÃ¹ng Má»›i";
-        elseif ($mode === 'edit') echo "Sá»­a ThÃ´ng Tin & PhÃ¢n Quyá»n";
-        elseif ($mode === 'reset_pass') echo "Äáº·t Láº¡i Máº­t Kháº©u";
+        if ($mode === 'add') echo "Thêm Người Dùng Mới";
+        elseif ($mode === 'edit') echo "Sửa Thông Tin & Phân Quyền";
+        elseif ($mode === 'reset_pass') echo "Đặt Lại Mật Khẩu";
         ?> | Admin Panel
     </title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
@@ -134,7 +134,7 @@
                         <i class="fa-solid fa-circle-user"></i>
                         <?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?>
                     </div>
-                    <a href="index.php?act=logout" class="adi-header-link" style="color: #dc3545;" title="ÄÄƒng xuáº¥t"><i class="fa-solid fa-power-off"></i></a>
+                    <a href="index.php?act=logout" class="adi-header-link" style="color: #dc3545;" title="Đăng xuất"><i class="fa-solid fa-power-off"></i></a>
                 </div>
             </header>
 
@@ -146,23 +146,23 @@
                     <div>
                         <h1 class="adi-page-title">
                             <?php 
-                            if ($mode === 'add') echo "THÃŠM NGÆ¯á»œI DÃ™NG Má»šI";
-                            elseif ($mode === 'edit') echo "Sá»¬A THÃ”NG TIN & PHÃ‚N QUYá»€N";
-                            elseif ($mode === 'reset_pass') echo "Äáº¶T Láº I Máº¬T KHáº¨U";
+                            if ($mode === 'add') echo "THÊM NGƯỜI DÙNG MỚI";
+                            elseif ($mode === 'edit') echo "SỬA THÔNG TIN & PHÂN QUYỀN";
+                            elseif ($mode === 'reset_pass') echo "ĐẶT LẠI MẬT KHẨU";
                             ?>
                         </h1>
                         <div class="adi-breadcrumb">
-                            <a href="index.php?act=admin"><i class="fa-solid fa-house"></i> Trang chá»§</a> > 
-                            <a href="index.php?act=admin_nguoidung">Quáº£n lÃ½ NgÆ°á»i dÃ¹ng</a> > 
+                            <a href="index.php?act=admin"><i class="fa-solid fa-house"></i> Trang chủ</a> > 
+                            <a href="index.php?act=admin_nguoidung">Quản lý Người dùng</a> > 
                             <?php 
-                            if ($mode === 'add') echo "ThÃªm má»›i";
-                            elseif ($mode === 'edit') echo "Chá»‰nh sá»­a";
-                            elseif ($mode === 'reset_pass') echo "Äá»•i máº­t kháº©u";
+                            if ($mode === 'add') echo "Thêm mới";
+                            elseif ($mode === 'edit') echo "Chỉnh sửa";
+                            elseif ($mode === 'reset_pass') echo "Đổi mật khẩu";
                             ?>
                         </div>
                     </div>
                     <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">
-                        <i class="fa-solid fa-arrow-left"></i> Quay láº¡i danh sÃ¡ch
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
                     </a>
                 </div>
 
@@ -180,9 +180,9 @@
                         <h3 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0;">
                             <i class="fa-solid fa-user-gear"></i> 
                             <?php 
-                            if ($mode === 'add') echo "Táº¡o tÃ i khoáº£n ngÆ°á»i dÃ¹ng má»›i";
-                            elseif ($mode === 'edit') echo "Cáº­p nháº­t thÃ´ng tin: " . htmlspecialchars($user['username'] ?? '');
-                            elseif ($mode === 'reset_pass') echo "Äáº·t láº¡i máº­t kháº©u cho: " . htmlspecialchars($user['username'] ?? '');
+                            if ($mode === 'add') echo "Tạo tài khoản người dùng mới";
+                            elseif ($mode === 'edit') echo "Cập nhật thông tin: " . htmlspecialchars($user['username'] ?? '');
+                            elseif ($mode === 'reset_pass') echo "Đặt lại mật khẩu cho: " . htmlspecialchars($user['username'] ?? '');
                             ?>
                         </h3>
                     </div>
@@ -191,43 +191,43 @@
                         <?php if ($mode === 'add'): ?>
                             <form action="index.php?act=admin_nguoidung_add" method="POST">
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="username">TÃªn Ä‘Äƒng nháº­p <span class="req">*</span></label>
-                                    <input type="text" id="username" name="username" class="adi-field-input" required placeholder="Nháº­p tÃªn Ä‘Äƒng nháº­p..." autofocus>
+                                    <label class="adi-field-label" for="username">Tên đăng nhập <span class="req">*</span></label>
+                                    <input type="text" id="username" name="username" class="adi-field-input" required placeholder="Nhập tên đăng nhập..." autofocus>
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="password">Máº­t kháº©u <span class="req">*</span></label>
-                                    <input type="password" id="password" name="password" class="adi-field-input" required placeholder="Nháº­p máº­t kháº©u...">
+                                    <label class="adi-field-label" for="password">Mật khẩu <span class="req">*</span></label>
+                                    <input type="password" id="password" name="password" class="adi-field-input" required placeholder="Nhập mật khẩu...">
                                 </div>
 
                                 <div class="adi-field-group">
                                     <label class="adi-field-label" for="email">Email <span class="req">*</span></label>
-                                    <input type="email" id="email" name="email" class="adi-field-input" required placeholder="Nháº­p email...">
+                                    <input type="email" id="email" name="email" class="adi-field-input" required placeholder="Nhập email...">
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="address">Sá» Äiá»‡n Thoáº¡i</label>
-                                    <input type="tel" id="sdt" name="sdt" class="adi-field-input" placeholder="Nháº­p sá»‘ Ä‘iá»‡n thoáº¡i (9-11 chá»¯ sá»‘)..." pattern="[0-9]{9,11}" title="Sá»‘ Ä‘iá»‡n thoáº¡i pháº£i cÃ³ 9-11 chá»¯ sá»‘">
+                                    <label class="adi-field-label" for="address">SỐ Điện Thoại</label>
+                                    <input type="tel" id="sdt" name="sdt" class="adi-field-input" placeholder="Nhập số điện thoại (9-11 chữ số)..." pattern="[0-9]{9,11}" title="Số điện thoại phải có 9-11 chữ số">
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="address">Äá»‹a chá»‰</label>
-                                    <input type="text" id="address" name="address" class="adi-field-input" placeholder="Nháº­p Ä‘á»‹a chá»‰ nháº­n hÃ ng...">
+                                    <label class="adi-field-label" for="address">Địa chỉ</label>
+                                    <input type="text" id="address" name="address" class="adi-field-input" placeholder="Nhập địa chỉ nhận hàng...">
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="vai_tro_id">Vai trÃ² (PhÃ¢n quyá»n há»‡ thá»‘ng) <span class="req">*</span></label>
+                                    <label class="adi-field-label" for="vai_tro_id">Vai trò (Phân quyền hệ thống) <span class="req">*</span></label>
                                     <select id="vai_tro_id" name="vai_tro_id" class="adi-field-input">
-                                        <option value="2">User (KhÃ¡ch hÃ ng)</option>
-                                        <option value="1">Admin (Quáº£n trá»‹ viÃªn)</option>
+                                        <option value="2">User (Khách hàng)</option>
+                                        <option value="1">Admin (Quản trị viên)</option>
                                     </select>
                                 </div>
 
                                 <div class="adi-form-actions-bar">
                                     <button type="submit" class="adi-btn-primary">
-                                        <i class="fa-solid fa-floppy-disk"></i> LÆ°u ngÆ°á»i dÃ¹ng
+                                        <i class="fa-solid fa-floppy-disk"></i> Lưu người dùng
                                     </button>
-                                    <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">Há»§y bá»</a>
+                                    <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">Hủy bỏ</a>
                                 </div>
                             </form>
 
@@ -236,9 +236,9 @@
                                 <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label">TÃªn Ä‘Äƒng nháº­p</label>
+                                    <label class="adi-field-label">Tên đăng nhập</label>
                                     <input type="text" class="adi-field-input" value="<?= htmlspecialchars($user['username']) ?>" disabled>
-                                    <span style="font-size: 12px; color: #767677; margin-top: 4px; display: block;">(KhÃ´ng thá»ƒ sá»­a tÃªn Ä‘Äƒng nháº­p)</span>
+                                    <span style="font-size: 12px; color: #767677; margin-top: 4px; display: block;">(Không thể sửa tên đăng nhập)</span>
                                 </div>
 
                                 <div class="adi-field-group">
@@ -247,28 +247,28 @@
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="sdt">Sá» Äiá»‡n Thoáº¡i</label>
-                                    <input type="tel" id="sdt" name="sdt" class="adi-field-input" value="<?= htmlspecialchars($user['sdt'] ?? '') ?>" placeholder="Nháº­p sá»‘ Ä‘iá»‡n thoáº¡i..." pattern="[0-9]{9,11}" title="Sá»‘ Ä‘iá»‡n thoáº¡i pháº£i cÃ³ 9-11 chá»¯ sá»‘">
+                                    <label class="adi-field-label" for="sdt">SỐ Điện Thoại</label>
+                                    <input type="tel" id="sdt" name="sdt" class="adi-field-input" value="<?= htmlspecialchars($user['sdt'] ?? '') ?>" placeholder="Nhập số điện thoại..." pattern="[0-9]{9,11}" title="Số điện thoại phải có 9-11 chữ số">
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="address">Äá»‹a chá»‰</label>
+                                    <label class="adi-field-label" for="address">Địa chỉ</label>
                                     <input type="text" id="address" name="address" class="adi-field-input" value="<?= htmlspecialchars($user['address'] ?? '') ?>">
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="vai_tro_id">Vai trÃ² (PhÃ¢n quyá»n há»‡ thá»‘ng)</label>
+                                    <label class="adi-field-label" for="vai_tro_id">Vai trò (Phân quyền hệ thống)</label>
                                     <select id="vai_tro_id" name="vai_tro_id" class="adi-field-input">
-                                        <option value="2" <?= $user['vai_tro_id'] == 2 ? 'selected' : '' ?>>User (KhÃ¡ch hÃ ng)</option>
-                                        <option value="1" <?= $user['vai_tro_id'] == 1 ? 'selected' : '' ?>>Admin (Quáº£n trá»‹ viÃªn)</option>
+                                        <option value="2" <?= $user['vai_tro_id'] == 2 ? 'selected' : '' ?>>User (Khách hàng)</option>
+                                        <option value="1" <?= $user['vai_tro_id'] == 1 ? 'selected' : '' ?>>Admin (Quản trị viên)</option>
                                     </select>
                                 </div>
 
                                 <div class="adi-form-actions-bar">
                                     <button type="submit" class="adi-btn-primary">
-                                        <i class="fa-solid fa-floppy-disk"></i> Cáº­p nháº­t thÃ´ng tin
+                                        <i class="fa-solid fa-floppy-disk"></i> Cập nhật thông tin
                                     </button>
-                                    <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">Há»§y bá»</a>
+                                    <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">Hủy bỏ</a>
                                 </div>
                             </form>
 
@@ -277,15 +277,15 @@
                                 <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="new_password">Máº­t kháº©u má»›i <span class="req">*</span></label>
-                                    <input type="password" id="new_password" name="new_password" class="adi-field-input" required placeholder="Nháº­p máº­t kháº©u má»›i..." autofocus>
+                                    <label class="adi-field-label" for="new_password">Mật khẩu mới <span class="req">*</span></label>
+                                    <input type="password" id="new_password" name="new_password" class="adi-field-input" required placeholder="Nhập mật khẩu mới..." autofocus>
                                 </div>
 
                                 <div class="adi-form-actions-bar">
                                     <button type="submit" class="adi-btn-primary">
-                                        <i class="fa-solid fa-key"></i> XÃ¡c nháº­n Ä‘á»•i máº­t kháº©u
+                                        <i class="fa-solid fa-key"></i> Xác nhận đổi mật khẩu
                                     </button>
-                                    <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">Há»§y bá»</a>
+                                    <a href="index.php?act=admin_nguoidung" class="adi-btn-secondary">Hủy bỏ</a>
                                 </div>
                             </form>
                         <?php endif; ?>

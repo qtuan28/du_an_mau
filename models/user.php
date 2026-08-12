@@ -78,25 +78,45 @@ class User {
         return $stmt->execute([$username, $password, $email, $address, $sdt ?: null]);
     }
 
-    // 1. Lấy danh sách tất cả người dùng (Có hỗ trợ tìm kiếm theo từ khóa)
-    public function getAllUsers($keyword = '') {
+    // 1. Lấy danh sách người dùng (Có hỗ trợ tìm kiếm từ khóa & lọc theo vai trò)
+    public function getAllUsers($keyword = '', $role = 'all') {
+        $params = [];
+        $where = [];
+
         if (!empty($keyword)) {
-            $sql = "SELECT u.*, v.ten_vai_tro 
-                    FROM USER u 
-                    JOIN VAITRO v ON u.vai_tro_id = v.vai_tro_id 
-                    WHERE u.username LIKE ? OR u.email LIKE ? OR u.address LIKE ? 
-                    ORDER BY u.user_id DESC";
+            $where[] = "(u.username LIKE ? OR u.email LIKE ? OR u.address LIKE ?)";
             $search = "%{$keyword}%";
-            $stmt = $this->db->conn->prepare($sql);
-            $stmt->execute([$search, $search, $search]);
-        } else {
-            $sql = "SELECT u.*, v.ten_vai_tro 
-                    FROM USER u 
-                    JOIN VAITRO v ON u.vai_tro_id = v.vai_tro_id 
-                    ORDER BY u.user_id DESC";
-            $stmt = $this->db->conn->query($sql);
+            $params[] = $search;
+            $params[] = $search;
+            $params[] = $search;
         }
+
+        if ($role === 'admin' || $role === '1') {
+            $where[] = "u.vai_tro_id = 1";
+        } elseif ($role === 'user' || $role === '2') {
+            $where[] = "u.vai_tro_id != 1";
+        }
+
+        $whereClause = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
+
+        $sql = "SELECT u.*, v.ten_vai_tro 
+                FROM USER u 
+                LEFT JOIN VAITRO v ON u.vai_tro_id = v.vai_tro_id 
+                {$whereClause} 
+                ORDER BY u.user_id DESC";
+
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Lấy số lượng tài khoản theo từng phân loại (Tất cả, Khách hàng, Quản trị viên)
+    public function getUserCountsByRole($keyword = '') {
+        return [
+            'all' => count($this->getAllUsers($keyword, 'all')),
+            'user' => count($this->getAllUsers($keyword, 'user')),
+            'admin' => count($this->getAllUsers($keyword, 'admin'))
+        ];
     }
 
     // 2. Lấy thông tin 1 người dùng theo ID
@@ -190,6 +210,87 @@ class User {
         $stmt = $this->db->conn->prepare($sql);
         $stmt->execute([$days]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Xác định trạng thái vòng đời của tài khoản dựa vào last_login và trang_thai.
+     *
+     * Luồng vòng đời:
+     *   locked        => Admin đã chủ động khóa (trang_thai = 0)
+     *   active        => 0 – 6 tháng (< 180 ngày)
+     *   inactive      => 6 – 12 tháng (180 – 365 ngày)
+     *   pending_review => 12 – 24 tháng (365 – 730 ngày)
+     *   pending_delete => Trên 24 tháng (> 730 ngày) hoặc chưa đăng nhập bao giờ
+     *
+     * @param string|null $lastLogin  Giá trị cột last_login từ DB (datetime string hoặc null)
+     * @param int         $trangThai  Giá trị cột trang_thai từ DB (1 = đang hoạt động, 0 = admin khóa)
+     * @return string  Một trong: 'locked' | 'active' | 'inactive' | 'pending_review' | 'pending_delete'
+     */
+    public static function getAccountLifecycleStatus($lastLogin, $trangThai) {
+        // Admin đã chủ động khóa tài khoản
+        if ((int)$trangThai === 0) {
+            return 'locked';
+        }
+
+        // Chưa đăng nhập bao giờ => coi như đã inactive từ lâu
+        if (empty($lastLogin)) {
+            return 'pending_delete';
+        }
+
+        $soNgay = (int)((time() - strtotime($lastLogin)) / 86400);
+
+        if ($soNgay < 180) {        // < 6 tháng
+            return 'active';
+        } elseif ($soNgay < 365) {  // 6 – 12 tháng
+            return 'inactive';
+        } elseif ($soNgay < 730) {  // 12 – 24 tháng
+            return 'pending_review';
+        } else {                    // > 24 tháng
+            return 'pending_delete';
+        }
+    }
+
+    /**
+     * Thống kê số lượng tài khoản theo từng mốc vòng đời.
+     *
+     * @param string $keyword Từ khóa tìm kiếm (nếu có)
+     * @param string $role    Vai trò: 'all' | 'user' | 'admin'
+     * @return array  ['active' => int, 'inactive' => int, 'pending_review' => int, 'pending_delete' => int, 'locked' => int]
+     */
+    public function getLifecycleCounts($keyword = '', $role = 'all') {
+        $users = $this->getAllUsers($keyword, $role);
+        $counts = [
+            'active'         => 0,
+            'inactive'       => 0,
+            'pending_review' => 0,
+            'pending_delete' => 0,
+            'locked'         => 0,
+        ];
+        foreach ($users as $u) {
+            $status = self::getAccountLifecycleStatus($u['last_login'] ?? null, $u['trang_thai'] ?? 1);
+            if (isset($counts[$status])) {
+                $counts[$status]++;
+            }
+        }
+        return $counts;
+    }
+
+    /**
+     * Lấy danh sách người dùng đã được lọc theo trạng thái vòng đời.
+     *
+     * @param string $lifecycleStatus  'active' | 'inactive' | 'pending_review' | 'pending_delete' | 'locked' | 'all'
+     * @param string $keyword          Từ khóa tìm kiếm
+     * @param string $role             Vai trò: 'all' | 'user' | 'admin'
+     * @return array
+     */
+    public function getUsersByLifecycle($lifecycleStatus = 'all', $keyword = '', $role = 'all') {
+        $users = $this->getAllUsers($keyword, $role);
+        if ($lifecycleStatus === 'all') {
+            return $users;
+        }
+        return array_values(array_filter($users, function($u) use ($lifecycleStatus) {
+            return self::getAccountLifecycleStatus($u['last_login'] ?? null, $u['trang_thai'] ?? 1) === $lifecycleStatus;
+        }));
     }
 }
 
