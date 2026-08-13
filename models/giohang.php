@@ -6,7 +6,7 @@ class GioHang {
         return $_SESSION['cart'] ?? [];
     }
 
-    // 2. ThÃªm sáº£n pháº©m vÃ o giá» hÃ ng (Chá»‰ sá»­ dá»¥ng 1 giÃ¡ bÃ¡n duy nháº¥t cá»§a sáº£n pháº©m)
+    // 2. Thêm sản phẩm vào giỏ hàng (Chỉ sử dụng 1 giá bán duy nhất của sản phẩm)
     public function add($sp, $soLuong = 1) {
         $id = $sp['product_id'];
 
@@ -28,7 +28,7 @@ class GioHang {
         }
     }
 
-    // 3. Cáº­p nháº­t sá»‘ lÆ°á»£ng sáº£n pháº©m
+    // 3. Cập nhật số lượng sản phẩm
     public function updateQuantity($id, $soLuong) {
         if ($soLuong <= 0) {
             $this->deleteItem($id);
@@ -44,12 +44,12 @@ class GioHang {
         }
     }
 
-    // 5. XÃ³a toÃ n bá»™ giá» hÃ ng
+    // 5. Xóa toàn bộ giỏ hàng
     public function clear() {
         unset($_SESSION['cart']);
     }
 
-    // 6. TÃ­nh tá»•ng tiá»n giá» hÃ ng
+    // 6. Tính tổng tiền giỏ hàng
     public function getTongTien() {
         $tongTien = 0;
         $gioHang = $this->getGioHang();
@@ -59,7 +59,7 @@ class GioHang {
         return $tongTien;
     }
 
-    // 7. TÃ­nh tá»•ng sá»‘ lÆ°á»£ng sáº£n pháº©m trong giá» hÃ ng
+    // 7. Tính tổng số lượng sản phẩm trong giỏ hàng
     public function getTongSoLuong() {
         $tongSoLuong = 0;
         $gioHang = $this->getGioHang();

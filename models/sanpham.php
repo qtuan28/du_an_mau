@@ -10,7 +10,7 @@ class SanPham {
         $this->checkAndMigrateColumns();
     }
 
-    // Tá»± Ä‘á»™ng thÃªm cá»™t giam_gia, trang_thai, ngay_tao vÃ  báº£ng SPECIFICATION vÃ o CSDL náº¿u chÆ°a cÃ³
+    // Tự động thêm cột giam_gia, trang_thai, ngay_tao và bảng SPECIFICATION vào CSDL nếu chưa có
     private function checkAndMigrateColumns() {
         try {
             $stmt = $this->db->query("SHOW COLUMNS FROM PRODUCTS LIKE 'giam_gia'");
@@ -28,7 +28,7 @@ class SanPham {
                 $this->db->exec("ALTER TABLE PRODUCTS ADD COLUMN ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP");
             }
 
-            // Tá»± Ä‘á»™ng thÃªm 4 cá»™t áº£nh chi tiáº¿t náº¿u chÆ°a cÃ³
+            // Tự động thêm 4 cột ảnh chi tiết nếu chưa có
             $galleryCols = ['anh_1', 'anh_2', 'anh_3', 'anh_4'];
             foreach ($galleryCols as $colName) {
                 $chk = $this->db->query("SHOW COLUMNS FROM PRODUCTS LIKE '{$colName}'");
@@ -37,7 +37,7 @@ class SanPham {
                 }
             }
 
-            // Tá»± Ä‘á»™ng táº¡o báº£ng SPECIFICATION náº¿u chÆ°a cÃ³
+            // Tự động tạo bảng SPECIFICATION nếu chưa có
             $sqlSpecTable = "CREATE TABLE IF NOT EXISTS SPECIFICATION (
                 spec_id INT AUTO_INCREMENT PRIMARY KEY,
                 product_id INT NOT NULL UNIQUE,
@@ -55,7 +55,7 @@ class SanPham {
             )";
             $this->db->exec($sqlSpecTable);
 
-            // Äáº£m báº£o bá»• sung cÃ¡c cá»™t náº¿u báº£ng SPECIFICATION Ä‘Ã£ tá»“n táº¡i tá»« trÆ°á»›c nhÆ°ng chÆ°a cÃ³ cá»™t má»›i
+            // Đảm bảo bổ sung các cột nếu bảng SPECIFICATION đã tồn tại từ trước nhưng chưa có cột mới
             $specCols = [
                 'chieu_dai_tay_cam' => 'FLOAT',
                 'chu_vi_tay_cam' => 'FLOAT',
@@ -69,7 +69,7 @@ class SanPham {
                 }
             }
 
-            // ChÃ¨n/cáº­p nháº­t dá»¯ liá»‡u máº«u thÃ´ng sá»‘ ká»¹ thuáº­t cho 3 sáº£n pháº©m ban Ä‘áº§u
+            // Chèn/cập nhật dữ liệu mẫu thông số kỹ thuật cho 3 sản phẩm ban đầu
             $stmtCheckSpec = $this->db->query("SELECT COUNT(*) FROM SPECIFICATION");
             if ((int)$stmtCheckSpec->fetchColumn() == 0) {
                 $this->db->exec("INSERT INTO SPECIFICATION (product_id, chat_lieu, do_day_loi, loai_tay_cam, chieu_dai, chieu_rong, chieu_dai_tay_cam, chu_vi_tay_cam, trong_luong, chung_nhan, kich_thuoc) VALUES 
@@ -89,7 +89,7 @@ class SanPham {
                     kich_thuoc = VALUES(kich_thuoc)");
             }
 
-            // Migration: ThÃªm cá»™t trang_thai vÃ o PRODUCT_DETAILS náº¿u chÆ°a cÃ³
+            // Migration: Thêm cột trang_thai vào PRODUCT_DETAILS nếu chưa có
             try {
                 $chk = $this->db->query("SHOW COLUMNS FROM PRODUCT_DETAILS LIKE 'trang_thai'");
                 if ($chk->rowCount() == 0) {
@@ -97,7 +97,7 @@ class SanPham {
                 }
             } catch (Exception $e) {}
 
-            // Migration: ThÃªm cá»™t bien_the, so_luong vÃ  ma_sp vÃ o PRODUCTS náº¿u chÆ°a cÃ³
+            // Migration: Thêm cột bien_the, so_luong và ma_sp vào PRODUCTS nếu chưa có
             try {
                 $chk = $this->db->query("SHOW COLUMNS FROM PRODUCTS LIKE 'bien_the'");
                 if ($chk->rowCount() == 0) {
@@ -110,12 +110,12 @@ class SanPham {
                 $chkMaSp = $this->db->query("SHOW COLUMNS FROM PRODUCTS LIKE 'ma_sp'");
                 if ($chkMaSp->rowCount() == 0) {
                     $this->db->exec("ALTER TABLE PRODUCTS ADD COLUMN ma_sp VARCHAR(20) UNIQUE");
-                    // Cáº­p nháº­t mÃ£ tá»± Ä‘á»™ng cho cÃ¡c sáº£n pháº©m cÅ©
+                    // Cập nhật mã tự động cho các sản phẩm cũ
                     $this->db->exec("UPDATE PRODUCTS SET ma_sp = CONCAT('P-', LPAD(product_id, 7, '0')) WHERE ma_sp IS NULL OR ma_sp = ''");
                 }
             } catch (Exception $e) {}
 
-            // Táº¡o báº£ng PRODUCT_INVENTORY_HISTORY
+            // Tạo bảng PRODUCT_INVENTORY_HISTORY
             $sqlHistoryTable = "CREATE TABLE IF NOT EXISTS PRODUCT_INVENTORY_HISTORY (
                 history_id INT AUTO_INCREMENT PRIMARY KEY,
                 product_id INT NOT NULL,
@@ -128,11 +128,11 @@ class SanPham {
             $this->db->exec($sqlHistoryTable);
 
         } catch (Exception $e) {
-            // Bá» qua lá»—i náº¿u trÃ¹ng láº­p
+            // Bỏ qua lỗi nếu trùng lập
         }
     }
 
-    // Láº¥y táº¥t cáº£ sáº£n pháº©m
+    // Lấy tất cả sản phẩm
     public function getAll($onlyActiveCategory = true) {
         $sql = "SELECT p.*, c.name as ten_danh_muc,
                     p.so_luong AS tong_ton_kho
@@ -148,7 +148,7 @@ class SanPham {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Láº¥y danh sÃ¡ch sáº£n pháº©m phÃ¢n trang & tÃ¬m kiáº¿m & lá»c danh má»¥c & lá»c tráº¡ng thÃ¡i & lá»c giÃ¡ & sáº¯p xáº¿p
+    // Lấy danh sách sản phẩm phân trang & tìm kiếm & lọc danh mục & lọc trạng thái & lọc giá & sắp xếp
     public function getAllWithPagination($keyword = '', $categoryId = 0, $stockStatus = '', $page = 1, $limit = 16, $priceRange = '', $sort = 'newest', $checkCategoryActive = true) {
         $offset = max(0, ($page - 1) * $limit);
         $sql = "SELECT p.*, c.name as ten_danh_muc 
@@ -207,7 +207,7 @@ class SanPham {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Äáº¿m tá»•ng sá»‘ sáº£n pháº©m theo bá»™ lá»c (Ä‘á»ƒ tÃ­nh sá»‘ trang)
+    // Đếm tổng số sản phẩm theo bộ lọc (để tính số trang)
     public function getTotalCount($keyword = '', $categoryId = 0, $stockStatus = '', $priceRange = '', $checkCategoryActive = true) {
         $sql = "SELECT COUNT(*) FROM PRODUCTS p 
                 LEFT JOIN CATEGORIES c ON p.category_id = c.category_id 
@@ -247,7 +247,7 @@ class SanPham {
         return (int)$stmt->fetchColumn();
     }
 
-    // Láº¥y chi tiáº¿t 1 sáº£n pháº©m theo ID kÃ¨m thÃ´ng sá»‘ ká»¹ thuáº­t (CÃ³ há»— trá»£ kiá»ƒm tra danh má»¥c Ä‘ang hoáº¡t Ä‘á»™ng)
+    // Lấy chi tiết 1 sản phẩm theo ID kèm thông số kỹ thuật (Có hỗ trợ kiểm tra danh mục đang hoạt động)
     public function getById($id, $checkActiveCategory = false) {
         $sql = "SELECT p.*, c.name as ten_danh_muc, c.trang_thai as category_trang_thai, c.thong_so_loai as category_thong_so_loai,
                        s.spec_id, s.kich_thuoc, s.chat_lieu, s.chung_nhan, s.loai_tay_cam,
@@ -267,7 +267,7 @@ class SanPham {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // LÆ°u hoáº·c cáº­p nháº­t thÃ´ng sá»‘ ká»¹ thuáº­t sáº£n pháº©m
+    // Lưu hoặc cập nhật thông số kỹ thuật sản phẩm
     public function saveSpecification($productId, $specData) {
         $sql = "INSERT INTO SPECIFICATION (product_id, chat_lieu, do_day_loi, loai_tay_cam, chieu_dai, chieu_rong, chieu_dai_tay_cam, chu_vi_tay_cam, trong_luong, chung_nhan, kich_thuoc)
                 VALUES (:product_id, :chat_lieu, :do_day_loi, :loai_tay_cam, :chieu_dai, :chieu_rong, :chieu_dai_tay_cam, :chu_vi_tay_cam, :trong_luong, :chung_nhan, :kich_thuoc)
@@ -299,7 +299,7 @@ class SanPham {
         ]);
     }
 
-    // ThÃªm sáº£n pháº©m má»›i
+    // Thêm sản phẩm mới
     public function add($data) {
         $ma_sp = trim($data['ma_sp'] ?? '');
         if (empty($ma_sp)) {
@@ -336,7 +336,7 @@ class SanPham {
         return false;
     }
 
-    // Cáº­p nháº­t sáº£n pháº©m
+    // Cập nhật sản phẩm
     public function update($id, $data) {
         $ma_sp = trim($data['ma_sp'] ?? '');
         if (empty($ma_sp)) {
@@ -382,7 +382,7 @@ class SanPham {
         return $result;
     }
 
-    // Chuyá»ƒn Ä‘á»•i nhanh tráº¡ng thÃ¡i cÃ²n hÃ ng / háº¿t hÃ ng
+    // Chuyển đổi nhanh trạng thái còn hàng / hết hàng
     public function toggleStockStatus($id) {
         $sql = "UPDATE PRODUCTS 
                 SET trang_thai = CASE WHEN trang_thai = 1 THEN 0 ELSE 1 END 
@@ -391,7 +391,7 @@ class SanPham {
         return $stmt->execute([':id' => $id]);
     }
 
-    // XÃ³a sáº£n pháº©m
+    // Xóa sản phẩm
     public function delete($id) {
         $sql = "DELETE FROM PRODUCTS WHERE product_id = :id";
         $stmt = $this->db->prepare($sql);
@@ -399,17 +399,17 @@ class SanPham {
     }
 
     // ============================================
-    // LOGIC QUáº¢N LÃ Tá»’N KHO VÃ€ Lá»ŠCH Sá»¬ KHO
+    // LOGIC QUẢN LÝ TỒN KHO VÀ LỊCH SỬ KHO
     // ============================================
     
-    // Cáº­p nháº­t sá»‘ lÆ°á»£ng kho vÃ  lÆ°u lá»‹ch sá»­
+    // Cập nhật số lượng kho và lưu lịch sử
     public function updateStock($productId, $quantityChange, $type, $note = '') {
         $productId = (int)$productId;
         $quantityChange = (int)$quantityChange;
         
         if ($quantityChange === 0) return true;
 
-        // Cáº­p nháº­t sá»‘ lÆ°á»£ng trong PRODUCTS vÃ  tá»± Ä‘á»™ng chuyá»ƒn tráº¡ng thÃ¡i cÃ²n/háº¿t hÃ ng
+        // Cập nhật số lượng trong PRODUCTS và tự động chuyển trạng thái còn/hết hàng
         $sql = "UPDATE PRODUCTS SET 
                     so_luong = GREATEST(0, so_luong + :qty),
                     trang_thai = IF(so_luong + :qty > 0, 1, 0)
@@ -421,7 +421,7 @@ class SanPham {
         ]);
 
         if ($result) {
-            // LÆ°u lá»‹ch sá»­
+            // Lưu lịch sử
             $sqlHist = "INSERT INTO PRODUCT_INVENTORY_HISTORY (product_id, so_luong_thay_doi, loai_thay_doi, ghi_chu) 
                         VALUES (:id, :qty, :type, :note)";
             $stmtHist = $this->db->prepare($sqlHist);
@@ -436,7 +436,7 @@ class SanPham {
         return false;
     }
 
-    // Láº¥y lá»‹ch sá»­ nháº­p/bÃ¡n cá»§a 1 sáº£n pháº©m
+    // Lấy lịch sử nhập/bán của 1 sản phẩm
     public function getInventoryHistory($productId) {
         $sql = "SELECT * FROM PRODUCT_INVENTORY_HISTORY 
                 WHERE product_id = :id 

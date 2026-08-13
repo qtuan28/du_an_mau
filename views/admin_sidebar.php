@@ -22,12 +22,14 @@
     <ul class="adi-sidebar-menu">
         <li class="adi-sidebar-menu-header">MAIN NAVIGATION</li>
         
-        <li class="<?= (!isset($_GET['act']) || $_GET['act'] == 'admin') ? 'active' : '' ?>">
-            <a href="index.php?act=admin">
-                <i class="fa-solid fa-gauge menu-icon"></i> 
-                Dashboard
+        <li class="<?= (!isset($_GET['act']) || strpos($_GET['act'], 'admin_thongke') !== false || $_GET['act'] == 'admin') ? 'active' : '' ?>">
+            <a href="index.php?act=admin_thongke">
+                <i class="fa-solid fa-chart-pie menu-icon"></i> 
+                Báo cáo Thống kê
             </a>
         </li>
+        
+
 
         <li class="<?= (isset($_GET['act']) && $_GET['act'] == 'admin_danhmuc') ? 'active' : '' ?>">
             <a href="index.php?act=admin_danhmuc">
@@ -52,11 +54,6 @@
             </a>
         </li>
         
-        <li class="<?= (isset($_GET['act']) && strpos($_GET['act'], 'admin_thongke') !== false) ? 'active' : '' ?>">
-            <a href="index.php?act=admin_thongke">
-                <i class="fa-solid fa-chart-pie menu-icon"></i> 
-                Báo cáo Thống kê
-            </a>
-        </li>
+
     </ul>
 </aside>

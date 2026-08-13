@@ -12,7 +12,7 @@ class DanhMuc
         $this->checkAndMigrateColumns();
     }
 
-    // Tá»± Ä‘á»™ng kiá»ƒm tra vÃ  nÃ¢ng cáº¥p báº£ng CATEGORIES náº¿u chÆ°a cÃ³ cá»™t ngay_tao, trang_thai, thong_so_loai
+    // Tự động kiểm tra và nâng cấp bảng CATEGORIES nếu chưa có cột ngay_tao, trang_thai, thong_so_loai
     private function checkAndMigrateColumns()
     {
         try {
@@ -30,18 +30,18 @@ class DanhMuc
             if ($stmt->rowCount() == 0) {
                 $this->db->exec("ALTER TABLE CATEGORIES ADD COLUMN thong_so_loai VARCHAR(50) DEFAULT 'do_day_vot'");
                 
-                // Cáº­p nháº­t giÃ¡ trá»‹ thÃ´ng sá»‘ máº·c Ä‘á»‹nh cho danh má»¥c ban Ä‘áº§u
+                // Cập nhật giá trị thông số mặc định cho danh mục ban đầu
                 $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'do_day_vot' WHERE LOWER(name) LIKE '%vợt%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%giày%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%bóng%''");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%gi�y%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%b�ng%''");
                 $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'loai_phu_kien' WHERE LOWER(name) LIKE '%phụ kiện%'");
             }
         } catch (Exception $e) {
-            // Bá» qua lá»—i náº¿u báº£ng chÆ°a sáºµn sÃ ng hoáº·c Ä‘Ã£ Ä‘Æ°á»£c nÃ¢ng cáº¥p
+            // Bỏ qua lỗi nếu bảng chưa sẵn sàng hoặc đã được nâng cấp
         }
     }
 
-    // Láº¥y táº¥t cáº£ danh má»¥c (kÃ¨m sá»‘ lÆ°á»£ng sáº£n pháº©m)
+    // Lấy tất cả danh mục (kèm số lượng sản phẩm)
     public function getAll()
     {
         $sql = "SELECT c.*, 
@@ -54,7 +54,7 @@ class DanhMuc
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ThÃªm danh má»¥c
+    // Thêm danh mục
     public function add($name, $trang_thai = 1, $thong_so_loai = 'do_day_vot')
     {
         $sql = "INSERT INTO CATEGORIES(name, trang_thai, thong_so_loai, ngay_tao)
@@ -69,7 +69,7 @@ class DanhMuc
         ]);
     }
 
-    // Láº¥y theo ID
+    // Lấy theo ID
     public function getById($id)
     {
         $sql = "SELECT * FROM CATEGORIES WHERE category_id = :id";
@@ -78,7 +78,7 @@ class DanhMuc
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Cáº­p nháº­t danh má»¥c
+    // Cập nhật danh mục
     public function update($id, $name, $trang_thai, $thong_so_loai = 'do_day_vot')
     {
         $sql = "UPDATE CATEGORIES
@@ -95,7 +95,7 @@ class DanhMuc
         ]);
     }
 
-    // Chuyá»ƒn Ä‘á»•i tráº¡ng thÃ¡i hoáº¡t Ä‘á»™ng nhanh
+    // Chuyển đổi trạng thái hoạt động nhanh
     public function toggleStatus($id)
     {
         $sql = "UPDATE CATEGORIES
@@ -105,7 +105,17 @@ class DanhMuc
         return $stmt->execute([':id' => $id]);
     }
 
-    // XÃ³a danh má»¥c
+    // Kiểm tra danh mục có sản phẩm không
+    public function hasProducts($id)
+    {
+        $sql = "SELECT COUNT(*) as count FROM PRODUCTS WHERE category_id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['count'] > 0;
+    }
+
+    // Xóa danh mục
     public function delete($id)
     {
         $sql = "DELETE FROM CATEGORIES WHERE category_id = :id";
@@ -113,7 +123,7 @@ class DanhMuc
         return $stmt->execute([':id' => $id]);
     }
 
-    // TÃ¬m kiáº¿m danh má»¥c (kÃ¨m sá»‘ lÆ°á»£ng sáº£n pháº©m)
+    // Tìm kiếm danh mục (kèm số lượng sản phẩm)
     public function search($keyword)
     {
         $sql = "SELECT c.*,
@@ -129,7 +139,7 @@ class DanhMuc
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Kiá»ƒm tra trÃ¹ng tÃªn danh má»¥c
+    // Kiểm tra trùng tên danh mục
     public function checkExists($name, $ignoreId = 0)
     {
         $sql = "SELECT * FROM CATEGORIES WHERE name = :name AND category_id != :ignoreId";

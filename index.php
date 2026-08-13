@@ -73,8 +73,8 @@ switch ($act) {
         break;
 
     case 'admin':
-        $sp_controller->trangAdmin();
-        break;
+        header("Location: index.php?act=admin_thongke");
+        exit();
 
     case 'admin_danhmuc':
         $sp_controller->adminQuanLyDanhMuc();
