@@ -57,11 +57,11 @@
 
 <div class="adi-full-banner-wrapper">
     <div class="adi-full-banner">
-        <img src="<?= BASE_URL ?>/assets/images/hero_paddle.png" alt="Kiáº¿n Táº¡o Lá»‘i ChÆ¡i" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
+        <img src="<?= BASE_URL ?>/assets/images/hero_paddle.png" alt="Kiến Tạo Lối Chơi" onerror="this.src='<?= BASE_URL ?>/assets/images/hero_paddle.png'">
         <div class="adi-full-banner-content">
-            <h2 class="adi-full-banner-title">KIáº¾N Táº O Lá»I CHÆ I Báº®T Máº®T & CHUYÃŠN NGHIá»†P</h2>
-            <p class="adi-full-banner-desc">Lá»±a chá»n dÃ²ng vá»£t phÃ¹ há»£p vá»›i phong cÃ¡ch táº¥n cÃ´ng hay kiá»ƒm soÃ¡t bÃ³ng linh hoáº¡t. Thiáº¿t káº¿ cÃ´ng nghá»‡ tá»‘i Æ°u cho tá»«ng cÃº Ä‘Ã¡nh chuáº©n xÃ¡c.</p>
-            <a href="index.php?act=sanpham" class="adi-btn-sharp secondary">KHÃM PHÃ Bá»˜ SÆ¯U Táº¬P NGAY <i class="fa-solid fa-arrow-right-long"></i></a>
+            <h2 class="adi-full-banner-title">KIẾN TẠO LỐI CHƠI BẮT MẮT &amp; CHUYÊN NGHIỆP</h2>
+            <p class="adi-full-banner-desc">Lựa chọn dòng vợt phù hợp với phong cách tấn công hay kiểm soát bóng linh hoạt. Thiết kế công nghệ tối ưu cho từng cú đánh chuẩn xác.</p>
+            <a href="index.php?act=sanpham" class="adi-btn-sharp secondary">KHÁM PHÁ BỘ SƯU TẬP NGAY <i class="fa-solid fa-arrow-right-long"></i></a>
         </div>
     </div>
 </div>

@@ -81,7 +81,7 @@
                         <table class="adi-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
+
                                     <th style="width: 60px; text-align: center;">STT</th>
                                     <th>DANH MỤC</th>
                                     <th style="text-align: center;">SỐ LƯỢNG SP</th>
@@ -95,7 +95,7 @@
                                 <?php $stt = 1; foreach($dsDanhMuc as $dm): ?>
                                     <?php $isShowing = isset($dm['trang_thai']) ? ($dm['trang_thai'] == 1) : true; ?>
                                     <tr>
-                                        <td style="text-align: center;"><input type="checkbox"></td>
+
                                         <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
                                         <td><strong><?= htmlspecialchars($dm['name']) ?></strong></td>
 

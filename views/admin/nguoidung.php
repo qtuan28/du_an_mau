@@ -165,7 +165,7 @@
                         <table class="adi-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
+
                                     <th style="width: 60px; text-align: center;">STT</th>
                                     <th>NGƯỜI DÙNG</th>
                                     <th>EMAIL</th>
@@ -186,7 +186,7 @@
                                         $userPass = $u['password'] ?? '';
                                     ?>
                                     <tr <?= $isSelf ? 'style="background: #fdfdfd;"' : (!$isActive ? 'style="background: #fef2f2;"' : '') ?>>
-                                        <td style="text-align: center;"><input type="checkbox" <?= $isSelf ? 'disabled' : '' ?>></td>
+
                                         <td style="text-align: center; font-weight: bold;"><?= $stt++ ?></td>
                                         <td>
                                             <strong><?= htmlspecialchars($u['username']) ?></strong>

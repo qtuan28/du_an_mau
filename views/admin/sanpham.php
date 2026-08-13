@@ -84,7 +84,7 @@
                         <table class="adi-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 40px; text-align: center;"><input type="checkbox"></th>
+
                                     <th style="width: 60px; text-align: center;">MÃ SP</th>
                                     <th>SẢN PHẨM</th>
                                     <th style="text-align: center;">HÌNH ẢNH</th>
@@ -104,7 +104,7 @@
                                         $giaSauGiam = $giamGia > 0 ? $giaGoc * (1 - $giamGia / 100) : $giaGoc;
                                     ?>
                                     <tr>
-                                        <td style="text-align: center;"><input type="checkbox"></td>
+
                                         <td style="text-align: center; font-weight: bold; font-family: monospace; color: #007bff;"><?= htmlspecialchars($sp['ma_sp'] ?? $sp['product_id']) ?></td>
                                         <td>
                                             <strong><?= htmlspecialchars($sp['ten']) ?></strong>

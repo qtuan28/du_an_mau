@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= !empty($sp) ? htmlspecialchars($sp['ten']) : 'Chi tiáº¿t sáº£n pháº©m' ?> | adidas Viá»‡t Nam</title>
+    <title><?= !empty($sp) ? htmlspecialchars($sp['ten']) : 'Chi tiết sản phẩm' ?> | adidas Việt Nam</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -269,9 +269,9 @@
     <div class="adi-pdp-wrapper">
         <!-- Breadcrumb Navigation -->
         <div class="adi-pdp-breadcrumb">
-            <a href="index.php">TRANG CHá»¦</a> / 
+            <a href="index.php">TRANG CHỦ</a> / 
             <a href="index.php?act=sanpham">PICKLEBALL</a> / 
-            <span><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'Sáº¢N PHáº¨M') ?></span>
+            <span><?= htmlspecialchars($sp['ten_danh_muc'] ?? 'SẢN PHẨM') ?></span>
         </div>
 
         <div class="adi-pdp-main-grid">
@@ -308,7 +308,7 @@
 
             <!-- Right: Product Purchase Panel -->
             <div class="adi-pdp-panel">
-                <div class="adi-pdp-category-tag">NAM â€¢ PICKLEBALL PROFESSIONAL</div>
+                <div class="adi-pdp-category-tag">NAM • PICKLEBALL PROFESSIONAL</div>
                 <h1 class="adi-pdp-title"><?= htmlspecialchars($sp['ten']) ?></h1>
 
                 <div class="adi-pdp-rating">
@@ -320,16 +320,16 @@
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <strong>5.0</strong>
-                    <span style="color: #767677;">(128 Ä‘Ã¡nh giÃ¡)</span>
+                    <span style="color: #767677;">(128 đánh giá)</span>
                 </div>
 
-                <div class="adi-pdp-price"><?= number_format($sp['gia'], 0, ',', '.') ?>â‚«</div>
+                <div class="adi-pdp-price"><?= number_format($sp['gia'], 0, ',', '.') ?>₫</div>
 
                 <?php 
                     $bien_the_str = trim($sp['bien_the'] ?? '');
                     $variants = [];
                     if (!empty($bien_the_str)) {
-                        // TÃ¡ch báº±ng dáº¥u pháº©y vÃ  loáº¡i bá» khoáº£ng tráº¯ng thá»«a
+                        // Tách bằng dấu phẩy và loại bỏ khoảng trắng thừa
                         $variants = array_filter(array_map('trim', explode(',', $bien_the_str)));
                     }
                 ?>
@@ -338,7 +338,7 @@
                 <?php if (!empty($variants)): ?>
                 <div class="adi-pdp-size-section">
                     <div class="adi-pdp-size-header">
-                        <span>CHá»ŒN BIáº¾N THá»‚ Sáº¢N PHáº¨M</span>
+                        <span>CHỌN BIẾN THỂ SẢN PHẨM</span>
                     </div>
                     <div class="adi-pdp-size-grid" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));">
                         <?php foreach ($variants as $index => $variant): ?>
@@ -350,7 +350,7 @@
 
                 <!-- Quantity Stepper -->
                 <div class="adi-pdp-qty-bar">
-                    <span style="font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase;">Sá»‘ lÆ°á»£ng:</span>
+                    <span style="font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase;">Số lượng:</span>
                     <button type="button" class="adi-qty-btn" onclick="changeQty(-1)"><i class="fa-solid fa-minus"></i></button>
                     <input type="text" id="pdpQty" class="adi-qty-input" value="1" readonly>
                     <button type="button" class="adi-qty-btn" onclick="changeQty(1)"><i class="fa-solid fa-plus"></i></button>
@@ -358,7 +358,7 @@
 
                 <!-- Primary Action Buttons -->
                 <a href="index.php?act=add_giohang&id=<?= $sp['product_id'] ?>" id="addToCartBtn" class="adi-pdp-cta-full">
-                    <span>THÃŠM VÃ€O GIá»Ž HÃ€NG</span>
+                    <span>THÊM VÀO GIỎ HÀNG</span>
                     <i class="fa-solid fa-arrow-right-long"></i>
                 </a>
 
@@ -366,15 +366,15 @@
                 <div class="adi-pdp-benefits">
                     <div class="adi-benefit-item">
                         <i class="fa-solid fa-truck-fast" style="font-size: 16px;"></i>
-                        <span>Giao hÃ ng miá»…n phÃ­ cho Ä‘Æ¡n hÃ ng tá»« 1.600.000 VNÄ</span>
+                        <span>Giao hàng miễn phí cho đơn hàng từ 1.600.000 VNĐ</span>
                     </div>
                     <div class="adi-benefit-item">
                         <i class="fa-solid fa-rotate-left" style="font-size: 16px;"></i>
-                        <span>Tráº£ hÃ ng miá»…n phÃ­ trong vÃ²ng 30 ngÃ y</span>
+                        <span>Trả hàng miễn phí trong vòng 30 ngày</span>
                     </div>
                     <div class="adi-benefit-item">
                         <i class="fa-solid fa-shield-check" style="font-size: 16px;"></i>
-                        <span>Cam káº¿t sáº£n pháº©m chÃ­nh hÃ£ng 100% Ä‘áº¡t chuáº©n USAPA</span>
+                        <span>Cam kết sản phẩm chính hãng 100% đạt chuẩn USAPA</span>
                     </div>
                 </div>
 
@@ -382,60 +382,60 @@
                 <div class="adi-pdp-accordion-box">
                     <div class="adi-pdp-accordion-item">
                         <div class="adi-pdp-accordion-title">
-                            MÃ” Táº¢ Sáº¢N PHáº¨M
+                            MÔ TẢ SẢN PHẨM
                         </div>
                         <div class="adi-pdp-accordion-body">
-                            Sáº£n pháº©m sá»Ÿ há»¯u thiáº¿t káº¿ Ä‘á»™t phÃ¡ cho lá»‘i chÆ¡i pickleball hiá»‡n Ä‘áº¡i. LÃµi tá»• ong cao cáº¥p káº¿t há»£p máº·t Carbon T700 Ä‘áº£m báº£o kiá»ƒm soÃ¡t lá»±c xoÃ¡y tá»‘i Æ°u vÃ  Ä‘á»™ bá»n thi Ä‘áº¥u vÆ°á»£t trá»™i.
+                            Sản phẩm sở hữu thiết kế đột phá cho lối chơi pickleball hiện đại. Lõi tổ ong cao cấp kết hợp mặt Carbon T700 đảm bảo kiểm soát lực xoáy tối ưu và độ bền thi đấu vượt trội.
                         </div>
                     </div>
                     
                     <div class="adi-pdp-accordion-item">
                         <div class="adi-pdp-accordion-title">
-                            THÃ”NG Sá» Ká»¸ THUáº¬T
+                            THÔNG SỐ KỸ THUẬT
                         </div>
                         <div class="adi-pdp-accordion-body">
                             <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
                                 <?php if (!empty($sp['chat_lieu'])): ?>
-                                    <li><strong>Cháº¥t liá»‡u:</strong> <?= htmlspecialchars($sp['chat_lieu']) ?></li>
+                                    <li><strong>Chất liệu:</strong> <?= htmlspecialchars($sp['chat_lieu']) ?></li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['do_day_loi']) && $sp['do_day_loi'] > 0): ?>
-                                    <li><strong>Äá»™ dÃ y lÃµi:</strong> <?= htmlspecialchars($sp['do_day_loi']) ?>mm</li>
+                                    <li><strong>Độ dày lõi:</strong> <?= htmlspecialchars($sp['do_day_loi']) ?>mm</li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['loai_tay_cam'])): ?>
-                                    <li><strong>Loáº¡i tay cáº§m:</strong> <?= htmlspecialchars($sp['loai_tay_cam']) ?></li>
+                                    <li><strong>Loại tay cầm:</strong> <?= htmlspecialchars($sp['loai_tay_cam']) ?></li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['chieu_dai']) && $sp['chieu_dai'] > 0): ?>
-                                    <li><strong>KÃ­ch thÆ°á»›c (DÃ i x Rá»™ng):</strong> <?= htmlspecialchars($sp['chieu_dai']) ?> cm <?= (!empty($sp['chieu_rong']) && $sp['chieu_rong'] > 0) ? 'x ' . htmlspecialchars($sp['chieu_rong']) . ' cm' : '' ?></li>
+                                    <li><strong>Kích thước (Dài x Rộng):</strong> <?= htmlspecialchars($sp['chieu_dai']) ?> cm <?= (!empty($sp['chieu_rong']) && $sp['chieu_rong'] > 0) ? 'x ' . htmlspecialchars($sp['chieu_rong']) . ' cm' : '' ?></li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['chieu_dai_tay_cam']) && $sp['chieu_dai_tay_cam'] > 0): ?>
-                                    <li><strong>Chiá»u dÃ i tay cáº§m:</strong> <?= htmlspecialchars($sp['chieu_dai_tay_cam']) ?> cm</li>
+                                    <li><strong>Chiều dài tay cầm:</strong> <?= htmlspecialchars($sp['chieu_dai_tay_cam']) ?> cm</li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['chu_vi_tay_cam']) && $sp['chu_vi_tay_cam'] > 0): ?>
-                                    <li><strong>Chu vi tay cáº§m:</strong> <?= htmlspecialchars($sp['chu_vi_tay_cam']) ?> cm</li>
+                                    <li><strong>Chu vi tay cầm:</strong> <?= htmlspecialchars($sp['chu_vi_tay_cam']) ?> cm</li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['trong_luong']) && $sp['trong_luong'] > 0): ?>
-                                    <li><strong>Trá»ng lÆ°á»£ng:</strong> <?= htmlspecialchars($sp['trong_luong']) ?>g</li>
+                                    <li><strong>Trọng lượng:</strong> <?= htmlspecialchars($sp['trong_luong']) ?>g</li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['chung_nhan'])): ?>
-                                    <li><strong>Chá»©ng nháº­n:</strong> <?= htmlspecialchars($sp['chung_nhan']) ?></li>
+                                    <li><strong>Chứng nhận:</strong> <?= htmlspecialchars($sp['chung_nhan']) ?></li>
                                 <?php endif; ?>
 
                                 <?php if (!empty($sp['kich_thuoc'])): ?>
-                                    <li><strong>KÃ­ch thÆ°á»›c tá»•ng thá»ƒ:</strong> <?= htmlspecialchars($sp['kich_thuoc']) ?></li>
+                                    <li><strong>Kích thước tổng thể:</strong> <?= htmlspecialchars($sp['kich_thuoc']) ?></li>
                                 <?php endif; ?>
 
                                 <?php if (empty($sp['chat_lieu']) && empty($sp['chung_nhan']) && empty($sp['loai_tay_cam']) && empty($sp['kich_thuoc']) && empty($sp['trong_luong'])): ?>
-                                    <li>Máº·t vá»£t: Carbon Fiber T700</li>
-                                    <li>Äá»™ dÃ y lÃµi: 16mm Polypropylene Core</li>
-                                    <li>Chiá»u dÃ i tay cáº§m: Standard 4.25"</li>
-                                    <li>Chá»©ng nháº­n: USAPA Approved</li>
+                                    <li>Mặt vợt: Carbon Fiber T700</li>
+                                    <li>Độ dày lõi: 16mm Polypropylene Core</li>
+                                    <li>Chiều dài tay cầm: Standard 4.25"</li>
+                                    <li>Chứng nhận: USAPA Approved</li>
                                 <?php endif; ?>
                             </ul>
                         </div>
@@ -470,9 +470,9 @@
     </script>
 <?php else: ?>
     <div style="text-align: center; padding: 100px 0;">
-        <h2 style="font-family: 'Oswald', sans-serif; font-size: 32px; text-transform: uppercase;">KHÃ”NG TÃŒM THáº¤Y Sáº¢N PHáº¨M</h2>
-        <p style="color: #767677; margin-bottom: 24px;">Sáº£n pháº©m khÃ´ng tá»“n táº¡i hoáº·c Ä‘Ã£ bá»‹ gá»¡ khá»i há»‡ thá»‘ng.</p>
-        <a href="index.php?act=sanpham" class="adi-btn-sharp">XEM Táº¤T Cáº¢ Sáº¢N PHáº¨M â†’</a>
+        <h2 style="font-family: 'Oswald', sans-serif; font-size: 32px; text-transform: uppercase;">KHÔNG TÌM THẤY SẢN PHẨM</h2>
+        <p style="color: #767677; margin-bottom: 24px;">Sản phẩm không tồn tại hoặc đã bị gỡ khỏi hệ thống.</p>
+        <a href="index.php?act=sanpham" class="adi-btn-sharp">XEM TẤT CẢ SẢN PHẨM →</a>
     </div>
 <?php endif; ?>
 

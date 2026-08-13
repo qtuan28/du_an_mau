@@ -320,7 +320,7 @@
                             <!-- 4 Detail Images Gallery Section -->
                             <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed #ccc;">
                                 <h4 style="font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 20px 0; color: #000;">
-                                    <i class="fa-regular fa-images"></i> 4 Hình ảnh chi tiết sản phẩm (Album Lưới 2x2)
+                                    <i class="fa-regular fa-images"></i> 4 Hình ảnh chi tiết sản phẩm (Album lưới 2x2)
                                 </h4>
 
                                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">

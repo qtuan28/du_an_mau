@@ -104,18 +104,18 @@
                     <path d="M30,32.5 L43,32.5 L56,-7.5 L43,-7.5 Z" fill="#fff"/>
                 </svg>
             </h2>
-            <p>Há»‡ thá»‘ng cung cáº¥p trang thiáº¿t bá»‹ Pickleball chÃ­nh hÃ£ng. Cung cáº¥p vá»£t thi Ä‘áº¥u, giÃ y thá»ƒ thao vÃ  phá»¥ kiá»‡n Ä‘áº¡t chuáº©n quá»‘c táº¿.</p>
+            <p>Hệ thống cung cấp trang thiết bị Pickleball chính hãng. Cung cấp vợt thi đấu, giày thể thao và phụ kiện đạt chuẩn quốc tế.</p>
         </div>
         
         <!-- Pickleball Categories -->
         <div class="adi-footer-nav-col">
-            <h3>Sáº¢N PHáº¨M PICKLEBALL</h3>
+            <h3>SẢN PHẨM PICKLEBALL</h3>
             <ul>
-                <li><a href="index.php?act=sanpham&id=1">Vá»£t Pickleball</a></li>
-                <li><a href="index.php?act=sanpham&id=2">GiÃ y Thá»ƒ Thao</a></li>
-                <li><a href="index.php?act=sanpham&id=3">Phá»¥ Kiá»‡n Thá»ƒ Thao</a></li>
-                <li><a href="index.php?act=sanpham">BÃ³ng Pickleball</a></li>
-                <li><a href="index.php?act=sanpham">Bá»™ SÆ°u Táº­p PPA Tour</a></li>
+                <li><a href="index.php?act=sanpham&id=1">Vợt Pickleball</a></li>
+                <li><a href="index.php?act=sanpham&id=2">Giày Thể Thao</a></li>
+                <li><a href="index.php?act=sanpham&id=3">Phụ Kiện Thể Thao</a></li>
+                <li><a href="index.php?act=sanpham">Bóng Pickleball</a></li>
+                <li><a href="index.php?act=sanpham">Bộ Sưu Tập PPA Tour</a></li>
             </ul>
         </div>
     </div>
@@ -123,5 +123,5 @@
 
 <!-- Bottom Copyright Bar -->
 <div class="adi-footer-bottom">
-    &copy; <?= date('Y') ?> PICKLEBALL STORE. Táº¥t cáº£ quyá»n Ä‘Æ°á»£c báº£o lÆ°u.
+    &copy; <?= date('Y') ?> PICKLEBALL STORE. Tất cả quyền được bảo lưu.
 </div>

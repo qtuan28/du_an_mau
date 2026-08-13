@@ -206,7 +206,7 @@
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="address">SỐ Điện Thoại</label>
+                                    <label class="adi-field-label" for="sdt">Số Điện Thoại</label>
                                     <input type="tel" id="sdt" name="sdt" class="adi-field-input" placeholder="Nhập số điện thoại (9-11 chữ số)..." pattern="[0-9]{9,11}" title="Số điện thoại phải có 9-11 chữ số">
                                 </div>
 
@@ -247,7 +247,7 @@
                                 </div>
 
                                 <div class="adi-field-group">
-                                    <label class="adi-field-label" for="sdt">SỐ Điện Thoại</label>
+                                    <label class="adi-field-label" for="sdt">Số Điện Thoại</label>
                                     <input type="tel" id="sdt" name="sdt" class="adi-field-input" value="<?= htmlspecialchars($user['sdt'] ?? '') ?>" placeholder="Nhập số điện thoại..." pattern="[0-9]{9,11}" title="Số điện thoại phải có 9-11 chữ số">
                                 </div>
 
