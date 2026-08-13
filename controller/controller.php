@@ -68,7 +68,7 @@ class pickleballController {
             }
             exit();
         } else {
-            $error = "TÃªn Ä‘Äƒng nháº­p hoáº·c máº­t kháº©u khÃ´ng chÃ­nh xÃ¡c!";
+            $error = "Tên đăng nhập hoặc mật khẩu không chính xác!";
             require_once 'views/login.php';
         }
     }
@@ -374,7 +374,7 @@ class pickleballController {
             $_SESSION['user']['email'] = $email;
             $_SESSION['user']['address'] = $address;
             $_SESSION['user']['sdt'] = $sdt;
-            $_SESSION['profile_msg'] = "Cáº­p nháº­t thÃ´ng tin cÃ¡ nhÃ¢n thÃ nh cÃ´ng!";
+            $_SESSION['profile_msg'] = "Cập nhật thông tin cá nhân thành công!";
             $_SESSION['profile_msg_type'] = "success";
         }
 
@@ -509,16 +509,16 @@ class pickleballController {
             $danhMucModel = new DanhMuc();
 
             if ($name == "") {
-                $_SESSION['error'] = "TÃªn danh má»¥c khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!";
+                $_SESSION['error'] = "Tên danh mục không được để trống!";
                 header("Location: index.php?act=admin_danhmuc_add_form");
                 exit();
             } elseif ($danhMucModel->checkExists($name)) {
-                $_SESSION['error'] = "Danh má»¥c '".$name."' Ä‘Ã£ tá»“n táº¡i!";
+                $_SESSION['error'] = "Danh mục '".$name."' đã tồn tại!";
                 header("Location: index.php?act=admin_danhmuc_add_form");
                 exit();
             } else {
                 $danhMucModel->add($name, $trang_thai, $thong_so_loai);
-                $_SESSION['success'] = "ThÃªm danh má»¥c '".$name."' thÃ nh cÃ´ng!";
+                $_SESSION['success'] = "Thêm danh mục '".$name."' thành công!";
             }
         }
 
@@ -568,7 +568,7 @@ class pickleballController {
                 exit();
             } else {
                 $danhMucModel->update($id, $name, $trang_thai, $thong_so_loai);
-                $_SESSION['success'] = "Cáº­p nháº­t danh má»¥c thÃ nh cÃ´ng!";
+                $_SESSION['success'] = "Cập nhật danh mục thành công!";
             }
         }
 
@@ -585,7 +585,7 @@ class pickleballController {
         if ($id > 0) {
             $danhMucModel = new DanhMuc();
             $danhMucModel->toggleStatus($id);
-            $_SESSION['success'] = "ÄÃ£ cáº­p nháº­t tráº¡ng thÃ¡i danh má»¥c!";
+            $_SESSION['success'] = "Đã cập nhật trạng thái danh mục!";
         }
 
         header("Location: index.php?act=admin_danhmuc");
@@ -600,7 +600,7 @@ class pickleballController {
         if (isset($_GET['id'])) {
             $danhMucModel = new DanhMuc();
             $danhMucModel->delete($_GET['id']);
-            $_SESSION['success'] = "ÄÃ£ xÃ³a danh má»¥c thÃ nh cÃ´ng!";
+            $_SESSION['success'] = "Đã xóa danh mục thành công!";
         }
 
         header("Location: index.php?act=admin_danhmuc");

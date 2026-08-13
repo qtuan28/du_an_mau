@@ -31,10 +31,10 @@ class DanhMuc
                 $this->db->exec("ALTER TABLE CATEGORIES ADD COLUMN thong_so_loai VARCHAR(50) DEFAULT 'do_day_vot'");
                 
                 // Cáº­p nháº­t giÃ¡ trá»‹ thÃ´ng sá»‘ máº·c Ä‘á»‹nh cho danh má»¥c ban Ä‘áº§u
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'do_day_vot' WHERE LOWER(name) LIKE '%vá»£t%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%giÃ y%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%bÃ³ng%'");
-                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'loai_phu_kien' WHERE LOWER(name) LIKE '%phá»¥ kiá»‡n%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'do_day_vot' WHERE LOWER(name) LIKE '%vợt%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'size_giay' WHERE LOWER(name) LIKE '%giày%'");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'so_lo_bong' WHERE LOWER(name) LIKE '%bóng%''");
+                $this->db->exec("UPDATE CATEGORIES SET thong_so_loai = 'loai_phu_kien' WHERE LOWER(name) LIKE '%phụ kiện%'");
             }
         } catch (Exception $e) {
             // Bá» qua lá»—i náº¿u báº£ng chÆ°a sáºµn sÃ ng hoáº·c Ä‘Ã£ Ä‘Æ°á»£c nÃ¢ng cáº¥p

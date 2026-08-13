@@ -1,7 +1,7 @@
 <?php
 class GioHang {
 
-    // 1. Láº¥y danh sÃ¡ch sáº£n pháº©m trong giá» hÃ ng tá»« Session
+    // 1. Lấy danh sách sản phẩm trong giỏ hàng từ Session
     public function getGioHang() {
         return $_SESSION['cart'] ?? [];
     }
@@ -37,7 +37,7 @@ class GioHang {
         }
     }
 
-    // 4. XÃ³a 1 sáº£n pháº©m khá»i giá» hÃ ng
+    // 4. Xóa 1 sản phẩm khỏi giỏ hàng
     public function deleteItem($id) {
         if (isset($_SESSION['cart'][$id])) {
             unset($_SESSION['cart'][$id]);
