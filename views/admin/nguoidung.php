@@ -223,6 +223,12 @@
                                                 <span style="background: #e6f4ea; color: #137333; padding: 4px 10px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
                                                     <i class="fa-solid fa-circle" style="font-size: 8px; color: #1e8e3e;"></i> Active
                                                 </span>
+                                                <?php if ($isInactive && !$isAdminRole): ?>
+                                                    <br>
+                                                    <span style="background: #fff3cd; color: #856404; padding: 2px 8px; font-weight: 700; font-size: 10px; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px;">
+                                                        <i class="fa-solid fa-clock" style="font-size: 9px;"></i> Không HĐ (>90 ngày)
+                                                    </span>
+                                                <?php endif; ?>
                                             <?php else: ?>
                                                 <span style="background: #fce8e6; color: #c5221f; padding: 4px 10px; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
                                                     <i class="fa-solid fa-lock" style="font-size: 10px; color: #d93025;"></i> Locked

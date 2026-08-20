@@ -36,6 +36,8 @@ class pickleballController {
     public function trangChu() {
         $sanPhamModel = new SanPham();
         $dsSanPham = $sanPhamModel->getAll();
+        // Xáo trộn ngẫu nhiên danh sách để trang chủ luôn hiển thị các sản phẩm khác nhau
+        shuffle($dsSanPham);
         require_once 'views/trangchu.php';
     }
 

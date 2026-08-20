@@ -26,11 +26,34 @@ class ThongKe {
         } catch (PDOException $e) {}
 
         try {
+            // Migration: Đổi user_id trong DONHANG thành nullable để giữ lịch sử khi tài khoản bị xóa
+            try {
+                // Xóa FK cũ nếu có (CASCADE) và thay bằng SET NULL
+                $fkCheck = $this->db->conn->query("SELECT CONSTRAINT_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'DONHANG' AND COLUMN_NAME = 'user_id' AND REFERENCED_TABLE_NAME = 'USER'");
+                if ($fkCheck && $fkRow = $fkCheck->fetch(PDO::FETCH_ASSOC)) {
+                    $fkName = $fkRow['CONSTRAINT_NAME'];
+                    $this->db->conn->exec("ALTER TABLE DONHANG DROP FOREIGN KEY `{$fkName}`");
+                    $this->db->conn->exec("ALTER TABLE DONHANG MODIFY COLUMN user_id INT DEFAULT NULL");
+                    $this->db->conn->exec("ALTER TABLE DONHANG ADD CONSTRAINT fk_donhang_user FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE SET NULL");
+                }
+            } catch (PDOException $e) {}
+
+            // Migration: Đổi product_id trong CHITIETDONHANG thành nullable
+            try {
+                $fkCheck2 = $this->db->conn->query("SELECT CONSTRAINT_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'CHITIETDONHANG' AND COLUMN_NAME = 'product_id' AND REFERENCED_TABLE_NAME = 'PRODUCTS'");
+                if ($fkCheck2 && $fkRow2 = $fkCheck2->fetch(PDO::FETCH_ASSOC)) {
+                    $fkName2 = $fkRow2['CONSTRAINT_NAME'];
+                    $this->db->conn->exec("ALTER TABLE CHITIETDONHANG DROP FOREIGN KEY `{$fkName2}`");
+                    $this->db->conn->exec("ALTER TABLE CHITIETDONHANG MODIFY COLUMN product_id INT DEFAULT NULL");
+                    $this->db->conn->exec("ALTER TABLE CHITIETDONHANG ADD CONSTRAINT fk_chitiet_product FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE SET NULL");
+                }
+            } catch (PDOException $e) {}
+
             // Bảng DONHANG
             $sqlDonHang = "CREATE TABLE IF NOT EXISTS DONHANG (
                 don_hang_id INT AUTO_INCREMENT PRIMARY KEY,
                 ma_don_hang VARCHAR(50) UNIQUE,
-                user_id INT NOT NULL,
+                user_id INT DEFAULT NULL,
                 ho_ten VARCHAR(100) NOT NULL,
                 sdt VARCHAR(20),
                 email VARCHAR(100),
@@ -38,7 +61,7 @@ class ThongKe {
                 tong_tien DECIMAL(12, 2) NOT NULL,
                 trang_thai VARCHAR(50) DEFAULT 'Đã giao',
                 ngay_dat DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE
+                FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE SET NULL
             )";
             $this->db->conn->exec($sqlDonHang);
 
@@ -46,13 +69,13 @@ class ThongKe {
             $sqlChiTiet = "CREATE TABLE IF NOT EXISTS CHITIETDONHANG (
                 chi_tiet_don_id INT AUTO_INCREMENT PRIMARY KEY,
                 don_hang_id INT NOT NULL,
-                product_id INT NOT NULL,
+                product_id INT DEFAULT NULL,
                 ten_san_pham VARCHAR(255) NOT NULL,
                 don_gia DECIMAL(12, 2) NOT NULL,
                 so_luong INT NOT NULL DEFAULT 1,
                 thanh_tien DECIMAL(12, 2) NOT NULL,
                 FOREIGN KEY (don_hang_id) REFERENCES DONHANG(don_hang_id) ON DELETE CASCADE,
-                FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE CASCADE
+                FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE SET NULL
             )";
             $this->db->conn->exec($sqlChiTiet);
 

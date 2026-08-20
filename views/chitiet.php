@@ -136,24 +136,33 @@
             gap: 8px;
         }
 
-        .adi-size-box {
-            height: 48px;
-            border: 1px solid #ebedee;
-            background-color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .adi-pdp-select {
+            width: 100%;
+            padding: 12px 16px;
             font-family: 'Roboto', sans-serif;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 600;
+            color: #000;
+            background: #fff;
+            border: 1px solid #000;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
         }
 
-        .adi-size-box:hover, .adi-size-box.selected {
+        .adi-pdp-select:focus {
             border-color: #000;
-            background-color: #000;
-            color: #fff;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+        }
+
+        .adi-pdp-select:hover {
+            border-color: #333;
         }
 
         .adi-pdp-qty-bar {
@@ -338,13 +347,15 @@
                 <?php if (!empty($variants)): ?>
                 <div class="adi-pdp-size-section">
                     <div class="adi-pdp-size-header">
-                        <span>CHỌN BIẾN THỂ SẢN PHẨM</span>
+                        <span>CHỌN SIZE</span>
                     </div>
-                    <div class="adi-pdp-size-grid" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));">
+                    <select id="variantSelect" name="variant" class="adi-pdp-select">
                         <?php foreach ($variants as $index => $variant): ?>
-                            <div class="adi-size-box <?= $index === 0 ? 'selected' : '' ?>"><?= htmlspecialchars($variant) ?></div>
+                            <option value="<?= htmlspecialchars($variant) ?>" <?= $index === 0 ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($variant) ?>
+                            </option>
                         <?php endforeach; ?>
-                    </div>
+                    </select>
                 </div>
                 <?php endif; ?>
 
@@ -459,14 +470,6 @@
             const baseUrl = "index.php?act=add_giohang&id=<?= $sp['product_id'] ?>";
             cartBtn.href = baseUrl + "&soluong=" + current;
         }
-
-        // Toggle Size selection
-        document.querySelectorAll('.adi-size-box').forEach(box => {
-            box.addEventListener('click', function() {
-                document.querySelectorAll('.adi-size-box').forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-            });
-        });
     </script>
 <?php else: ?>
     <div style="text-align: center; padding: 100px 0;">
