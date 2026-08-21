@@ -9,18 +9,11 @@
         </svg>
     </a>
 
-    <!-- User Panel -->
-    <div class="adi-user-panel">
-        <img src="<?= BASE_URL ?>/assets/images/hero_paddle.png" alt="User Image">
-        <div class="adi-user-info">
-            <p><?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?></p>
-            <span>Online</span>
-        </div>
-    </div>
+
 
     <!-- Sidebar Menu -->
     <ul class="adi-sidebar-menu">
-        <li class="adi-sidebar-menu-header">MAIN NAVIGATION</li>
+
         
         <li class="<?= (!isset($_GET['act']) || strpos($_GET['act'], 'admin_thongke') !== false || $_GET['act'] == 'admin') ? 'active' : '' ?>">
             <a href="index.php?act=admin_thongke">
