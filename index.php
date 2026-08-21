@@ -147,6 +147,9 @@ switch ($act) {
     case 'admin_nguoidung_reset_pass':
         $sp_controller->adminDatLaiMatKhau();
         break;
+    case 'admin_nguoidung_detail':
+        $sp_controller->adminChiTietNguoiDung();
+        break;
 
     case 'admin_thongke':
         $sp_controller->adminThongKe();

@@ -61,6 +61,11 @@ class pickleballController {
             $_SESSION['user'] = $user;
             // Cập nhật thời gian đăng nhập cuối
             $userModel->updateLastLogin($user['user_id']);
+            
+            // ĐỒNG BỘ GIỎ HÀNG SAU KHI ĐĂNG NHẬP
+            $gioHangModel = new GioHang();
+            $gioHangModel->syncAfterLogin($user['user_id']);
+
             // Redirect về trang thanh toán nếu user bấm thanh toán khi chưa đăng nhập
             $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? '';
             if ($redirect === 'thanhtoan') {
@@ -104,6 +109,19 @@ class pickleballController {
                 }
 
                 $userModel = new User();
+
+                if ($userModel->checkUsernameExists($username)) {
+                    $error = "Tên đăng nhập đã tồn tại! Vui lòng chọn tên khác.";
+                    require_once 'views/register.php';
+                    return;
+                }
+
+                if ($userModel->checkEmailExists($email)) {
+                    $error = "Email đã được sử dụng! Vui lòng sử dụng email khác.";
+                    require_once 'views/register.php';
+                    return;
+                }
+
                 $userModel->dangKy($username, $password, $email, $address, $sdt);
                 header("Location: index.php?act=login");
                 exit();
@@ -997,8 +1015,12 @@ class pickleballController {
             $address = $_POST['address'] ?? '';
             $sdt = trim($_POST['sdt'] ?? '');
             $vai_tro_id = $_POST['vai_tro_id'] ?? 2;
+            $new_password = $_POST['new_password'] ?? '';
 
             $userModel->updateUser($id, $email, $address, $vai_tro_id, $sdt);
+            if (!empty($new_password)) {
+                $userModel->resetPassword($id, $new_password);
+            }
             header("Location: index.php?act=admin_nguoidung");
             exit();
         }
@@ -1010,6 +1032,21 @@ class pickleballController {
         }
         $mode = 'edit';
         require_once 'views/admin/nguoidung_form.php';
+    }
+
+    public function adminChiTietNguoiDung() {
+        $this->checkAdmin();
+        $id = $_GET['id'] ?? 0;
+        $userModel = new User();
+        $user = $userModel->getUserById($id);
+
+        if (!$user) {
+            header("Location: index.php?act=admin_nguoidung");
+            exit();
+        }
+
+        $history = $userModel->getUserPurchaseHistory($id);
+        require_once 'views/admin/nguoidung_detail.php';
     }
 
     public function adminXoaNguoiDung() {

@@ -248,6 +248,7 @@
                                         </td>
 
                                         <td style="text-align: center;">
+                                            <a href="index.php?act=admin_nguoidung_detail&id=<?= $u['user_id'] ?>" class="adi-action-btn primary" style="background: #17a2b8; color: #fff;" title="Chi tiết">Chi tiết <i class="fa-solid fa-circle-info"></i></a>
                                             <a href="index.php?act=admin_nguoidung_edit&id=<?= $u['user_id'] ?>" class="adi-action-btn edit" title="Sửa">Sửa <i class="fa-solid fa-pen"></i></a>
                                             <?php if (!$isSelf): ?>
                                                 <?php if ($isActive): ?>
@@ -255,7 +256,6 @@
                                                 <?php else: ?>
                                                     <a href="index.php?act=admin_nguoidung_toggle&id=<?= $u['user_id'] ?>" onclick="return confirm('Bạn có chắc muốn mở khóa tài khoản này?')" class="adi-action-btn success" style="background: #28a745; color: #fff;" title="Mở khóa tài khoản">Mở <i class="fa-solid fa-lock-open"></i></a>
                                                 <?php endif; ?>
-                                                <a href="index.php?act=admin_nguoidung_delete&id=<?= $u['user_id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa tài khoản này?')" class="adi-action-btn delete" title="Xóa">Xóa <i class="fa-solid fa-xmark"></i></a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>

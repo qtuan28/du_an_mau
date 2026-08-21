@@ -257,6 +257,12 @@
                                 </div>
 
                                 <div class="adi-field-group">
+                                    <label class="adi-field-label" for="new_password">Cấp mới mật khẩu (Tùy chọn)</label>
+                                    <input type="text" id="new_password" name="new_password" class="adi-field-input" placeholder="Nhập mật khẩu mới (Để trống nếu không đổi)">
+                                    <span style="font-size: 12px; color: #767677; margin-top: 4px; display: block;">Khách hàng có thể dùng mật khẩu này để đăng nhập ngay lập tức.</span>
+                                </div>
+
+                                <div class="adi-field-group">
                                     <label class="adi-field-label" for="vai_tro_id">Vai trò (Phân quyền hệ thống)</label>
                                     <select id="vai_tro_id" name="vai_tro_id" class="adi-field-input">
                                         <option value="2" <?= $user['vai_tro_id'] == 2 ? 'selected' : '' ?>>User (Khách hàng)</option>

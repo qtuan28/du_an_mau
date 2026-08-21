@@ -71,6 +71,22 @@ class User {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Kiểm tra tên đăng nhập tồn tại
+    public function checkUsernameExists($username) {
+        $sql = "SELECT COUNT(*) FROM USER WHERE username = ?";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$username]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    // Kiểm tra email tồn tại
+    public function checkEmailExists($email) {
+        $sql = "SELECT COUNT(*) FROM USER WHERE email = ?";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$email]);
+        return $stmt->fetchColumn() > 0;
+    }
+
     // Đăng ký người dùng mới
     public function dangKy($username, $password, $email, $address, $sdt = '') {
         $sql = "INSERT INTO USER (vai_tro_id, username, password, email, address, sdt, trang_thai) VALUES (2, ?, ?, ?, ?, ?, 1)";
@@ -186,6 +202,19 @@ class User {
     // Lấy danh sách đơn hàng của người dùng
     public function getOrdersByUserId($userId) {
         $sql = "SELECT * FROM DONHANG WHERE user_id = ? ORDER BY don_hang_id DESC";
+        $stmt = $this->db->conn->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Lấy chi tiết lịch sử mua hàng của người dùng (Sản phẩm, giá, ngày, mã đơn, mã sp)
+    public function getUserPurchaseHistory($userId) {
+        $sql = "SELECT dh.ma_don_hang, dh.ngay_dat, dh.trang_thai, ct.ten_san_pham, ct.don_gia, ct.so_luong, ct.thanh_tien, p.ma_sp 
+                FROM DONHANG dh
+                JOIN CHITIETDONHANG ct ON dh.don_hang_id = ct.don_hang_id
+                LEFT JOIN PRODUCTS p ON ct.product_id = p.product_id
+                WHERE dh.user_id = ?
+                ORDER BY dh.ngay_dat DESC";
         $stmt = $this->db->conn->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
